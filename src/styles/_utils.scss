@@ -5,8 +5,9 @@
 }
 
 .layout {
-  max-width: calc(var(--layout-width));
+  max-width: calc(var(--layout-width) + var(--layout-padding-x) * 2);
   margin-inline: auto;
+  padding-inline: var(--layout-padding-x);
 }
 
 .visually-hidden {

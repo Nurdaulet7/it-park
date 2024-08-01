@@ -1,0 +1,39 @@
+@import "../../styles/styles.scss";
+
+.header {
+  padding-block: 14px;
+
+  @include tablet {
+    padding-block: 10px;
+  }
+
+  &__logo img {
+    @include tablet {
+      max-width: 144px;
+      height: auto;
+    }
+  }
+
+  &__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    column-gap: 20px;
+
+    @include tablet {
+      padding-inline: 10px;
+    }
+  }
+
+  &__buttons {
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    column-gap: 20px;
+
+    @include tablet {
+      column-gap: 15px;
+      font-size: 16px;
+    }
+  }
+}

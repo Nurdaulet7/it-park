@@ -1,0 +1,27 @@
+.button {
+  @include flex-center(true);
+
+  height: var(--button-height);
+  padding-inline: 15px;
+  font-size: 18px;
+  color: var(--color-white);
+  background-color: var(--color-accent);
+  border: var(--border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+
+  @include hover {
+    color: var(--color-white);
+    background-color: var(--color-gray);
+  }
+
+  &--transparent {
+    color: var(--color-gray);
+    background-color: transparent;
+
+    @include hover {
+      color: var(--color-white);
+      background-color: var(--color-accent);
+    }
+  }
+}

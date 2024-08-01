@@ -1,1 +1,14 @@
-/*# sourceMappingURL=Header.module.css.map */
+.header {
+  padding-top: 0px;
+}
+.header__inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+}
+.header__search-input {
+  margin-left: auto;
+  font-size: 18px;
+}/*# sourceMappingURL=Header.module.css.map */

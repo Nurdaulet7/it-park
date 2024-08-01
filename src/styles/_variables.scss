@@ -9,11 +9,12 @@
   --border-radius: 10px;
   --border-radius-small: 5px;
 
-  --shadow: 0px 4px 4px 0px var(--color-gray);
+  --shadow: 0px 0px 12px -4px var(--color-gray);
 
   --font-family-base: "Montserrat", sans-serif;
 
   --layout-width: 1470px;
+  --layout-padding-x: 20px;
 
   --container-width: 1197px;
   --container-padding-x: 10px;
