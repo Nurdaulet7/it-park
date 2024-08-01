@@ -2,6 +2,7 @@
 
 .header {
   padding-block: 14px;
+  box-shadow: var(--shadow);
 
   @include tablet {
     padding-block: 10px;
@@ -9,7 +10,7 @@
 
   &__logo img {
     @include tablet {
-      max-width: 144px;
+      max-width: 120px;
       height: auto;
     }
   }
@@ -32,7 +33,7 @@
     column-gap: 20px;
 
     @include tablet {
-      column-gap: 15px;
+      column-gap: 10px;
       font-size: 16px;
     }
   }

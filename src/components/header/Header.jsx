@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import cn from "classnames";
 import styles from "./Header.module.scss";
 import logo from "../../images/logo-it-park.png.png";
@@ -21,8 +21,8 @@ const Header = () => {
           <img
             src={logo}
             alt="itPARK logo"
-            width="196"
-            height="52"
+            width="150"
+            height="40"
             loading="lazy"
           />
         </a>
@@ -31,7 +31,7 @@ const Header = () => {
             type="text"
             form="search"
             placeholder="Поиск по сайту"
-            className="hidden-mobile"
+            className={cn("hidden-tablet", "button", "input")}
           />
           <a
             href="/"
@@ -39,18 +39,34 @@ const Header = () => {
               "button",
               "button--transparent",
               styles["header__button"],
-              "hidden-mobile"
+              "hidden-tablet"
             )}
           >
             Стать резидентом
           </a>
-          <button>RU</button>
-          <button>U</button>
+          <button
+            className={cn(
+              "button",
+              "button--transparent",
+              styles["header__button"]
+            )}
+          >
+            RU
+          </button>
+          <button
+            className={cn(
+              "button",
+              "button--transparent",
+              styles["header__button"]
+            )}
+          >
+            U
+          </button>
           <button
             className={cn(
               styles["button__burger-menu"],
               styles["burger-button"],
-              "visible-mobile"
+              "visible-tablet"
             )}
             type="button"
             onClick={handleOpenDialog}
@@ -60,7 +76,7 @@ const Header = () => {
         </div>
       </div>
       <dialog
-        className={cn("mobile-overlay visible-mobile")}
+        className={cn("mobile-overlay ")}
         id="mobileOverlay"
         open={isDialogOpen}
       >
@@ -78,18 +94,23 @@ const Header = () => {
           </button>
         </form>
         <div className="mobile-overlay__body">
-          <input type="text" form="search" placeholder="Поиск по сайту" />
-          <a
-            href="/"
-            className={cn(
-              "button",
-              "button--transparent",
-              styles["header__button"]
-            )}
-          >
-            Стать резидентом
-          </a>
           <ul className="mobile-overlay__list">
+            <input
+              type="text"
+              className={cn("button input")}
+              form="search"
+              placeholder="Поиск по сайту"
+            />
+            <a
+              href="/"
+              className={cn(
+                "button",
+                "button--transparent",
+                styles["header__button"]
+              )}
+            >
+              Стать резидентом
+            </a>
             <li className="mobile-overlay__item">
               <a href="/" className="mobile-overlay__link">
                 Главная
