@@ -1,0 +1,60 @@
+.swiper {
+  border-radius: 10px;
+  width: 100%;
+  height: 600px;
+  background: #000;
+}
+
+.intro-info {
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  position: absolute;
+  left: 20px;
+  bottom: 45px;
+  padding-right: 20px;
+}
+
+.intro-info .button {
+  width: 175px;
+  cursor: pointer;
+}
+
+.parallax-bg {
+  background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url(../../../images/sliderImg.png);
+}
+
+.swiper-slide {
+  font-size: 18px;
+  color: #fff;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 40px 60px;
+}
+
+.parallax-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 130%;
+  height: 100%;
+  -webkit-background-size: cover;
+  background-size: cover;
+  background-position: center;
+}
+
+.swiper-slide .title {
+  font-size: 40px;
+  font-weight: 600;
+}
+
+.swiper-slide .subtitle {
+  font-size: 21px;
+}
+
+.swiper-slide .text p {
+  font-size: 18px;
+  max-width: 90%;
+  line-height: 1.3;
+}

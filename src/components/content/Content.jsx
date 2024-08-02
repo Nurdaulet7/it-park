@@ -2,6 +2,7 @@ import React from "react";
 import cn from "classnames";
 import styles from "../content/Content.module.scss";
 import Menu from "../aside-menu/Menu";
+import Carousel from "./swiper/Carousel";
 
 const Content = () => {
   return (
@@ -9,7 +10,11 @@ const Content = () => {
       <aside className={cn(styles["menu"])}>
         <Menu />
       </aside>
-      <div className="container"></div>
+      <div className={cn(styles["content"])}>
+        <section className="section container">
+          <Carousel />
+        </section>
+      </div>
     </main>
   );
 };

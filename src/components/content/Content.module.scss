@@ -3,6 +3,7 @@
 .main {
   padding-top: 24px;
   display: flex;
+  justify-content: space-between;
   column-gap: 20px;
 
   @include tablet {
@@ -11,7 +12,7 @@
 }
 
 .menu {
-  width: 223px;
+  min-width: 223px;
   height: 100vh;
   &__list {
     max-width: 100%;
@@ -21,12 +22,34 @@
     align-items: baseline;
     row-gap: 12px;
 
+    input {
+      width: 80%;
+    }
+
+    .tablet-button {
+      width: 80%;
+      order: 1;
+      font-weight: 500;
+    }
+
+    @include tablet {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 80vh;
+    }
+
     &-item {
       width: 100%;
       display: flex;
       justify-content: flex-start;
       align-items: center;
       padding-inline: 0;
+
+      @include tablet {
+        width: 80%;
+        box-shadow: var(--shadow);
+      }
     }
 
     &-link {
@@ -36,6 +59,10 @@
       column-gap: 12px;
       padding-inline: 15px;
       font-weight: 500;
+
+      @include tablet {
+        justify-content: center;
+      }
     }
 
     &-item-icon {
@@ -48,4 +75,8 @@
   @include tablet {
     display: none;
   }
+}
+
+.content {
+  min-width: 75%;
 }

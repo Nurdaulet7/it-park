@@ -15,6 +15,15 @@
     background-color: var(--color-gray);
   }
 
+  &--tablet-button {
+    color: var(--color-white);
+    background-color: var(--color-gray);
+
+    @include hover {
+      background-color: var(--color-accent);
+    }
+  }
+
   &--transparent {
     color: var(--color-gray);
     background-color: transparent;

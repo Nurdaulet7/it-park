@@ -24,6 +24,22 @@ const menu_sections = [
 const Menu = () => {
   return (
     <ul className={cn(styles["menu__list"])}>
+      <input
+        type="text"
+        className={cn("button input visible-tablet")}
+        form="search"
+        placeholder="Поиск по сайту"
+      />
+      <a
+        href="/"
+        className={cn(
+          "button button--tablet-button",
+          styles["tablet-button"],
+          "visible-tablet"
+        )}
+      >
+        Стать резидентом
+      </a>
       {menu_sections.map((section, index) => {
         return (
           <li

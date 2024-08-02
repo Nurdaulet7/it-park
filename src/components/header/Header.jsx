@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import cn from "classnames";
 import styles from "./Header.module.scss";
 import logo from "../../images/logo-it-park.png.png";
+import Menu from "../aside-menu/Menu";
+import Dialog from "../dialog-menu/Dialog";
+import { FaRegUser } from "react-icons/fa";
 
 const Header = () => {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -20,9 +23,10 @@ const Header = () => {
         <a href="/" className={cn(styles["header__logo"], "logo")}>
           <img
             src={logo}
+            // src="https://it-park.kz/uploads/settings/1.png"
             alt="itPARK logo"
-            width="150"
-            height="40"
+            width="140"
+            // height="40"
             loading="lazy"
           />
         </a>
@@ -60,7 +64,7 @@ const Header = () => {
               styles["header__button"]
             )}
           >
-            U
+            <FaRegUser />
           </button>
           <button
             className={cn(
@@ -75,80 +79,9 @@ const Header = () => {
           </button>
         </div>
       </div>
-      <dialog
-        className={cn("mobile-overlay ")}
-        id="mobileOverlay"
-        open={isDialogOpen}
-      >
-        <form
-          action=""
-          className="mobile-overlay__close-button-wrapper"
-          method="dialog"
-        >
-          <button
-            className="mobile-overlay__close-button cross-button"
-            type="submit"
-            onClick={handleCloseDialog}
-          >
-            <span className="visually-hidden">Close navigation menu</span>
-          </button>
-        </form>
-        <div className="mobile-overlay__body">
-          <ul className="mobile-overlay__list">
-            <input
-              type="text"
-              className={cn("button input")}
-              form="search"
-              placeholder="Поиск по сайту"
-            />
-            <a
-              href="/"
-              className={cn(
-                "button",
-                "button--transparent",
-                styles["header__button"]
-              )}
-            >
-              Стать резидентом
-            </a>
-            <li className="mobile-overlay__item">
-              <a href="/" className="mobile-overlay__link">
-                Главная
-              </a>
-            </li>
-            <li className="mobile-overlay__item">
-              <a href="/" className="mobile-overlay__link">
-                Проекты
-              </a>
-            </li>
-            <li className="mobile-overlay__item">
-              <a href="/" className="mobile-overlay__link">
-                Мероприятия
-              </a>
-            </li>
-            <li className="mobile-overlay__item">
-              <a href="/" className="mobile-overlay__link">
-                Новости
-              </a>
-            </li>
-            <li className="mobile-overlay__item">
-              <a href="/" className="mobile-overlay__link">
-                Первый IT-Park в Кызылорде
-              </a>
-            </li>
-            <li className="mobile-overlay__item">
-              <a href="/" className="mobile-overlay__link">
-                Партнеры
-              </a>
-            </li>
-            <li className="mobile-overlay__item">
-              <a href="/" className="mobile-overlay__link">
-                О нас
-              </a>
-            </li>
-          </ul>
-        </div>
-      </dialog>
+      <Dialog isOpen={isDialogOpen} onClose={handleCloseDialog}>
+        <Menu />
+      </Dialog>
     </header>
   );
 };
