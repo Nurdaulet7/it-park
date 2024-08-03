@@ -7,6 +7,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 
 import "./Carousel.css";
+import { FormattedMessage } from "react-intl";
 
 // import required modules
 import { Parallax, Pagination, Autoplay, Navigation } from "swiper/modules";
@@ -36,7 +37,7 @@ const Carousel = () => {
       <SwiperSlide>
         <div className="intro-info">
           <div className="title" data-swiper-parallax="-300">
-            It Park — место притяжения и развития информационных технологий
+            <FormattedMessage id="welcome" />
           </div>
           <div className="text" data-swiper-parallax="-100">
             <p>
@@ -44,7 +45,9 @@ const Carousel = () => {
               талантливая молодежь сможет разрабатывать свои стартап-проекты
             </p>
           </div>
-          <button className="button">Подробнее</button>
+          <button className="button">
+            <FormattedMessage id="click_here" />
+          </button>
         </div>
       </SwiperSlide>
       <SwiperSlide>
