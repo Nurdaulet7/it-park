@@ -11,6 +11,12 @@
     &::after {
       color: var(--color-white);
       background-color: white; // Устанавливаем белый цвет
+      box-shadow: 0 -8px var(--burger-color), 0 8px var(--burger-color);
+    }
+
+    &::before,
+    &::after {
+      box-shadow: 0 -8px var(--color-white), 0 8px var(--color-white);
     }
   }
 
@@ -19,9 +25,9 @@
 
     content: "";
     width: 50%;
-    height: 2px;
-    background-color: var(--color-dark);
+    height: 3.5px;
+    background-color: var(--burger-color);
     border-radius: 5px;
-    box-shadow: 0 -8px, 0 8px;
+    box-shadow: 0 -8px var(--burger-color), 0 8px var(--burger-color);
   }
 }

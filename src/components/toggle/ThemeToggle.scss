@@ -1,0 +1,30 @@
+// ThemeToggle.scss
+@import "../../styles/styles.scss";
+
+.theme-toggle {
+  position: fixed;
+  aspect-ratio: 1;
+  right: var(--layout-padding-x);
+  z-index: 99;
+  border-radius: var(--border-radius);
+  display: flex;
+
+  @include mobile {
+    right: 0px;
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+  }
+}
+
+.theme-toggle-ball {
+  font-size: 20px;
+  padding: 10px;
+}
+
+.theme-toggle[data-theme="dark"] {
+  background-color: var(--color-white);
+  color: var(--color-gray);
+}
+.theme-toggle[data-theme="light"] {
+  background-color: var(--color-accent);
+  color: var(--color-white);
+}

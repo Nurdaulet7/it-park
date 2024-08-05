@@ -1,15 +1,25 @@
 :root {
-  --color-light: #f7f8fa;
+  --color-light: #f9f9f9;
   --color-white: #ffffff;
   --color-dark: #000000;
   --color-accent: #e02d2d;
+  --color-accent-hover: #ce3d3dc4;
   --color-gray: #363636;
+  --color-dark-gray: #171717;
+  --color-light-gray: #212121;
+  // --menu-dark-default-color: #b4b4b4;
+  --menu-dark-default-color: #ececec;
+  --menu-light-default-color: #0c0404;
+  --burger-dark-color: var(--color-light);
+  --burger-light-color: var(--color-dark-gray);
 
   --border: none;
   --border-radius: 10px;
   --border-radius-small: 5px;
 
-  --shadow: 0px 0px 10px -4px var(--color-gray);
+  // --shadow: 0px 0px 10px -4px var(--color-gray);
+  --shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+    rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
 
   --font-family-base: "Montserrat", sans-serif;
 
@@ -22,10 +32,42 @@
   --menu-width: 240px;
   --menu-padding-x: 240px;
 
-  --section-padding-y: 50px;
+  --section-padding-y: 100px;
 
   --input-height: 45px;
   --button-height: 44px;
 
   --transition-duration: 0.2s;
+
+  // light theme tokens
+  --background-primary-light: var(--color-white);
+  --accent-light: var(--color-accent);
+  --color-gray-light: 54, 54, 54;
+  --background-header-primary-light: var(--color-white);
+
+  // dark theme tokens
+  --background-primary-dark: var(--color-dark-gray);
+  --accent-dark: var(--color-accent);
+  --color-gray-dark: 255, 255, 255;
+  --background-header-primary-dark: var(--color-light-gray);
+}
+
+$header-height-desktop: 72px;
+$header-height-tablet: 68px;
+
+// map tokens to proper theme
+[data-theme="light"] {
+  --background-primary: var(--background-primary-light);
+  --accent: var(--accent-light);
+  --background-header-primary: var(--background-header-primary-light);
+  --menu-text-color: var(--color-gray);
+  --burger-color: var(--burger-light-color);
+}
+
+[data-theme="dark"] {
+  --background-primary: var(--background-primary-dark);
+  --accent: var(--accent-dark);
+  --background-header-primary: var(--background-header-primary-dark);
+  --menu-text-color: var(--menu-dark-default-color);
+  --burger-color: var(--burger-dark-color);
 }

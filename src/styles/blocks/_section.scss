@@ -1,4 +1,17 @@
 .section {
   padding-bottom: var(--section-padding-y);
   padding-inline: 0px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 40px;
+    color: var(--menu-text-color);
+  }
+
+  &__title {
+    font-size: 40px;
+    font-weight: 500;
+  }
 }

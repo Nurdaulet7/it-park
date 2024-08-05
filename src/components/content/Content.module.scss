@@ -1,20 +1,21 @@
 @import "../../styles/styles.scss";
 
 .main {
-  padding-top: 24px;
+  padding-top: calc(24px + $header-height-desktop);
   display: flex;
   justify-content: space-between;
   column-gap: 20px;
 
   @include tablet {
     padding: 10px;
+    padding-top: calc(24px + $header-height-tablet);
   }
 }
 
 .menu {
-  min-width: 223px;
-  height: 100vh;
+  min-width: 240px;
   &__list {
+    position: fixed;
     max-width: 100%;
     max-height: 100%;
     display: flex;
@@ -33,6 +34,7 @@
     }
 
     @include tablet {
+      position: initial;
       display: flex;
       align-items: center;
       justify-content: center;

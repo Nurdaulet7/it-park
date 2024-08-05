@@ -1,11 +1,12 @@
 .mobile-overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   height: 100%;
   padding: 10px;
   border: 0;
   box-shadow: var(--shadow);
   z-index: 99;
+  background-color: var(--background-header-primary);
 
   @include tablet {
     margin-right: 0;

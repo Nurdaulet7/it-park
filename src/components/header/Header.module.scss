@@ -1,8 +1,12 @@
 @import "../../styles/styles.scss";
 
 .header {
+  position: fixed;
   padding-block: 14px;
+  background-color: var(--background-header-primary);
   box-shadow: var(--shadow);
+  width: 100%;
+  z-index: 2;
 
   @include tablet {
     padding-block: 10px;

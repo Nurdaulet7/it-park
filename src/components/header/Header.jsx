@@ -1,29 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import cn from "classnames";
 import styles from "./Header.module.scss";
 import logo from "../../images/logo-it-park.png.png";
-import Menu from "../aside-menu/Menu";
-import Dialog from "../dialog-menu/Dialog";
 import { FaRegUser } from "react-icons/fa";
 
-const Header = () => {
-  const [isDialogOpen, setDialogOpen] = useState(false);
-
-  const handleOpenDialog = () => {
-    setDialogOpen(true);
-  };
-
-  const handleCloseDialog = () => {
-    setDialogOpen(false);
-  };
-
+const Header = ({ onOpenDialog }) => {
   return (
     <header className={cn(styles["header"])}>
       <div className={cn(styles["header__inner"], "layout")}>
         <a href="/" className={cn(styles["header__logo"], "logo")}>
           <img
             src={logo}
-            // src="https://it-park.kz/uploads/settings/1.png"
             alt="itPARK logo"
             width="140"
             // height="40"
@@ -73,15 +60,12 @@ const Header = () => {
               "visible-tablet"
             )}
             type="button"
-            onClick={handleOpenDialog}
+            onClick={onOpenDialog}
           >
             <span className="visually-hidden">Open navigation menu</span>
           </button>
         </div>
       </div>
-      <Dialog isOpen={isDialogOpen} onClose={handleCloseDialog}>
-        <Menu />
-      </Dialog>
     </header>
   );
 };
