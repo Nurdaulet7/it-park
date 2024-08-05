@@ -43,21 +43,18 @@ const Menu = () => {
       </a>
       {menu_sections.map((section, index) => {
         return (
-          <li
-            key={index}
-            className={cn(
-              styles["menu__list-item"],
-              "button button--transparent button--transparent--menu"
-            )}
-          >
+          <li key={index} className={cn(styles["menu__list-item"])}>
             <Link
               activeClass={styles["active"]}
               to={section.to}
               spy={true}
               smooth={true}
-              offset={-100} // Высота хедера
+              offset={-95} // Высота хедера
               duration={200}
-              className={cn(styles["menu__list-link"])}
+              className={cn(
+                styles["menu__list-link"],
+                "button button--transparent button--transparent--menu"
+              )}
             >
               <span className={cn(styles["menu__list-item-icon"])}>
                 {<section.icon />}

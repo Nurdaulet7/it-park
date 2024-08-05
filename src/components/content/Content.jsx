@@ -14,7 +14,7 @@ const Content = () => {
         <Menu />
       </aside>
       <div className={cn(styles["content"])}>
-        <Element name="section-home" className="section container">
+        <Element name="section-home" className="section container section-home">
           <Carousel />
         </Element>
         <Element name="section-partners" className="section container">
