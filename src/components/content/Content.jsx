@@ -4,6 +4,7 @@ import styles from "../content/Content.module.scss";
 import Menu from "../aside-menu/Menu";
 import Carousel from "./swiper/Carousel";
 import ThemeToggle from "../toggle/ThemeToggle";
+import { Element } from "react-scroll";
 
 const Content = () => {
   return (
@@ -13,10 +14,10 @@ const Content = () => {
         <Menu />
       </aside>
       <div className={cn(styles["content"])}>
-        <section className="section container">
+        <Element name="section-home" className="section container">
           <Carousel />
-        </section>
-        <section className="section container">
+        </Element>
+        <Element name="section-partners" className="section container">
           <header className="section__header">
             <h2 className="section__title">Residents</h2>
           </header>
@@ -125,7 +126,7 @@ const Content = () => {
               </ul>
             </div>
           </div>
-        </section>
+        </Element>
       </div>
     </main>
   );

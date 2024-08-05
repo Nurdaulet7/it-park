@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-scroll";
 import cn from "classnames";
 import styles from "../content/Content.module.scss";
 import { AiOutlineHome } from "react-icons/ai";
@@ -11,14 +12,14 @@ import { TbRosetteNumber1 } from "react-icons/tb";
 import { MdOutlineErrorOutline } from "react-icons/md";
 
 const menu_sections = [
-  { name: "Главная", icon: AiOutlineHome },
-  { name: "Партнеры", icon: HiOutlineUserGroup },
-  { name: "Мероприятия", icon: LuPartyPopper },
-  { name: "Новости", icon: RiMegaphoneLine },
-  { name: "Вакансии", icon: TbReportSearch },
-  { name: "Проекты", icon: TbSettingsCog },
-  { name: "Первый IT-Park", icon: TbRosetteNumber1 },
-  { name: "О нас", icon: MdOutlineErrorOutline },
+  { name: "Главная", icon: AiOutlineHome, to: "section-home" },
+  { name: "Партнеры", icon: HiOutlineUserGroup, to: "section-partners" },
+  { name: "Мероприятия", icon: LuPartyPopper, to: "section-events" },
+  { name: "Новости", icon: RiMegaphoneLine, to: "section-news" },
+  { name: "Вакансии", icon: TbReportSearch, to: "section-vacancies" },
+  { name: "Проекты", icon: TbSettingsCog, to: "section-projects" },
+  { name: "Первый IT-Park", icon: TbRosetteNumber1, to: "section-first" },
+  { name: "О нас", icon: MdOutlineErrorOutline, to: "section-about" },
 ];
 
 const Menu = () => {
@@ -49,12 +50,20 @@ const Menu = () => {
               "button button--transparent button--transparent--menu"
             )}
           >
-            <a href="/" className={cn(styles["menu__list-link"])}>
+            <Link
+              activeClass={styles["active"]}
+              to={section.to}
+              spy={true}
+              smooth={true}
+              offset={-100} // Высота хедера
+              duration={200}
+              className={cn(styles["menu__list-link"])}
+            >
               <span className={cn(styles["menu__list-item-icon"])}>
                 {<section.icon />}
               </span>
               <span className="menu__list-item-text">{section.name}</span>
-            </a>
+            </Link>
           </li>
         );
       })}

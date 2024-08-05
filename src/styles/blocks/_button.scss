@@ -10,6 +10,7 @@
   border: var(--border);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
+  cursor: pointer;
 
   @include hover {
     color: var(--color-white);

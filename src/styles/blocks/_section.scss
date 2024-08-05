@@ -2,6 +2,10 @@
   padding-bottom: var(--section-padding-y);
   padding-inline: 0px;
 
+  @include mobile {
+    padding-bottom: 60px;
+  }
+
   &__header {
     display: flex;
     align-items: center;
