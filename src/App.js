@@ -7,7 +7,7 @@ import Dialog from "./components/dialog-menu/Dialog";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 
-function App() {
+function App({ setLocale }) {
   const [isDialogOpen, setDialogOpen] = useState(false);
 
   const handleOpenDialog = () => {
@@ -21,7 +21,7 @@ function App() {
   return (
     <Provider store={store}>
       <div className="App">
-        <Header onOpenDialog={handleOpenDialog} />
+        <Header onOpenDialog={handleOpenDialog} setLocale={setLocale} />
         <Content />
         <Dialog isOpen={isDialogOpen} onClose={handleCloseDialog}>
           <Menu />

@@ -3,8 +3,9 @@ import cn from "classnames";
 import styles from "./Header.module.scss";
 import logo from "../../images/logo-it-park.png.png";
 import { FaRegUser } from "react-icons/fa";
+import LanguageSwitcher from "../lngSwitcher/LanguageSwitcher";
 
-const Header = ({ onOpenDialog }) => {
+const Header = ({ onOpenDialog, setLocale }) => {
   return (
     <header className={cn(styles["header"])}>
       <div className={cn(styles["header__inner"], "layout")}>
@@ -35,7 +36,7 @@ const Header = ({ onOpenDialog }) => {
           >
             Стать резидентом
           </a>
-          <button
+          {/* <button
             className={cn(
               "button",
               "button--transparent",
@@ -43,7 +44,8 @@ const Header = ({ onOpenDialog }) => {
             )}
           >
             RU
-          </button>
+          </button> */}
+          <LanguageSwitcher setLocale={setLocale} />
           <button
             className={cn(
               "button",

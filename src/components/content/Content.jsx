@@ -5,6 +5,7 @@ import Menu from "../aside-menu/Menu";
 import Carousel from "./swiper/Carousel";
 import ThemeToggle from "../toggle/ThemeToggle";
 import { Element } from "react-scroll";
+import ResidentSection from "./residents/ResidentsSection";
 
 const Content = () => {
   return (
@@ -17,116 +18,7 @@ const Content = () => {
         <Element name="section-home" className="section container section-home">
           <Carousel />
         </Element>
-        <Element name="section-partners" className="section container">
-          <header className="section__header">
-            <h2 className="section__title">Residents</h2>
-          </header>
-          <div className="section__body">
-            <div className="residents">
-              <ul className="residents__list grid grid--3">
-                <li className="residents__item">
-                  <article className="resident-card">
-                    <img
-                      className="resident-card__image"
-                      src="https://it-park.kz/uploads/resident/normal/8.webp"
-                      alt="resident"
-                      loading="lazy"
-                    />
-                    <h3 className="resident-card__title">EPAM</h3>
-                  </article>
-                </li>
-                <li className="residents__item">
-                  <article className="resident-card">
-                    <img
-                      className="resident-card__image"
-                      src="https://it-park.kz/uploads/resident/normal/8.webp"
-                      alt="resident"
-                      loading="lazy"
-                    />
-                    <h3 className="resident-card__title">EPAM</h3>
-                  </article>
-                </li>
-                <li className="residents__item">
-                  <article className="resident-card">
-                    <img
-                      className="resident-card__image"
-                      src="https://it-park.kz/uploads/resident/normal/8.webp"
-                      alt="resident"
-                      loading="lazy"
-                    />
-                    <h3 className="resident-card__title">EPAM</h3>
-                  </article>
-                </li>
-                <li className="residents__item">
-                  <article className="resident-card">
-                    <img
-                      className="resident-card__image"
-                      src="https://it-park.kz/uploads/resident/normal/8.webp"
-                      alt="resident"
-                      loading="lazy"
-                    />
-                    <h3 className="resident-card__title">EPAM</h3>
-                  </article>
-                </li>
-                <li className="residents__item">
-                  <article className="resident-card">
-                    <img
-                      className="resident-card__image"
-                      src="https://it-park.kz/uploads/resident/normal/8.webp"
-                      alt="resident"
-                      loading="lazy"
-                    />
-                    <h3 className="resident-card__title">EPAM</h3>
-                  </article>
-                </li>
-                <li className="residents__item">
-                  <article className="resident-card">
-                    <img
-                      className="resident-card__image"
-                      src="https://it-park.kz/uploads/resident/normal/8.webp"
-                      alt="resident"
-                      loading="lazy"
-                    />
-                    <h3 className="resident-card__title">EPAM</h3>
-                  </article>
-                </li>
-                <li className="residents__item">
-                  <article className="resident-card">
-                    <img
-                      className="resident-card__image"
-                      src="https://it-park.kz/uploads/resident/normal/8.webp"
-                      alt="resident"
-                      loading="lazy"
-                    />
-                    <h3 className="resident-card__title">EPAM</h3>
-                  </article>
-                </li>
-                <li className="residents__item">
-                  <article className="resident-card">
-                    <img
-                      className="resident-card__image"
-                      src="https://it-park.kz/uploads/resident/normal/8.webp"
-                      alt="resident"
-                      loading="lazy"
-                    />
-                    <h3 className="resident-card__title">EPAM</h3>
-                  </article>
-                </li>
-                <li className="residents__item">
-                  <article className="resident-card">
-                    <img
-                      className="resident-card__image"
-                      src="https://it-park.kz/uploads/resident/normal/8.webp"
-                      alt="resident"
-                      loading="lazy"
-                    />
-                    <h3 className="resident-card__title">EPAM</h3>
-                  </article>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </Element>
+        <ResidentSection />
       </div>
     </main>
   );

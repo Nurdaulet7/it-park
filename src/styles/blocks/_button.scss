@@ -60,3 +60,25 @@
     color: var(--menu-text-color);
   }
 }
+
+.option {
+  @include flex-center(true);
+
+  height: var(--button-height);
+  padding-inline: 15px;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--color-white);
+  background-color: var(--color-accent);
+  border: var(--border);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  cursor: pointer;
+
+  @include hover {
+    color: var(--color-white);
+    background-color: var(--color-gray);
+  }
+}
+
+// "option", "option--transparent"
