@@ -13,7 +13,7 @@ const LanguageSwitcher = ({ setLocale }) => {
       onChange={handleLanguageChange}
       defaultValue={localStorage.getItem("locale") || LOCALES.KAZAKH}
     >
-      <option value={LOCALES.ENGLISH}>EN</option>
+      {/* <option value={LOCALES.ENGLISH}>EN</option> */}
       <option value={LOCALES.RUSSIAN}>RU</option>
       <option value={LOCALES.KAZAKH}>KZ</option>
     </select>

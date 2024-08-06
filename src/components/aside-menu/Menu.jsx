@@ -1,35 +1,44 @@
 import React from "react";
 import { Link } from "react-scroll";
+import { FormattedMessage } from "react-intl";
 import cn from "classnames";
 import styles from "../content/Content.module.scss";
 import { AiOutlineHome } from "react-icons/ai";
 import { HiOutlineUserGroup } from "react-icons/hi2";
 import { LuPartyPopper } from "react-icons/lu";
 import { RiMegaphoneLine } from "react-icons/ri";
-import { TbReportSearch } from "react-icons/tb";
-import { TbSettingsCog } from "react-icons/tb";
-import { TbRosetteNumber1 } from "react-icons/tb";
+import {
+  TbReportSearch,
+  TbSettingsCog,
+  TbRosetteNumber1,
+} from "react-icons/tb";
 import { MdOutlineErrorOutline } from "react-icons/md";
 
 const menu_sections = [
-  { name: "Главная", icon: AiOutlineHome, to: "section-home" },
-  { name: "Партнеры", icon: HiOutlineUserGroup, to: "section-partners" },
-  { name: "Мероприятия", icon: LuPartyPopper, to: "section-events" },
-  { name: "Новости", icon: RiMegaphoneLine, to: "section-news" },
-  { name: "Вакансии", icon: TbReportSearch, to: "section-vacancies" },
-  { name: "Проекты", icon: TbSettingsCog, to: "section-projects" },
-  { name: "Первый IT-Park", icon: TbRosetteNumber1, to: "section-first" },
-  { name: "О нас", icon: MdOutlineErrorOutline, to: "section-about" },
+  { id: "home", icon: AiOutlineHome, to: "section-home" },
+  { id: "partners", icon: HiOutlineUserGroup, to: "section-partners" },
+  { id: "events", icon: LuPartyPopper, to: "section-events" },
+  { id: "news", icon: RiMegaphoneLine, to: "section-news" },
+  { id: "vacancies", icon: TbReportSearch, to: "section-vacancies" },
+  { id: "projects", icon: TbSettingsCog, to: "section-projects" },
+  { id: "first_it_park", icon: TbRosetteNumber1, to: "section-first" },
+  { id: "about_us", icon: MdOutlineErrorOutline, to: "section-about" },
 ];
 
 const Menu = () => {
   return (
     <ul className={cn(styles["menu__list"])}>
-      <input
-        type="text"
-        className={cn("button input visible-tablet")}
-        form="search"
-        placeholder="Поиск по сайту"
+      <FormattedMessage
+        id="search_placeholder"
+        defaultMessage="Поиск по сайту"
+        children={(placeholder) => (
+          <input
+            type="text"
+            className={cn("button input visible-tablet")}
+            form="search"
+            placeholder={placeholder}
+          />
+        )}
       />
       <a
         href="/"
@@ -39,31 +48,34 @@ const Menu = () => {
           "visible-tablet"
         )}
       >
-        Стать резидентом
+        <FormattedMessage
+          id="become_resident"
+          defaultMessage="Стать резидентом"
+        />
       </a>
-      {menu_sections.map((section, index) => {
-        return (
-          <li key={index} className={cn(styles["menu__list-item"])}>
-            <Link
-              activeClass={styles["active"]}
-              to={section.to}
-              spy={true}
-              smooth={true}
-              offset={-95} // Высота хедера
-              duration={200}
-              className={cn(
-                styles["menu__list-link"],
-                "button button--transparent button--transparent--menu"
-              )}
-            >
-              <span className={cn(styles["menu__list-item-icon"])}>
-                {<section.icon />}
-              </span>
-              <span className="menu__list-item-text">{section.name}</span>
-            </Link>
-          </li>
-        );
-      })}
+      {menu_sections.map((section, index) => (
+        <li key={index} className={cn(styles["menu__list-item"])}>
+          <Link
+            activeClass={styles["active"]}
+            to={section.to}
+            spy={true}
+            smooth={true}
+            offset={-100} // Высота хедера
+            duration={200}
+            className={cn(
+              styles["menu__list-link"],
+              "button button--transparent button--transparent--menu"
+            )}
+          >
+            <span className={cn(styles["menu__list-item-icon"])}>
+              {<section.icon />}
+            </span>
+            <span className="menu__list-item-text">
+              <FormattedMessage id={section.id} defaultMessage={section.id} />
+            </span>
+          </Link>
+        </li>
+      ))}
     </ul>
   );
 };

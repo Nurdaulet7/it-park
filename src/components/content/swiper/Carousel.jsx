@@ -41,8 +41,7 @@ const Carousel = () => {
           </div>
           <div className="text" data-swiper-parallax="-100">
             <p>
-              Скоро в Кызылорде откроется первый региональный IT-парк, где
-              талантливая молодежь сможет разрабатывать свои стартап-проекты
+              <FormattedMessage id="it_park_info" />
             </p>
           </div>
           <button className="button">
@@ -53,15 +52,16 @@ const Carousel = () => {
       <SwiperSlide>
         <div className="intro-info">
           <div className="title" data-swiper-parallax="-300">
-            It Park — место притяжения и развития информационных технологий
+            <FormattedMessage id="welcome" />
           </div>
           <div className="text" data-swiper-parallax="-100">
             <p>
-              Скоро в Кызылорде откроется первый региональный IT-парк, где
-              талантливая молодежь сможет разрабатывать свои стартап-проекты
+              <FormattedMessage id="it_park_info" />
             </p>
           </div>
-          <button className="button">Подробнее</button>
+          <button className="button">
+            <FormattedMessage id="click_here" />
+          </button>
         </div>
       </SwiperSlide>
     </Swiper>

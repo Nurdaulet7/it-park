@@ -4,6 +4,7 @@ import styles from "./Header.module.scss";
 import logo from "../../images/logo-it-park.png.png";
 import { FaRegUser } from "react-icons/fa";
 import LanguageSwitcher from "../lngSwitcher/LanguageSwitcher";
+import { FormattedMessage } from "react-intl";
 
 const Header = ({ onOpenDialog, setLocale }) => {
   return (
@@ -19,11 +20,17 @@ const Header = ({ onOpenDialog, setLocale }) => {
           />
         </a>
         <div className={cn(styles["header__buttons"])}>
-          <input
-            type="text"
-            form="search"
-            placeholder="Поиск по сайту"
-            className={cn("hidden-tablet", "button", "input")}
+          <FormattedMessage
+            id="search_placeholder"
+            defaultMessage="Поиск по сайту"
+            children={(placeholder) => (
+              <input
+                type="text"
+                form="search"
+                placeholder={placeholder}
+                className={cn("hidden-tablet", "button", "input")}
+              />
+            )}
           />
           <a
             href="/"
@@ -34,7 +41,10 @@ const Header = ({ onOpenDialog, setLocale }) => {
               "hidden-tablet"
             )}
           >
-            Стать резидентом
+            <FormattedMessage
+              id="become_resident"
+              defaultMessage="Стать резидентом"
+            />
           </a>
           {/* <button
             className={cn(

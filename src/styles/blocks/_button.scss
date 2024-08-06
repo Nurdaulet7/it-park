@@ -63,21 +63,21 @@
 
 .option {
   @include flex-center(true);
-
   height: var(--button-height);
   padding-inline: 15px;
   font-size: 18px;
   font-weight: 500;
-  color: var(--color-white);
-  background-color: var(--color-accent);
+  color: var(--menu-text-color);
+  background-color: var(--background-primary);
   border: var(--border);
   border-radius: var(--border-radius);
   box-shadow: var(--shadow);
   cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 
-  @include hover {
-    color: var(--color-white);
-    background-color: var(--color-gray);
+  select::-ms-expand {
+    display: none;
   }
 }
 
