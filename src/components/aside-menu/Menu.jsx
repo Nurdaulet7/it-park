@@ -51,13 +51,14 @@ const menu_sections = [
   },
 ];
 
-const Menu = () => {
+const Menu = ({ setScrollToSection }) => {
   const navigate = useNavigate();
 
   const handleNavigation = (path, isExternal) => {
     if (isExternal) {
       navigate(path);
     } else {
+      setScrollToSection(path);
       navigate("/");
     }
   };
@@ -92,7 +93,7 @@ const Menu = () => {
       {menu_sections.map((section, index) => (
         <li key={index} className={cn(styles["menu__list-item"])}>
           <ScrollLink
-            onClick={() => handleNavigation(section.path, section.isExternal)}
+            onClick={() => handleNavigation(section.to, !section.isInternal)}
             activeClass={styles["active"]}
             to={section.to}
             spy={true}

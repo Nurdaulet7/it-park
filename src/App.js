@@ -10,6 +10,7 @@ import { BrowserRouter } from "react-router-dom";
 
 function App({ setLocale }) {
   const [isDialogOpen, setDialogOpen] = useState(false);
+  const [scrollToSection, setScrollToSection] = useState(null);
 
   const handleOpenDialog = () => {
     setDialogOpen(true);
@@ -24,9 +25,12 @@ function App({ setLocale }) {
       <BrowserRouter>
         <div className="App">
           <Header onOpenDialog={handleOpenDialog} setLocale={setLocale} />
-          <Content />
+          <Content
+            scrollToSection={scrollToSection}
+            setScrollToSection={setScrollToSection}
+          />
           <Dialog isOpen={isDialogOpen} onClose={handleCloseDialog}>
-            <Menu />
+            <Menu setScrollToSection={setScrollToSection} />
           </Dialog>
         </div>
       </BrowserRouter>
