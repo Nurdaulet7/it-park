@@ -9,6 +9,23 @@ import { Element } from "react-scroll";
 import ResidentSection from "./residents/ResidentsSection";
 import ResidentDetailsSection from "./residents/ResidentDetailsSection";
 
+const MainContent = () => {
+  return (
+    <>
+      <Element name="section-home" className="section container section-home">
+        <Carousel />
+      </Element>
+      <Element
+        name="section-partners"
+        className="section container section-partners"
+      >
+        <ResidentSection />
+      </Element>
+      {/* Другие секции */}
+    </>
+  );
+};
+
 const Content = () => {
   return (
     <main className={cn("layout", styles["main"])}>
@@ -18,20 +35,7 @@ const Content = () => {
       </aside>
       <div className={cn(styles["content"])}>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <Element
-                  name="section-home"
-                  className="section container section-home"
-                >
-                  <Carousel />
-                </Element>
-                <ResidentSection />
-              </>
-            }
-          />
+          <Route path="/" element={<MainContent />} />
           <Route path="/resident/:id" element={<ResidentDetailsSection />} />
         </Routes>
       </div>

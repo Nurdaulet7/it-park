@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-scroll";
+import { Link as ScrollLink } from "react-scroll";
 import { FormattedMessage } from "react-intl";
 import cn from "classnames";
 import styles from "../content/Content.module.scss";
@@ -13,19 +13,55 @@ import {
   TbRosetteNumber1,
 } from "react-icons/tb";
 import { MdOutlineErrorOutline } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 
 const menu_sections = [
-  { id: "home", icon: AiOutlineHome, to: "section-home" },
-  { id: "partners", icon: HiOutlineUserGroup, to: "section-partners" },
-  { id: "events", icon: LuPartyPopper, to: "section-events" },
-  { id: "news", icon: RiMegaphoneLine, to: "section-news" },
-  { id: "vacancies", icon: TbReportSearch, to: "section-vacancies" },
-  { id: "projects", icon: TbSettingsCog, to: "section-projects" },
-  { id: "first_it_park", icon: TbRosetteNumber1, to: "section-first" },
-  { id: "about_us", icon: MdOutlineErrorOutline, to: "section-about" },
+  { id: "home", icon: AiOutlineHome, to: "section-home", isInternal: true },
+  {
+    id: "partners",
+    icon: HiOutlineUserGroup,
+    to: "section-partners",
+    isInternal: true,
+  },
+  { id: "events", icon: LuPartyPopper, to: "section-events", isInternal: true },
+  { id: "news", icon: RiMegaphoneLine, to: "section-news", isInternal: true },
+  {
+    id: "vacancies",
+    icon: TbReportSearch,
+    to: "section-vacancies",
+    isInternal: true,
+  },
+  {
+    id: "projects",
+    icon: TbSettingsCog,
+    to: "section-projects",
+    isInternal: true,
+  },
+  {
+    id: "first_it_park",
+    icon: TbRosetteNumber1,
+    to: "section-first",
+    isInternal: false,
+  },
+  {
+    id: "about_us",
+    icon: MdOutlineErrorOutline,
+    to: "section-about",
+    isInternal: false,
+  },
 ];
 
 const Menu = () => {
+  const navigate = useNavigate();
+
+  const handleNavigation = (path, isExternal) => {
+    if (isExternal) {
+      navigate(path);
+    } else {
+      navigate("/");
+    }
+  };
+
   return (
     <ul className={cn(styles["menu__list"])}>
       <FormattedMessage
@@ -55,7 +91,8 @@ const Menu = () => {
       </a>
       {menu_sections.map((section, index) => (
         <li key={index} className={cn(styles["menu__list-item"])}>
-          <Link
+          <ScrollLink
+            onClick={() => handleNavigation(section.path, section.isExternal)}
             activeClass={styles["active"]}
             to={section.to}
             spy={true}
@@ -73,7 +110,7 @@ const Menu = () => {
             <span className="menu__list-item-text">
               <FormattedMessage id={section.id} defaultMessage={section.id} />
             </span>
-          </Link>
+          </ScrollLink>
         </li>
       ))}
     </ul>

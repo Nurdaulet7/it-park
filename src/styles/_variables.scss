@@ -3,7 +3,7 @@
   --color-white: #ffffff;
   --color-dark: #000000;
   --color-accent: #e02d2d;
-  --color-accent-hover: #ce3d3de5;
+  --color-accent-h: rgba(22, 22, 22, 0.422);
   --color-gray: #363636;
   --color-dark-gray: #171717;
   --color-light-gray: #212121;
@@ -62,6 +62,7 @@ $header-height-tablet: 68px;
   --background-header-primary: var(--background-header-primary-light);
   --menu-text-color: var(--color-gray);
   --burger-color: var(--burger-light-color);
+  --color-accent-hover: var(--color-accent-h);
 }
 
 [data-theme="dark"] {
@@ -70,4 +71,5 @@ $header-height-tablet: 68px;
   --background-header-primary: var(--background-header-primary-dark);
   --menu-text-color: var(--menu-dark-default-color);
   --burger-color: var(--burger-dark-color);
+  --color-accent-hover: #2f2f2f;
 }
