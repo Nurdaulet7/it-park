@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Element } from "react-scroll";
 import { fetchResidents } from "../../../redux/slices/residentsSlice";
 import { FormattedMessage, useIntl } from "react-intl";
+import { Link } from "react-router-dom";
 
 const ResidentSection = () => {
   const dispatch = useDispatch();
@@ -48,19 +49,21 @@ const ResidentSection = () => {
           <ul className="residents__list grid grid--3">
             {residents.map((resident, index) => (
               <li key={index} className="residents__item">
-                <article className="resident-card">
-                  <div className="resident-card__logo">
-                    <img
-                      className="resident__image"
-                      src={resident.image}
-                      alt="resident"
-                      loading="lazy"
-                    />
-                  </div>
-                  <h3 className="resident-card__title">
-                    {getTranslatedContent(resident, "name")}
-                  </h3>
-                </article>
+                <Link to={`/resident/${resident.id}`}>
+                  <article className="resident-card">
+                    <div className="resident-card__logo">
+                      <img
+                        className="resident__image"
+                        src={resident.image}
+                        alt="resident"
+                        loading="lazy"
+                      />
+                    </div>
+                    <h3 className="resident-card__title">
+                      {getTranslatedContent(resident, "name")}
+                    </h3>
+                  </article>
+                </Link>
               </li>
             ))}
           </ul>

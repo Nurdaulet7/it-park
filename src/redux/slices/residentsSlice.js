@@ -19,7 +19,13 @@ const residentsSlice = createSlice({
     status: "idle",
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setCurrentResident: (state, action) => {
+      state.currentResident = state.residents.find(
+        (resident) => resident.id === action.payload
+      );
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchResidents.pending, (state) => {
@@ -35,5 +41,7 @@ const residentsSlice = createSlice({
       });
   },
 });
+
+export const { setCurrentResident } = residentsSlice.actions;
 
 export default residentsSlice.reducer;

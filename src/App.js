@@ -6,6 +6,7 @@ import Menu from "./components/aside-menu/Menu";
 import Dialog from "./components/dialog-menu/Dialog";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
+import { BrowserRouter } from "react-router-dom";
 
 function App({ setLocale }) {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -20,13 +21,15 @@ function App({ setLocale }) {
 
   return (
     <Provider store={store}>
-      <div className="App">
-        <Header onOpenDialog={handleOpenDialog} setLocale={setLocale} />
-        <Content />
-        <Dialog isOpen={isDialogOpen} onClose={handleCloseDialog}>
-          <Menu />
-        </Dialog>
-      </div>
+      <BrowserRouter>
+        <div className="App">
+          <Header onOpenDialog={handleOpenDialog} setLocale={setLocale} />
+          <Content />
+          <Dialog isOpen={isDialogOpen} onClose={handleCloseDialog}>
+            <Menu />
+          </Dialog>
+        </div>
+      </BrowserRouter>
     </Provider>
   );
 }

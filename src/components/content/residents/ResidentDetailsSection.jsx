@@ -1,16 +1,28 @@
-// src/components/content/details/ResidentDetailsSection.jsx
+// src/components/content/residents/ResidentDetailsSection.jsx
 
-import React from "react";
-import { useSelector } from "react-redux";
-import { useIntl } from "react-intl";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { setCurrentResident } from "../../../redux/slices/residentsSlice";
+import { FormattedMessage, useIntl } from "react-intl";
 
-const ResidentDetailsSection = ({ selectedResidentId, onBack }) => {
-  const residents = useSelector((state) => state.residents.residents);
+const ResidentDetailsSection = () => {
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const resident = useSelector((state) => state.residents.currentResident);
+  const status = useSelector((state) => state.residents.status);
+  const error = useSelector((state) => state.residents.error);
   const { locale } = useIntl();
 
-  const resident = residents.find((res) => res.id === selectedResidentId);
+  useEffect(() => {
+    dispatch(setCurrentResident(parseInt(id)));
+  }, [dispatch, id]);
+
+  if (status === "loading") return <p>Loading...</p>;
+  if (status === "failed") return <p>Error: {error}</p>;
 
   const getTranslatedContent = (field) => {
+    if (!resident) return "";
     switch (locale) {
       case "ru-RU":
         return resident[`${field}_ru`];
@@ -23,16 +35,16 @@ const ResidentDetailsSection = ({ selectedResidentId, onBack }) => {
     }
   };
 
-  if (!resident) {
-    return <p>No details available</p>;
-  }
-
   return (
-    <div className="details">
-      <button onClick={onBack}>Back</button>
-      <h2>{getTranslatedContent("name")}</h2>
-      <p>{getTranslatedContent("content")}</p>
-      <img src={resident.image} alt={getTranslatedContent("name")} />
+    <div className="section container">
+      <header className="section__header">
+        <h2 className="section__title">{getTranslatedContent("name")}</h2>
+      </header>
+      <div className="section__body">
+        <p>{getTranslatedContent("content")}</p>
+        <p>{getTranslatedContent("location")}</p>
+        <img src={resident?.image} alt={getTranslatedContent("name")} />
+      </div>
     </div>
   );
 };
