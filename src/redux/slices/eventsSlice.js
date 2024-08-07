@@ -15,10 +15,17 @@ const eventsSlice = createSlice({
   name: "events",
   initialState: {
     events: [],
+    currentEvent: null,
     status: "idle",
     error: null,
   },
-  reducers: {},
+  reducers: {
+    setCurrentEvent: (state, action) => {
+      state.currentEvent = state.events.find(
+        (event) => event.id === action.payload
+      );
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchEvents.pending, (state) => {
@@ -27,6 +34,9 @@ const eventsSlice = createSlice({
       .addCase(fetchEvents.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.events = action.payload;
+        state.currentEvent = action.payload.find(
+          (event) => event.id === parseInt(action.meta.arg)
+        );
       })
       .addCase(fetchEvents.rejected, (state, action) => {
         state.status = "failed";
@@ -35,4 +45,10 @@ const eventsSlice = createSlice({
   },
 });
 
+export const { setCurrentEvent } = eventsSlice.actions;
+
 export default eventsSlice.reducer;
+
+export const selectEvents = (state) => state.events.events;
+export const selectEventsStatus = (state) => state.events.status;
+export const selectEventsError = (state) => state.events.error;

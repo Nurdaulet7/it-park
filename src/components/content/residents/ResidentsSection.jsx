@@ -3,15 +3,21 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Element } from "react-scroll";
-import { fetchResidents } from "../../../redux/slices/residentsSlice";
+import {
+  fetchResidents,
+  selectResidents,
+  selectResidentsError,
+  selectResidentsStatus,
+} from "../../../redux/slices/residentsSlice";
 import { FormattedMessage, useIntl } from "react-intl";
 import { Link } from "react-router-dom";
+import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 
 const ResidentSection = () => {
   const dispatch = useDispatch();
-  const residents = useSelector((state) => state.residents.residents);
-  const status = useSelector((state) => state.residents.status);
-  const error = useSelector((state) => state.residents.error);
+  const residents = useSelector(selectResidents);
+  const status = useSelector(selectResidentsStatus);
+  const error = useSelector(selectResidentsError);
   const { locale } = useIntl();
 
   useEffect(() => {
@@ -22,20 +28,6 @@ const ResidentSection = () => {
 
   if (status === "loading") return <p>Loading...</p>;
   if (status === "failed") return <p>Error: {error}</p>;
-
-  const getTranslatedContent = (resident, field) => {
-    switch (locale) {
-      case "ru-RU":
-        return resident[`${field}_ru`];
-      case "kk-KZ":
-        return resident[`${field}_kk`];
-      case "en-US":
-        return resident[`${field}_en`];
-      default:
-        return resident[`${field}_kk`];
-    }
-  };
-  console.log(locale);
 
   return (
     <Element name="section-partners" className={`container`}>
@@ -60,7 +52,7 @@ const ResidentSection = () => {
                       />
                     </div>
                     <h3 className="resident-card__title">
-                      {getTranslatedContent(resident, "name")}
+                      {getTranslatedContent(resident, "name", locale)}
                     </h3>
                   </article>
                 </Link>

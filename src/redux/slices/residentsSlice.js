@@ -16,6 +16,7 @@ const residentsSlice = createSlice({
   name: "residents",
   initialState: {
     residents: [],
+    currentResident: null,
     status: "idle",
     error: null,
   },
@@ -45,3 +46,8 @@ const residentsSlice = createSlice({
 export const { setCurrentResident } = residentsSlice.actions;
 
 export default residentsSlice.reducer;
+
+export const selectResidents = (state) => state.residents.residents;
+export const selectResidentsStatus = (state) => state.residents.status;
+export const selectResidentsError = (state) => state.residents.error;
+export const selectCurrentResident = (state) => state.residents.currentResident;

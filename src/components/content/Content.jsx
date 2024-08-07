@@ -9,6 +9,8 @@ import { Element, scroller } from "react-scroll";
 import ResidentSection from "./residents/ResidentsSection";
 import ResidentDetailsSection from "./residents/ResidentDetailsSection";
 import EventsSection from "./events/EventsSection";
+import EventDetailsSection from "./events/EventDetailsSection";
+import Events from "./events/Events";
 
 const MainContent = ({ scrollToSection }) => {
   useEffect(() => {
@@ -58,6 +60,8 @@ const Content = ({ scrollToSection, setScrollToSection }) => {
             element={<MainContent scrollToSection={scrollToSection} />}
           />
           <Route path="/resident/:id" element={<ResidentDetailsSection />} />
+          <Route path="/events/:id" element={<EventDetailsSection />} />
+          <Route path="/events" element={<Events />} />
         </Routes>
       </div>
     </main>

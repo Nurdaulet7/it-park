@@ -2,7 +2,7 @@
   --gridColumns: 1;
 
   display: grid;
-  grid-template-columns: repeat(var(--gridColumns), 1fr);
+  grid-template-columns: repeat(var(--gridColumns), minmax(300px, 1fr));
   gap: 20px;
 
   @for $i from 2 through 12 {
