@@ -1,0 +1,48 @@
+.events {
+  display: flex;
+  flex-direction: column;
+  row-gap: 40px;
+
+  & .view-all-button {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.event {
+  &-card {
+    height: 100%;
+    align-items: stretch; /* Растянуть карточки на одинаковую высоту */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    row-gap: 20px;
+    text-align: center;
+    min-height: 350px;
+    padding: 30px;
+    box-shadow: var(--shadow);
+    background-color: var(--background-header-primary);
+    border-radius: var(--border-radius);
+    border: var(--border);
+    // transition: background-color 0.3s ease, transform 0.3s ease;
+    background-size: cover;
+    background-position: center;
+    position: relative; /* Для вложенного контента */
+
+    & h3 {
+      font-size: 26px;
+      color: var(--color-light);
+    }
+
+    & p {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--color-light);
+    }
+
+    @include hover {
+      //   transform: scale(1.05);
+    }
+  }
+}

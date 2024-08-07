@@ -38,7 +38,7 @@ const ResidentSection = () => {
   console.log(locale);
 
   return (
-    <Element name="section-partners" className={`section container `}>
+    <Element name="section-partners" className={`container`}>
       <header className="section__header">
         <h2 className="section__title">
           <FormattedMessage id="our_residents" />

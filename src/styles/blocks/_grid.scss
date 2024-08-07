@@ -20,4 +20,10 @@
       --gridColumns: 1;
     }
   }
+
+  &--2 {
+    @include desktop {
+      --gridColumns: 1;
+    }
+  }
 }

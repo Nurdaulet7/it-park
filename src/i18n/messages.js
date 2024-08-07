@@ -17,6 +17,9 @@ export const messages = {
     become_resident: "Become a resident",
     search_placeholder: "Search the site",
     our_residents: "Our Residents",
+    our_events: "Events",
+    view_all_events: "All Events",
+    more_details: "More details",
   },
   [LOCALES.RUSSIAN]: {
     welcome: "IT PARK - место притяжения и развития информационных технологий",
@@ -34,6 +37,9 @@ export const messages = {
     become_resident: "Стать резидентом",
     search_placeholder: "Поиск по сайту",
     our_residents: "Наши резиденты",
+    our_events: "Мероприятия",
+    view_all_events: "Все мероприятия",
+    more_details: "Подробнее",
   },
   [LOCALES.KAZAKH]: {
     welcome: "IT PARK - ақпараттық технологияларды тарту және дамыту орны",
@@ -51,5 +57,8 @@ export const messages = {
     become_resident: "Резидент болу",
     search_placeholder: "Сайт бойынша іздеу",
     our_residents: "Біздің резиденттер",
+    our_events: "Іс-шаралар",
+    view_all_events: "Барлық Іс-шаралар",
+    more_details: "Толығырақ",
   },
 };

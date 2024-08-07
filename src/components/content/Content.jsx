@@ -8,6 +8,7 @@ import ThemeToggle from "../toggle/ThemeToggle";
 import { Element, scroller } from "react-scroll";
 import ResidentSection from "./residents/ResidentsSection";
 import ResidentDetailsSection from "./residents/ResidentDetailsSection";
+import EventsSection from "./events/EventsSection";
 
 const MainContent = ({ scrollToSection }) => {
   useEffect(() => {
@@ -31,6 +32,12 @@ const MainContent = ({ scrollToSection }) => {
         className="section container section-partners"
       >
         <ResidentSection />
+      </Element>
+      <Element
+        name="section-events"
+        className="section container section-events"
+      >
+        <EventsSection />
       </Element>
       {/* Другие секции */}
     </>
