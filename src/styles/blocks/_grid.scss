@@ -12,6 +12,22 @@
   }
 
   &--3 {
+    .event {
+      &-card {
+        min-height: 250px;
+        row-gap: 5px;
+        padding: 10px;
+
+        & h3 {
+          font-size: 18px;
+        }
+
+        .button-event {
+          height: 35px;
+        }
+      }
+    }
+
     @include desktop {
       --gridColumns: 2;
     }

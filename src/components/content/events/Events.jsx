@@ -8,6 +8,7 @@ import {
   selectEventsStatus,
 } from "../../../redux/slices/eventsSlice";
 import EventCard from "./EventCard";
+import { useState } from "react";
 
 const Events = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,9 @@ const Events = () => {
   const status = useSelector(selectEventsStatus);
   const error = useSelector(selectEventsError);
   const { locale } = useIntl();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   useEffect(() => {
     if (status === "idle") {
@@ -24,6 +28,23 @@ const Events = () => {
 
   if (status === "loading") return <p>Loading...</p>;
   if (status === "failed") return <p>Error: {error}</p>;
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentEvents = events.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(events.length / itemsPerPage);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   return (
     <div className={`container`}>
@@ -35,10 +56,27 @@ const Events = () => {
       <div className="section__body">
         <div className="events">
           <ul className="events__list grid grid--3">
-            {events.map((event, index) => (
+            {currentEvents.map((event, index) => (
               <EventCard key={index} event={event} locale={locale} />
             ))}
           </ul>
+        </div>
+        <div className="pagination-controls">
+          <button
+            className="button button-pagination"
+            onClick={handlePrevPage}
+            disabled={currentPage === 1}
+          >
+            {`<`}
+          </button>
+          <span className="button button-pagination-counter">{`${currentPage} / ${totalPages}`}</span>
+          <button
+            onClick={handleNextPage}
+            disabled={currentPage === totalPages}
+            className="button button-pagination"
+          >
+            {`>`}
+          </button>
         </div>
       </div>
     </div>

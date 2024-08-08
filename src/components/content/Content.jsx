@@ -11,6 +11,7 @@ import ResidentDetailsSection from "./residents/ResidentDetailsSection";
 import EventsSection from "./events/EventsSection";
 import EventDetailsSection from "./events/EventDetailsSection";
 import Events from "./events/Events";
+import NewsSection from "./news/NewsSection";
 
 const MainContent = ({ scrollToSection }) => {
   useEffect(() => {
@@ -40,6 +41,9 @@ const MainContent = ({ scrollToSection }) => {
         className="section container section-events"
       >
         <EventsSection />
+      </Element>
+      <Element name="section-news" className="section container section-news">
+        <NewsSection />
       </Element>
       {/* Другие секции */}
     </>

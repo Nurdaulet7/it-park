@@ -16,7 +16,6 @@ const EventsSection = () => {
   const events = useSelector(selectEvents);
   const status = useSelector(selectEventsStatus);
   const error = useSelector(selectEventsError);
-  const { locale } = useIntl();
 
   useEffect(() => {
     if (status === "idle") {
@@ -38,7 +37,7 @@ const EventsSection = () => {
         <div className="events">
           <ul className="events__list grid grid--2">
             {events.slice(0, 2).map((event, index) => (
-              <EventCard key={index} event={event} locale={locale} />
+              <EventCard key={index} event={event} />
             ))}
           </ul>
           <div className="view-all-button">

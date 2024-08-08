@@ -2,10 +2,12 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { FormattedDate, FormattedMessage } from "react-intl";
+import { FormattedDate, FormattedMessage, useIntl } from "react-intl";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 
-const EventCard = ({ event, locale }) => {
+const EventCard = ({ event }) => {
+  const { locale } = useIntl();
+
   return (
     <li className="events__item">
       <article

@@ -22,10 +22,14 @@ const ResidentDetailsSection = () => {
   const { locale } = useIntl();
 
   useEffect(() => {
-    dispatch(fetchResidents()).then(() => {
+    if (status === "idle") {
+      dispatch(fetchResidents()).then(() => {
+        dispatch(setCurrentResident(parseInt(id)));
+      });
+    } else {
       dispatch(setCurrentResident(parseInt(id)));
-    });
-  }, [dispatch, id]);
+    }
+  }, [dispatch, id, status]);
 
   if (status === "loading") return <p>Loading...</p>;
   if (status === "failed") return <p>Error: {error}</p>;

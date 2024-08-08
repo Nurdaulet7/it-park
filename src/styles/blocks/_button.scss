@@ -44,6 +44,28 @@
       background-color: var(--color-accent);
     }
   }
+
+  &-pagination {
+    height: 40px;
+    aspect-ratio: 1;
+    &:disabled {
+      background-color: var(--color-gray);
+      cursor: default;
+    }
+
+    &-counter {
+      height: 40px;
+      width: auto;
+      cursor: default;
+      color: var(--color-gray);
+      background-color: var(--color-light);
+
+      @include hover {
+        color: var(--color-gray);
+        background-color: var(--color-light);
+      }
+    }
+  }
 }
 
 .input {

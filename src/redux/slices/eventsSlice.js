@@ -4,7 +4,6 @@ import axios from "axios";
 
 const BASE_URL = "https://it-park.kz/ru/api";
 
-// Создаем асинхронный thunk для получения событий
 export const fetchEvents = createAsyncThunk("events/fetchEvents", async () => {
   const response = await axios.get(`${BASE_URL}/events`);
   return response.data;

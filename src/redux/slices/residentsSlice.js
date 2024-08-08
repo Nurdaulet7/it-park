@@ -35,6 +35,9 @@ const residentsSlice = createSlice({
       .addCase(fetchResidents.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.residents = action.payload;
+        state.currentResident = action.payload.find(
+          (resident) => resident.id === parseInt(action.meta.arg)
+        );
       })
       .addCase(fetchResidents.rejected, (state, action) => {
         state.status = "failed";

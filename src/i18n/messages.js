@@ -20,6 +20,8 @@ export const messages = {
     our_events: "Events",
     view_all_events: "All Events",
     more_details: "More details",
+    our_news: "News",
+    view_all_news: "All news",
   },
   [LOCALES.RUSSIAN]: {
     welcome: "IT PARK - место притяжения и развития информационных технологий",
@@ -40,6 +42,8 @@ export const messages = {
     our_events: "Мероприятия",
     view_all_events: "Все мероприятия",
     more_details: "Подробнее",
+    our_news: "Новости",
+    view_all_news: "Все новости",
   },
   [LOCALES.KAZAKH]: {
     welcome: "IT PARK - ақпараттық технологияларды тарту және дамыту орны",
@@ -60,5 +64,7 @@ export const messages = {
     our_events: "Іс-шаралар",
     view_all_events: "Барлық Іс-шаралар",
     more_details: "Толығырақ",
+    our_news: "Жаңалықтар",
+    view_all_news: "Барлық жаңалықтар",
   },
 };
