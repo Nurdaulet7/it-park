@@ -9,6 +9,7 @@ import {
 import { FormattedMessage, useIntl } from "react-intl";
 import { Link } from "react-router-dom";
 import { Element } from "react-scroll";
+import NewsCard from "./NewsCard";
 
 const NewsSection = () => {
   const dispatch = useDispatch();
@@ -36,11 +37,8 @@ const NewsSection = () => {
       <div className="section__body">
         <div className="news">
           <ul className="news__list grid grid--3">
-            {news.slice(0, 3).map((event, index) => (
-              <>
-                <p>{index}</p>
-                <p>{event.title_kk}</p>
-              </>
+            {news.slice(0, 3).map((news, index) => (
+              <NewsCard key={index} news={news} />
             ))}
           </ul>
           <div className="view-all-button">

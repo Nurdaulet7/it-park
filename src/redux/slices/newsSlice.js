@@ -49,3 +49,4 @@ export default newsSlice.reducer;
 export const selectNews = (state) => state.news.news;
 export const selectNewsStatus = (state) => state.news.status;
 export const selectNewsError = (state) => state.news.error;
+export const selectCurrentNews = (state) => state.news.currentNews;

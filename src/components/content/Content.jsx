@@ -12,6 +12,8 @@ import EventsSection from "./events/EventsSection";
 import EventDetailsSection from "./events/EventDetailsSection";
 import Events from "./events/Events";
 import NewsSection from "./news/NewsSection";
+import NewsPage from "./news/NewsPage";
+import NewsDetailsSection from "./news/NewsDetailsSection";
 
 const MainContent = ({ scrollToSection }) => {
   useEffect(() => {
@@ -66,6 +68,8 @@ const Content = ({ scrollToSection, setScrollToSection }) => {
           <Route path="/resident/:id" element={<ResidentDetailsSection />} />
           <Route path="/events/:id" element={<EventDetailsSection />} />
           <Route path="/events" element={<Events />} />
+          <Route path="/news" element={<NewsPage />} />
+          <Route path="/news/:id" element={<NewsDetailsSection />} />
         </Routes>
       </div>
     </main>
