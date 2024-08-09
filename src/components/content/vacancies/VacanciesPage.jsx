@@ -1,30 +1,28 @@
-import React, { useEffect } from "react";
-import { FormattedMessage, useIntl } from "react-intl";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchEvents,
-  selectEvents,
-  selectEventsError,
-  selectEventsStatus,
-} from "../../../redux/slices/eventsSlice";
-import EventCard from "./EventCard";
-import { useState } from "react";
+  fetchVacancies,
+  selectVacancies,
+  selectVacanciesError,
+  selectVacanciesStatus,
+} from "../../../redux/slices/vacanciesSlice";
+import VacanciesCard from "./VacanciesCard";
 import { scrollToTop } from "../../../utils/scrollToTop";
+import { FormattedMessage } from "react-intl";
 
-const Events = () => {
+const VacanciesPage = () => {
   const dispatch = useDispatch();
-  const events = useSelector(selectEvents);
-  const status = useSelector(selectEventsStatus);
-  const error = useSelector(selectEventsError);
-  const { locale } = useIntl();
+  const vacancies = useSelector(selectVacancies);
+  const status = useSelector(selectVacanciesStatus);
+  const error = useSelector(selectVacanciesError);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const itemsPerPage = 4;
 
   useEffect(() => {
     scrollToTop();
     if (status === "idle") {
-      dispatch(fetchEvents());
+      dispatch(fetchVacancies());
     }
   }, [status, dispatch]);
 
@@ -33,17 +31,19 @@ const Events = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentEvents = events.slice(indexOfFirstItem, indexOfLastItem);
-  const totalPages = Math.ceil(events.length / itemsPerPage);
+  const currentVacancies = vacancies.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(vacancies.length / itemsPerPage);
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
+      console.log("Next");
       setCurrentPage(currentPage + 1);
       scrollToTop();
     }
   };
 
   const handlePrevPage = () => {
+    console.log("Prev");
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
       scrollToTop();
@@ -54,14 +54,14 @@ const Events = () => {
     <div className={`container`}>
       <header className="section__header">
         <h2 className="section__title">
-          <FormattedMessage id="our_events" />
+          <FormattedMessage id="our_vacancies" />
         </h2>
       </header>
       <div className="section__body">
-        <div className="events">
-          <ul className="events__list grid grid--3">
-            {currentEvents.map((event, index) => (
-              <EventCard key={index} event={event} locale={locale} />
+        <div>
+          <ul className="vacancies__list grid grid--1">
+            {currentVacancies.map((vacancy, index) => (
+              <VacanciesCard key={index} vacancy={vacancy} />
             ))}
           </ul>
         </div>
@@ -87,4 +87,4 @@ const Events = () => {
   );
 };
 
-export default Events;
+export default VacanciesPage;

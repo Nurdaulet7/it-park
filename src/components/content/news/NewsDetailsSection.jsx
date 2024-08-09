@@ -20,6 +20,8 @@ const NewsDetailsSection = () => {
   const { locale } = useIntl();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+
     if (status === "idle") {
       dispatch(fetchNews()).then(() => {
         dispatch(setCurrentNews(parseInt(id)));

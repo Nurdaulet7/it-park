@@ -8,18 +8,19 @@ import {
 } from "../../../redux/slices/newsSlice";
 import { FormattedMessage, useIntl } from "react-intl";
 import NewsCard from "./NewsCard";
+import { scrollToTop } from "../../../utils/scrollToTop";
 
 const NewsPage = () => {
   const dispatch = useDispatch();
   const news = useSelector(selectNews);
   const status = useSelector(selectNewsStatus);
   const error = useSelector(selectNewsError);
-  const { locale } = useIntl();
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
   useEffect(() => {
+    scrollToTop();
     if (status === "idle") {
       dispatch(fetchNews());
     }
@@ -35,13 +36,17 @@ const NewsPage = () => {
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
+      console.log("Next");
       setCurrentPage(currentPage + 1);
+      scrollToTop();
     }
   };
 
   const handlePrevPage = () => {
+    console.log("Prev");
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
+      scrollToTop();
     }
   };
 

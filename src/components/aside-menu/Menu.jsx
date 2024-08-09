@@ -98,7 +98,7 @@ const Menu = ({ setScrollToSection }) => {
             to={section.to}
             spy={true}
             smooth={true}
-            offset={-100} // Высота хедера
+            offset={-95} // Высота хедера
             duration={200}
             className={cn(
               styles["menu__list-link"],

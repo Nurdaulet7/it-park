@@ -30,7 +30,10 @@ const ResidentSection = () => {
   if (status === "failed") return <p>Error: {error}</p>;
 
   return (
-    <Element name="section-partners" className={`container`}>
+    <Element
+      name="section-partners"
+      className="section container section-partners"
+    >
       <header className="section__header">
         <h2 className="section__title">
           <FormattedMessage id="our_residents" />

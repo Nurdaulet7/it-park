@@ -1,0 +1,22 @@
+@import "../../../styles/styles.scss";
+
+.swiper {
+  width: 100%;
+  height: 350px;
+}
+
+.swiper-slide {
+  text-align: center;
+  font-size: 18px;
+  background: #cb0808;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

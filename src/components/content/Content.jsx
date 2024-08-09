@@ -5,7 +5,7 @@ import styles from "../content/Content.module.scss";
 import Menu from "../aside-menu/Menu";
 import Carousel from "./swiper/Carousel";
 import ThemeToggle from "../toggle/ThemeToggle";
-import { Element, scroller } from "react-scroll";
+import { scroller } from "react-scroll";
 import ResidentSection from "./residents/ResidentsSection";
 import ResidentDetailsSection from "./residents/ResidentDetailsSection";
 import EventsSection from "./events/EventsSection";
@@ -14,6 +14,10 @@ import Events from "./events/Events";
 import NewsSection from "./news/NewsSection";
 import NewsPage from "./news/NewsPage";
 import NewsDetailsSection from "./news/NewsDetailsSection";
+import VacanciesSection from "./vacancies/VacanciesSection";
+import VacanciesPage from "./vacancies/VacanciesPage";
+import VacanciesDetailsSection from "./vacancies/VacanciesDetailsSection";
+import ProjectsSection from "./projects/ProjectsSection";
 
 const MainContent = ({ scrollToSection }) => {
   useEffect(() => {
@@ -22,32 +26,19 @@ const MainContent = ({ scrollToSection }) => {
         duration: 200,
         delay: 0,
         smooth: "easeInOutQuart",
-        offset: -100, // Высота хедера
+        offset: -95, // Высота хедера
       });
     }
   }, [scrollToSection]);
 
   return (
     <>
-      <Element name="section-home" className="section container section-home">
-        <Carousel />
-      </Element>
-      <Element
-        name="section-partners"
-        className="section container section-partners"
-      >
-        <ResidentSection />
-      </Element>
-      <Element
-        name="section-events"
-        className="section container section-events"
-      >
-        <EventsSection />
-      </Element>
-      <Element name="section-news" className="section container section-news">
-        <NewsSection />
-      </Element>
-      {/* Другие секции */}
+      <Carousel />
+      <ResidentSection />
+      <EventsSection />
+      <NewsSection />
+      <VacanciesSection />
+      <ProjectsSection />
     </>
   );
 };
@@ -70,6 +61,8 @@ const Content = ({ scrollToSection, setScrollToSection }) => {
           <Route path="/events" element={<Events />} />
           <Route path="/news" element={<NewsPage />} />
           <Route path="/news/:id" element={<NewsDetailsSection />} />
+          <Route path="/vacancies" element={<VacanciesPage />} />
+          <Route path="/vacancies/:id" element={<VacanciesDetailsSection />} />
         </Routes>
       </div>
     </main>

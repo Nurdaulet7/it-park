@@ -12,6 +12,7 @@ import {
 } from "../../../redux/slices/residentsSlice";
 import { FormattedMessage, useIntl } from "react-intl";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
+import { scrollToTop } from "../../../utils/scrollToTop";
 
 const ResidentDetailsSection = () => {
   const { id } = useParams();
@@ -22,6 +23,7 @@ const ResidentDetailsSection = () => {
   const { locale } = useIntl();
 
   useEffect(() => {
+    scrollToTop();
     if (status === "idle") {
       dispatch(fetchResidents()).then(() => {
         dispatch(setCurrentResident(parseInt(id)));

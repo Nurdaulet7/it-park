@@ -27,7 +27,7 @@ const EventsSection = () => {
   if (status === "failed") return <p>Error: {error}</p>;
 
   return (
-    <Element name="section-events" className={`container`}>
+    <Element name="section-events" className="section container section-events">
       <header className="section__header">
         <h2 className="section__title">
           <FormattedMessage id="our_events" />

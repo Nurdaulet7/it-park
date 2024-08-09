@@ -1,0 +1,76 @@
+.vacancy {
+  display: flex;
+  flex-direction: column;
+  row-gap: 40px;
+
+  &-card {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    box-shadow: var(--shadow);
+    background-color: var(--background-header-primary);
+    padding: 25px 30px;
+    border-radius: var(--border-radius);
+    color: var(--menu-text-color);
+
+    &__header {
+      display: flex;
+      align-items: center;
+      column-gap: 10px;
+
+      & p {
+        font-size: 20px;
+      }
+
+      & .header-image {
+        width: 50px;
+        aspect-ratio: 1;
+        box-shadow: var(--shadow);
+        border-radius: var(--border-radius);
+
+        & image {
+          background-size: cover;
+          background-size: cover;
+          background-position: center;
+        }
+      }
+    }
+
+    &__body {
+      display: flex;
+      flex-direction: column;
+      row-gap: 10px;
+
+      &-job {
+        font-size: 24px;
+      }
+
+      &-desc {
+        font-size: 18px;
+      }
+
+      &-price {
+        color: var(--color-accent);
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+
+    &__footer {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .views {
+        display: flex;
+        align-items: center;
+        column-gap: 5px;
+
+        #eye-icon {
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}

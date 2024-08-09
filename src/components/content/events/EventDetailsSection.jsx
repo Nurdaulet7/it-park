@@ -7,6 +7,7 @@ import {
 } from "../../../redux/slices/eventsSlice";
 import { useIntl } from "react-intl";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
+import { scrollToTop } from "../../../utils/scrollToTop";
 
 const EventDetailsSection = () => {
   const { id } = useParams();
@@ -17,6 +18,7 @@ const EventDetailsSection = () => {
   const { locale } = useIntl();
 
   useEffect(() => {
+    scrollToTop();
     if (status === "idle") {
       dispatch(fetchEvents()).then(() => {
         dispatch(setCurrentEvent(parseInt(id)));

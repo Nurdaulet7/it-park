@@ -10,15 +10,15 @@ const NewsCard = ({ news }) => {
   return (
     <li className="news_item">
       <article className="news-card">
-        <div class="news-card__header">
+        <div className="news-card__header">
           <img src={news.image} alt={news.title_en} />
         </div>
         <div className="news-card__content">
           <div className="news-card__body">
-            <span class="tag tag-red">
+            <span className="tag tag-red">
               <FormattedDate
                 value={new Date(news.date)}
-                defaultMessage="01.01.2020"
+                defaultMessage="Неправильная дата"
                 year="numeric"
                 month="2-digit"
                 day="2-digit"
