@@ -1,4 +1,3 @@
-// src/redux/slices/residentsSlice.js
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
@@ -17,6 +16,7 @@ const residentsSlice = createSlice({
   initialState: {
     residents: [],
     currentResident: null,
+    projects: [], // Добавляем массив проектов в состояние
     status: "idle",
     error: null,
   },
@@ -35,6 +35,13 @@ const residentsSlice = createSlice({
       .addCase(fetchResidents.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.residents = action.payload;
+
+        // Перебираем резидентов и собираем проекты
+        state.projects = action.payload
+          .filter((resident) => resident.user_id && resident.user_id.length > 0)
+          .map((resident) => resident.user_id)
+          .flat(); // Распаковываем вложенные массивы проектов в один
+
         state.currentResident = action.payload.find(
           (resident) => resident.id === parseInt(action.meta.arg)
         );
@@ -54,3 +61,4 @@ export const selectResidents = (state) => state.residents.residents;
 export const selectResidentsStatus = (state) => state.residents.status;
 export const selectResidentsError = (state) => state.residents.error;
 export const selectCurrentResident = (state) => state.residents.currentResident;
+export const selectProjects = (state) => state.residents.projects; // Селектор для получения проектов

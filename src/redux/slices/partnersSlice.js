@@ -37,3 +37,7 @@ const partnersSlice = createSlice({
 });
 
 export default partnersSlice.reducer;
+
+export const selectPartners = (state) => state.partners.partners;
+export const selectPartnersStatus = (state) => state.partners.status;
+export const selectPartnersError = (state) => state.partners.error;

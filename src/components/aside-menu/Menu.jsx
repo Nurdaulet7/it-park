@@ -7,6 +7,7 @@ import { AiOutlineHome } from "react-icons/ai";
 import { HiOutlineUserGroup } from "react-icons/hi2";
 import { LuPartyPopper } from "react-icons/lu";
 import { RiMegaphoneLine } from "react-icons/ri";
+import { FaRegHandshake } from "react-icons/fa";
 import {
   TbReportSearch,
   TbSettingsCog,
@@ -18,9 +19,9 @@ import { useNavigate } from "react-router-dom";
 const menu_sections = [
   { id: "home", icon: AiOutlineHome, to: "section-home", isInternal: true },
   {
-    id: "partners",
+    id: "residents",
     icon: HiOutlineUserGroup,
-    to: "section-partners",
+    to: "section-residents",
     isInternal: true,
   },
   { id: "events", icon: LuPartyPopper, to: "section-events", isInternal: true },
@@ -35,6 +36,12 @@ const menu_sections = [
     id: "projects",
     icon: TbSettingsCog,
     to: "section-projects",
+    isInternal: true,
+  },
+  {
+    id: "partners",
+    icon: FaRegHandshake,
+    to: "section-partners",
     isInternal: true,
   },
   {
@@ -98,7 +105,7 @@ const Menu = ({ setScrollToSection }) => {
             to={section.to}
             spy={true}
             smooth={true}
-            offset={-95} // Высота хедера
+            offset={-96} // Высота хедера
             duration={200}
             className={cn(
               styles["menu__list-link"],

@@ -18,6 +18,7 @@ import VacanciesSection from "./vacancies/VacanciesSection";
 import VacanciesPage from "./vacancies/VacanciesPage";
 import VacanciesDetailsSection from "./vacancies/VacanciesDetailsSection";
 import ProjectsSection from "./projects/ProjectsSection";
+import PartnerSection from "./patners/PartnerSection";
 
 const MainContent = ({ scrollToSection }) => {
   useEffect(() => {
@@ -26,7 +27,7 @@ const MainContent = ({ scrollToSection }) => {
         duration: 200,
         delay: 0,
         smooth: "easeInOutQuart",
-        offset: -95, // Высота хедера
+        offset: -96, // Высота хедера
       });
     }
   }, [scrollToSection]);
@@ -39,6 +40,7 @@ const MainContent = ({ scrollToSection }) => {
       <NewsSection />
       <VacanciesSection />
       <ProjectsSection />
+      <PartnerSection />
     </>
   );
 };

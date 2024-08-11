@@ -5,6 +5,7 @@ import residentsReducer from "./slices/residentsSlice";
 import partnersReducer from "./slices/partnersSlice";
 import newsReducer from "./slices/newsSlice";
 import vacanciesReducer from "./slices/vacanciesSlice";
+import projectsReducer from "./slices/projectsSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,5 +14,6 @@ export const store = configureStore({
     partners: partnersReducer,
     news: newsReducer,
     vacancies: vacanciesReducer,
+    projects: projectsReducer,
   },
 });

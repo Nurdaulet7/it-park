@@ -31,8 +31,8 @@ const ResidentSection = () => {
 
   return (
     <Element
-      name="section-partners"
-      className="section container section-partners"
+      name="section-residents"
+      className="section container section-residents"
     >
       <header className="section__header">
         <h2 className="section__title">
