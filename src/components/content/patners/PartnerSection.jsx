@@ -5,10 +5,7 @@ import ProjectsSwiper from "../swiper/ProjectsSwiper";
 
 const PartnerSection = () => {
   return (
-    <Element
-      name="section-partners"
-      className="section container section-partners"
-    >
+    <div name="section-partners" className="section container section-partners">
       <header className="section__header">
         <h2 className="section__title">
           <FormattedMessage id="partners" />
@@ -21,7 +18,7 @@ const PartnerSection = () => {
           </div>
         </div>
       </div>
-    </Element>
+    </div>
   );
 };
 

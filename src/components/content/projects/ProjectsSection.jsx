@@ -2,6 +2,7 @@ import React from "react";
 import { FormattedMessage } from "react-intl";
 import { Element } from "react-scroll";
 import ProjectsSwiper from "../swiper/ProjectsSwiper";
+import PartnerSection from "../patners/PartnerSection";
 
 const ProjectsSection = () => {
   return (
@@ -21,6 +22,7 @@ const ProjectsSection = () => {
           </div>
         </div>
       </div>
+      <PartnerSection />
     </Element>
   );
 };

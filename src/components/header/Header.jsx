@@ -1,7 +1,7 @@
 import React from "react";
 import cn from "classnames";
 import styles from "./Header.module.scss";
-import logo from "../../images/logo-it-park.png.png";
+import logo from "../../images/logo-it-park.png";
 import { FaRegUser } from "react-icons/fa";
 import LanguageSwitcher from "../lngSwitcher/LanguageSwitcher";
 import { FormattedMessage } from "react-intl";

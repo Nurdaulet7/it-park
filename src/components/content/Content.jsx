@@ -18,7 +18,6 @@ import VacanciesSection from "./vacancies/VacanciesSection";
 import VacanciesPage from "./vacancies/VacanciesPage";
 import VacanciesDetailsSection from "./vacancies/VacanciesDetailsSection";
 import ProjectsSection from "./projects/ProjectsSection";
-import PartnerSection from "./patners/PartnerSection";
 
 const MainContent = ({ scrollToSection }) => {
   useEffect(() => {
@@ -40,7 +39,6 @@ const MainContent = ({ scrollToSection }) => {
       <NewsSection />
       <VacanciesSection />
       <ProjectsSection />
-      <PartnerSection />
     </>
   );
 };

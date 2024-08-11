@@ -7,7 +7,7 @@ import { AiOutlineHome } from "react-icons/ai";
 import { HiOutlineUserGroup } from "react-icons/hi2";
 import { LuPartyPopper } from "react-icons/lu";
 import { RiMegaphoneLine } from "react-icons/ri";
-import { FaRegHandshake } from "react-icons/fa";
+// import { FaRegHandshake } from "react-icons/fa";
 import {
   TbReportSearch,
   TbSettingsCog,
@@ -38,12 +38,12 @@ const menu_sections = [
     to: "section-projects",
     isInternal: true,
   },
-  {
-    id: "partners",
-    icon: FaRegHandshake,
-    to: "section-partners",
-    isInternal: true,
-  },
+  // {
+  //   id: "partners",
+  //   icon: FaRegHandshake,
+  //   to: "section-partners",
+  //   isInternal: true,
+  // },
   {
     id: "first_it_park",
     icon: TbRosetteNumber1,
