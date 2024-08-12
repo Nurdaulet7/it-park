@@ -44,12 +44,13 @@
   --accent-light: var(--color-accent);
   --color-gray-light: 54, 54, 54;
   --background-header-primary-light: var(--color-white);
-
+  --footer-light-color: var(--color-gray);
   // dark theme tokens
   --background-primary-dark: var(--color-dark-gray);
   --accent-dark: var(--color-accent);
   --color-gray-dark: 255, 255, 255;
   --background-header-primary-dark: var(--color-light-gray);
+  --footer-dark-color: var(--color-light-gray);
 }
 
 $header-height-desktop: 72px;
@@ -63,6 +64,7 @@ $header-height-tablet: 68px;
   --menu-text-color: var(--color-gray);
   --burger-color: var(--burger-light-color);
   --color-accent-hover: var(--color-accent-h);
+  --footer-background: var(--footer-light-color);
 }
 
 [data-theme="dark"] {
@@ -72,4 +74,5 @@ $header-height-tablet: 68px;
   --menu-text-color: var(--menu-dark-default-color);
   --burger-color: var(--burger-dark-color);
   --color-accent-hover: #2f2f2f;
+  --footer-background: var(--footer-dark-color);
 }

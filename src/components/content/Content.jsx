@@ -18,6 +18,7 @@ import VacanciesSection from "./vacancies/VacanciesSection";
 import VacanciesPage from "./vacancies/VacanciesPage";
 import VacanciesDetailsSection from "./vacancies/VacanciesDetailsSection";
 import ProjectsSection from "./projects/ProjectsSection";
+import BackToTop from "../toggle/BackToTop";
 
 const MainContent = ({ scrollToSection }) => {
   useEffect(() => {
@@ -47,6 +48,7 @@ const Content = ({ scrollToSection, setScrollToSection }) => {
   return (
     <main className={cn("layout", styles["main"])}>
       <ThemeToggle />
+      <BackToTop />
       <aside className={cn(styles["menu"])}>
         <Menu setScrollToSection={setScrollToSection} />
       </aside>

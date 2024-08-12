@@ -1,6 +1,43 @@
 .footer {
-  padding-block: 35px;
+  background-color: var(--footer-background);
+
+  &-body {
+    color: var(--menu-dark-default-color);
+    padding-block: 30px;
+  }
 
   &__inner {
+    @include desktop {
+      grid-template-columns: repeat(2, minmax(300px, 1fr));
+    }
+
+    @include tablet {
+      grid-template-columns: repeat(1, minmax(300px, 1fr));
+    }
+
+    &-content {
+      display: flex;
+      flex-direction: column;
+      row-gap: 25px;
+      justify-content: space-between;
+
+      &_bottom {
+        & .footer-line {
+          margin-block: 30px;
+        }
+
+        & .organization-link {
+          display: flex;
+          justify-content: center;
+          text-align: center;
+        }
+      }
+    }
+
+    &-map {
+      & > {
+        border-radius: 10px;
+      }
+    }
   }
 }

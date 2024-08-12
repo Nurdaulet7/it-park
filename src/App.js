@@ -31,7 +31,6 @@ function App({ setLocale }) {
             scrollToSection={scrollToSection}
             setScrollToSection={setScrollToSection}
           />
-          {/* <Footer /> */}
           <FooterComponent />
           <Dialog isOpen={isDialogOpen} onClose={handleCloseDialog}>
             <Menu setScrollToSection={setScrollToSection} />

@@ -1,0 +1,42 @@
+// src/components/BackToTop.module.scss
+@import "../../styles/styles.scss";
+
+.backToTop {
+  position: fixed;
+  width: 40px;
+  aspect-ratio: 1;
+  bottom: 20px;
+  right: var(--layout-padding-x);
+  border-radius: var(--border-radius);
+  background-color: var(--color-accent);
+  color: #fff;
+  padding: 10px;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+  z-index: 10;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @include mobile {
+    right: 0px;
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+  }
+
+  @include hover {
+    background-color: #444;
+  }
+
+  &.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}

@@ -27,6 +27,12 @@ export const messages = {
     our_vacancies: "Vacancies",
     view_all_vacancies: "All vacancies",
     our_projects: "Projects",
+    address: "Address: Gafur Mukhamedzhanov Street, IT-Park",
+    tel_number: "Phone",
+    mail: "Email",
+    copyright: "All rights reserved",
+    organization:
+      'KSU "Information Technology Center" under the Akimat of Kyzylorda Region',
   },
   [LOCALES.RUSSIAN]: {
     welcome: "IT PARK - место притяжения и развития информационных технологий",
@@ -54,6 +60,12 @@ export const messages = {
     our_vacancies: "Вакансии",
     view_all_vacancies: "Все вакансии",
     our_projects: "Проекты",
+    address: "Адрес: ул. Гафура Мухамеджанова, IT-Park",
+    tel_number: "Телефон",
+    mail: "Электронная почта",
+    copyright: "Все права защищены",
+    organization:
+      'КГУ "Центр информационных технологий" аппарата акима Кызылординской области',
   },
   [LOCALES.KAZAKH]: {
     welcome: "IT PARK - ақпараттық технологияларды тарту және дамыту орны",
@@ -81,5 +93,11 @@ export const messages = {
     our_vacancies: "Вакансиялар",
     view_all_vacancies: "Барлық вакансиялар",
     our_projects: "Жобалар",
+    address: "Мекен-жайы: Гафур Мухамеджанов көшесі, IT-Park",
+    tel_number: "Телефон",
+    mail: "Электрондық пошта",
+    copyright: "Барлық құқықтар қорғалған",
+    organization:
+      'Қызылорда облысы әкімі аппаратының "Ақпараттық технологиялар орталығы" КММ-сі',
   },
 };
