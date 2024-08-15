@@ -7,7 +7,6 @@ import Dialog from "./components/dialog-menu/Dialog";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { BrowserRouter } from "react-router-dom";
-import Footer from "./components/footer/FooterComponent";
 import FooterComponent from "./components/footer/FooterComponent";
 
 function App({ setLocale }) {
@@ -25,7 +24,7 @@ function App({ setLocale }) {
   return (
     <Provider store={store}>
       <BrowserRouter>
-        <div className="App">
+        <div className="App app-container">
           <Header onOpenDialog={handleOpenDialog} setLocale={setLocale} />
           <Content
             scrollToSection={scrollToSection}

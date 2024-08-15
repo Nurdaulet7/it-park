@@ -18,6 +18,7 @@ import {
   selectPartnersError,
   selectPartnersStatus,
 } from "../../../redux/slices/partnersSlice";
+import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 
 const ProjectsSwiper = ({ isPartners = false }) => {
   const [slidesPerView, setSlidesPerView] = useState(4);
@@ -34,7 +35,7 @@ const ProjectsSwiper = ({ isPartners = false }) => {
   const { locale } = useIntl();
 
   useEffect(() => {
-    if (status === "idle") {
+    if (status === "idle" || partners.length === 0) {
       dispatch(fetchProjects());
       dispatch(fetchPartners());
     }
@@ -111,7 +112,7 @@ const ProjectsSwiper = ({ isPartners = false }) => {
                     />
                   </div>
                   <p className={styles["swiper-slide__item-title"]}>
-                    {project.title_kk}
+                    {getTranslatedContent(project, "title", locale)}
                   </p>
                 </Link>
               </SwiperSlide>
