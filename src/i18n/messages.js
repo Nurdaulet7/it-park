@@ -33,6 +33,7 @@ export const messages = {
     copyright: "All rights reserved",
     organization:
       'KSU "Information Technology Center" under the Akimat of Kyzylorda Region',
+    share: "Share",
   },
   [LOCALES.RUSSIAN]: {
     welcome: "IT PARK - место притяжения и развития информационных технологий",
@@ -66,6 +67,7 @@ export const messages = {
     copyright: "Все права защищены",
     organization:
       'КГУ "Центр информационных технологий" аппарата акима Кызылординской области',
+    share: "Поделиться",
   },
   [LOCALES.KAZAKH]: {
     welcome: "IT PARK - ақпараттық технологияларды тарту және дамыту орны",
@@ -99,5 +101,6 @@ export const messages = {
     copyright: "Барлық құқықтар қорғалған",
     organization:
       'Қызылорда облысы әкімі аппаратының "Ақпараттық технологиялар орталығы" КММ-сі',
+    share: "Бөлісу",
   },
 };

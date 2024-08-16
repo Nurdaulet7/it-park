@@ -3,6 +3,10 @@
   flex-direction: column;
   row-gap: 40px;
 
+  &_item {
+    list-style-type: none;
+  }
+
   &-card {
     display: flex;
     flex-direction: column;
@@ -18,7 +22,7 @@
     transition: background-color 0.3s ease, transform 0.3s ease;
 
     @include hover {
-      transform: scale(1.05);
+      transform: scale(1.02);
     }
 
     &__header {
@@ -74,6 +78,36 @@
         #eye-icon {
           font-size: 20px;
         }
+      }
+    }
+
+    &-aside {
+      min-height: 200px;
+
+      & img {
+        display: none;
+      }
+
+      .news-card__body {
+        & h4 {
+          font-size: 18px;
+        }
+
+        @include desktop {
+          & h4 {
+            font-size: 16px;
+          }
+        }
+
+        @include mobile {
+          & h4 {
+            font-size: 20px;
+          }
+        }
+      }
+
+      .tag {
+        border-radius: 8px;
       }
     }
   }

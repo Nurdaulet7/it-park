@@ -4,12 +4,12 @@ import { FaRegEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 
-const NewsCard = ({ news }) => {
+const NewsCard = ({ news, forAside = false }) => {
   const { locale } = useIntl();
 
   return (
     <li className="news_item">
-      <article className="news-card">
+      <article className={`${forAside ? "news-card-aside" : ""} news-card`}>
         <div className="news-card__header">
           <img src={news.image} alt={news.title_en} />
         </div>

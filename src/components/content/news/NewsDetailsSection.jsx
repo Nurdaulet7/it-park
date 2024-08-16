@@ -10,6 +10,7 @@ import {
 import { selectEventsError } from "../../../redux/slices/eventsSlice";
 import { useIntl } from "react-intl";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
+import DetailedInfoPage from "../detail/DetailedInfoPage";
 
 const NewsDetailsSection = () => {
   const { id } = useParams();
@@ -36,23 +37,25 @@ const NewsDetailsSection = () => {
 
   if (!news) return <p>No news data available</p>;
 
-  return (
-    <div className="section container">
-      <header className="section__header">
-        <h2 className="section__title">
-          {getTranslatedContent(news, "title", locale)}
-        </h2>
-      </header>
-      <div className="section__body">
-        <p>{getTranslatedContent(news, "content", locale)}</p>
-        <p>{getTranslatedContent(news, "location", locale)}</p>
-        <img
-          src={news?.image}
-          alt={getTranslatedContent(news, "title", locale)}
-        />
-      </div>
-    </div>
-  );
+  return <DetailedInfoPage event={news} isNews />;
 };
 
 export default NewsDetailsSection;
+
+{
+  /* <div className="section container">
+<header className="section__header">
+  <h2 className="section__title">
+    {getTranslatedContent(news, "title", locale)}
+  </h2>
+</header>
+<div className="section__body">
+  <p>{getTranslatedContent(news, "content", locale)}</p>
+  <p>{getTranslatedContent(news, "location", locale)}</p>
+  <img
+    src={news?.image}
+    alt={getTranslatedContent(news, "title", locale)}
+  />
+</div>
+</div> */
+}

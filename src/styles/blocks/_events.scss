@@ -7,6 +7,10 @@
     display: flex;
     justify-content: center;
   }
+
+  &__item {
+    list-style-type: none;
+  }
 }
 
 .event {
@@ -39,6 +43,24 @@
       font-size: 18px;
       font-weight: 500;
       color: var(--color-light);
+    }
+
+    &-aside {
+      row-gap: 10px;
+      padding: 15px;
+      min-height: 250px;
+
+      & h3 {
+        font-size: 18px;
+      }
+
+      & p {
+        font-size: 16px;
+      }
+
+      & .button-event {
+        height: 35px;
+      }
     }
 
     @include hover {

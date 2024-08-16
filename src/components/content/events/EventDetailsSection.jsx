@@ -5,9 +5,9 @@ import {
   fetchEvents,
   setCurrentEvent,
 } from "../../../redux/slices/eventsSlice";
-import { useIntl } from "react-intl";
-import { getTranslatedContent } from "../../../utils/getTranslatedContent";
+
 import { scrollToTop } from "../../../utils/scrollToTop";
+import DetailedInfoPage from "../detail/DetailedInfoPage";
 
 const EventDetailsSection = () => {
   const { id } = useParams();
@@ -15,7 +15,6 @@ const EventDetailsSection = () => {
   const event = useSelector((state) => state.events.currentEvent);
   const status = useSelector((state) => state.events.status);
   const error = useSelector((state) => state.events.error);
-  const { locale } = useIntl();
 
   useEffect(() => {
     scrollToTop();
@@ -33,23 +32,7 @@ const EventDetailsSection = () => {
 
   if (!event) return <p>No event data available</p>;
 
-  return (
-    <div className="section container">
-      <header className="section__header">
-        <h2 className="section__title">
-          {getTranslatedContent(event, "title", locale)}
-        </h2>
-      </header>
-      <div className="section__body">
-        <p>{getTranslatedContent(event, "content", locale)}</p>
-        <p>{getTranslatedContent(event, "location", locale)}</p>
-        <img
-          src={event?.image}
-          alt={getTranslatedContent(event, "title", locale)}
-        />
-      </div>
-    </div>
-  );
+  return <DetailedInfoPage event={event} />;
 };
 
 export default EventDetailsSection;
