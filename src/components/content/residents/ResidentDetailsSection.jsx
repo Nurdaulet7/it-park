@@ -14,7 +14,6 @@ import {
 import {
   fetchProjects,
   selectProjects,
-  setCurrentProject,
 } from "../../../redux/slices/projectsSlice";
 import { FormattedMessage, useIntl } from "react-intl";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";

@@ -74,3 +74,69 @@
     }
   }
 }
+
+.vacancy-details {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  row-gap: 20px;
+  color: var(--menu-text-color);
+
+  .vacancy-card__header p {
+    font-weight: 600;
+  }
+
+  .vacancy__content {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+
+    &-title {
+      & h3 {
+        margin: 0;
+      }
+    }
+
+    &-details {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+
+      & .detail-item {
+        @include mobile {
+          width: 100%;
+        }
+
+        display: flex;
+        min-width: 150px;
+        flex-direction: column;
+        padding: 10px 15px;
+        background-color: var(--background-header-primary);
+        row-gap: 10px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        align-items: baseline;
+
+        p {
+          margin: 0;
+        }
+
+        & :first-child {
+          color: var(--color-accent);
+          font-weight: 600;
+        }
+      }
+    }
+
+    &-body {
+      display: flex;
+      flex-direction: column;
+      row-gap: 10px;
+
+      h5 {
+        margin: 0;
+        color: var(--color-accent);
+      }
+    }
+  }
+}

@@ -103,7 +103,10 @@ const ProjectsSwiper = ({ isPartners = false }) => {
         : projects.map((project, index) => {
             return (
               <SwiperSlide key={index} className={styles["swiper-slide"]}>
-                <Link to={"/events"} className={styles["swiper-slide__item"]}>
+                <Link
+                  to={`/projects/${project.id}`}
+                  className={styles["swiper-slide__item"]}
+                >
                   <div className={styles["swiper-slide__item-img"]}>
                     <img
                       src={project.image}

@@ -1,0 +1,68 @@
+.project-details {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  color: var(--menu-text-color);
+
+  &__body {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+
+    @include tablet {
+      flex-wrap: wrap;
+    }
+  }
+
+  &__content {
+    width: 65%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+
+    @include desktop {
+      width: 55%;
+    }
+    @include tablet {
+      width: 100%;
+
+      order: 1;
+    }
+
+    h3 {
+      margin: 0;
+    }
+  }
+
+  &__img {
+    width: 35%;
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include desktop {
+      width: 45%;
+    }
+
+    @include tablet {
+      width: 100%;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    img {
+      height: 100%;
+      padding: 30px;
+      min-width: 200px;
+      padding: 30px;
+      object-fit: contain;
+      box-shadow: var(--shadow);
+      border-radius: var(--border-radius);
+      background-color: var(--background-header-primary);
+    }
+  }
+}

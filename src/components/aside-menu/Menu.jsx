@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link as ScrollLink } from "react-scroll";
 import { FormattedMessage } from "react-intl";
 import cn from "classnames";
@@ -47,21 +47,23 @@ const menu_sections = [
   {
     id: "first_it_park",
     icon: TbRosetteNumber1,
-    to: "section-first",
+    to: "/first_it_park",
     isInternal: false,
   },
   {
     id: "about_us",
     icon: MdOutlineErrorOutline,
-    to: "section-about",
+    to: "/about_us",
     isInternal: false,
   },
 ];
 
 const Menu = ({ setScrollToSection }) => {
   const navigate = useNavigate();
+  const [activeSection, setActiveSection] = useState(null);
 
-  const handleNavigation = (path, isExternal) => {
+  const handleNavigation = (path, isExternal, sectionId) => {
+    setActiveSection(sectionId);
     if (isExternal) {
       navigate(path);
     } else {
@@ -100,13 +102,15 @@ const Menu = ({ setScrollToSection }) => {
       {menu_sections.map((section, index) => (
         <li key={index} className={cn(styles["menu__list-item"])}>
           <ScrollLink
-            onClick={() => handleNavigation(section.to, !section.isInternal)}
+            onClick={() =>
+              handleNavigation(section.to, !section.isInternal, section.id)
+            }
             activeClass={styles["active"]}
             to={section.to}
             spy={true}
             smooth={true}
             offset={-96} // Высота хедера
-            duration={200}
+            duration={100}
             className={cn(
               styles["menu__list-link"],
               "button button--transparent button--transparent--menu"

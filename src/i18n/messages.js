@@ -34,6 +34,11 @@ export const messages = {
     organization:
       'KSU "Information Technology Center" under the Akimat of Kyzylorda Region',
     share: "Share",
+    download: "Download",
+    job_type: "Type of job",
+    employment: "Employment type",
+    salary: "Salary",
+    summary: "Summary",
   },
   [LOCALES.RUSSIAN]: {
     welcome: "IT PARK - место притяжения и развития информационных технологий",
@@ -68,6 +73,11 @@ export const messages = {
     organization:
       'КГУ "Центр информационных технологий" аппарата акима Кызылординской области',
     share: "Поделиться",
+    download: "Скачать файл",
+    job_type: "Тип работы",
+    employment: "Тип занятности",
+    salary: "Заработная плата",
+    summary: "Краткое описание",
   },
   [LOCALES.KAZAKH]: {
     welcome: "IT PARK - ақпараттық технологияларды тарту және дамыту орны",
@@ -102,5 +112,10 @@ export const messages = {
     organization:
       'Қызылорда облысы әкімі аппаратының "Ақпараттық технологиялар орталығы" КММ-сі',
     share: "Бөлісу",
+    download: "Файлды жүктеу",
+    job_type: "Жұмыс түрі",
+    employment: "Жұмыспен қамту түрі",
+    salary: "Айлық көрсеткіші",
+    summary: "Қысқаша сипаттама",
   },
 };

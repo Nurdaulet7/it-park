@@ -51,11 +51,11 @@ const DetailedInfoPage = ({ event, isNews = false }) => {
               />
             </span>
             <h3>{getTranslatedContent(event, "title", locale)}</h3>
-            <p>
+            <div>
               {formatTextWithParagraphs(
                 getTranslatedContent(event, "content", locale)
               )}
-            </p>
+            </div>
           </div>
           <div className="detailed-info__content-share">
             <span className="share-text">

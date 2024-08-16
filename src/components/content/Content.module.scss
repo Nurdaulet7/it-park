@@ -98,3 +98,7 @@
   width: 100%;
   margin-bottom: 50px;
 }
+
+.menu__list-item--active {
+  background-color: var(--color-accent) !important;
+}

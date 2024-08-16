@@ -19,12 +19,15 @@ import VacanciesPage from "./vacancies/VacanciesPage";
 import VacanciesDetailsSection from "./vacancies/VacanciesDetailsSection";
 import ProjectsSection from "./projects/ProjectsSection";
 import BackToTop from "../toggle/BackToTop";
+import ProjectDetailsPage from "./projects/ProjectDetailsPage";
+import FirstItPark from "../../pages/FirstItPark";
+import AboutUs from "../../pages/AboutUs";
 
 const MainContent = ({ scrollToSection }) => {
   useEffect(() => {
     if (scrollToSection) {
       scroller.scrollTo(scrollToSection, {
-        duration: 200,
+        duration: 100,
         delay: 0,
         smooth: "easeInOutQuart",
         offset: -96, // Высота хедера
@@ -65,6 +68,9 @@ const Content = ({ scrollToSection, setScrollToSection }) => {
           <Route path="/news/:id" element={<NewsDetailsSection />} />
           <Route path="/vacancies" element={<VacanciesPage />} />
           <Route path="/vacancies/:id" element={<VacanciesDetailsSection />} />
+          <Route path="/projects/:id" element={<ProjectDetailsPage />} />
+          <Route path="/first_it_park" element={<FirstItPark />} />
+          <Route path="/about_us" element={<AboutUs />} />
         </Routes>
       </div>
     </main>

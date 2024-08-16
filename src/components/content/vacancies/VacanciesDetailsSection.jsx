@@ -11,7 +11,7 @@ import {
 import { scrollToTop } from "../../../utils/scrollToTop";
 import { setCurrentEvent } from "../../../redux/slices/eventsSlice";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
-import { useIntl } from "react-intl";
+import { FormattedMessage, useIntl } from "react-intl";
 
 const VacanciesDetailsSection = () => {
   const { id } = useParams();
@@ -39,19 +39,43 @@ const VacanciesDetailsSection = () => {
   if (!vacancy) return <p>No vacancy data available</p>;
 
   return (
-    <div className="section container">
-      <header className="section__header">
-        <h2 className="section__title">
-          {getTranslatedContent(vacancy, "title", locale)}
-        </h2>
-      </header>
-      <div className="section__body">
-        <p>{getTranslatedContent(vacancy, "content", locale)}</p>
-        <p>{getTranslatedContent(vacancy, "location", locale)}</p>
-        <img
-          src={vacancy?.image}
-          alt={getTranslatedContent(vacancy, "title", locale)}
-        />
+    <div className="container vacancy-details">
+      <div className="vacancy-card__header">
+        <div className="header-image">
+          <img src={vacancy.image} alt={vacancy.title_en} />
+        </div>
+        <p>{vacancy.too_name}</p>
+      </div>
+      <div className="vacancy__content">
+        <div className="vacancy__content-title">
+          <h3>{getTranslatedContent(vacancy, "title", locale)}</h3>
+        </div>
+        <div className="vacancy__content-details">
+          <div className="detail-item">
+            <p>
+              <FormattedMessage id="job_type" />
+            </p>
+            <p>{getTranslatedContent(vacancy, "type_work", locale)}</p>
+          </div>
+          <div className="detail-item">
+            <p>
+              <FormattedMessage id="employment" />
+            </p>
+            <p>{getTranslatedContent(vacancy, "type_zan", locale)}</p>
+          </div>
+          <div className="detail-item">
+            <p>
+              <FormattedMessage id="salary" />
+            </p>
+            <p>{vacancy.price} ₸</p>
+          </div>
+        </div>
+        <div className="vacancy__content-body">
+          <h5>
+            <FormattedMessage id="summary" />
+          </h5>
+          <p>{getTranslatedContent(vacancy, "desc", locale)}</p>
+        </div>
       </div>
     </div>
   );
