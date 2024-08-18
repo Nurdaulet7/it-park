@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { scrollToTop } from "../utils/scrollToTop";
 
 const AboutUs = () => {
+  useEffect(() => {
+    scrollToTop();
+  }, []);
   return (
     <div>
       <h2>About Us Section</h2>

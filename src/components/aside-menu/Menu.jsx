@@ -61,10 +61,12 @@ const menu_sections = [
 const Menu = ({ setScrollToSection }) => {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState(null);
+  const [homePath, setCurrentPath] = useState(null);
 
   const handleNavigation = (path, isExternal, sectionId) => {
-    setActiveSection(sectionId);
+    setCurrentPath(!isExternal);
     if (isExternal) {
+      setActiveSection(sectionId);
       navigate(path);
     } else {
       setScrollToSection(path);
@@ -105,7 +107,7 @@ const Menu = ({ setScrollToSection }) => {
             onClick={() =>
               handleNavigation(section.to, !section.isInternal, section.id)
             }
-            activeClass={styles["active"]}
+            activeClass={homePath && styles["active"]}
             to={section.to}
             spy={true}
             smooth={true}
@@ -113,7 +115,8 @@ const Menu = ({ setScrollToSection }) => {
             duration={100}
             className={cn(
               styles["menu__list-link"],
-              "button button--transparent button--transparent--menu"
+              "button button--transparent button--transparent--menu",
+              homePath ? "" : activeSection === section.id && styles["active"]
             )}
           >
             <span className={cn(styles["menu__list-item-icon"])}>
