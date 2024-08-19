@@ -30,7 +30,7 @@ const MainContent = ({ scrollToSection }) => {
         duration: 100,
         delay: 0,
         smooth: "easeInOutQuart",
-        offset: -96, // Высота хедера
+        offset: -95.5, // Высота хедера
       });
     }
   }, [scrollToSection]);

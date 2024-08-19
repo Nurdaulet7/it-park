@@ -4,9 +4,21 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FormattedDate, FormattedMessage, useIntl } from "react-intl";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
+import Skeleton from "@mui/material/Skeleton";
 
 const EventCard = ({ event, forAside = false }) => {
   const { locale } = useIntl();
+  if (!event) {
+    return (
+      <li className="events__item">
+        <article className={`${forAside ? "event-card-aside" : ""} event-card`}>
+          <Skeleton variant="text" width="20%" height={30} />
+          <Skeleton variant="text" width="80%" height={80} />
+          <Skeleton variant="text" width="30%" height={45} />
+        </article>
+      </li>
+    );
+  }
 
   return (
     <li className="events__item">

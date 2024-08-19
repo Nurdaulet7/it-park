@@ -14,7 +14,7 @@ import {
   TbRosetteNumber1,
 } from "react-icons/tb";
 import { MdOutlineErrorOutline } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const menu_sections = [
   { id: "home", icon: AiOutlineHome, to: "section-home", isInternal: true },
@@ -89,7 +89,7 @@ const Menu = ({ setScrollToSection }) => {
         )}
       />
       <a
-        href="/"
+        href="#"
         className={cn(
           "button button--tablet-button",
           styles["tablet-button"],
@@ -107,7 +107,9 @@ const Menu = ({ setScrollToSection }) => {
             onClick={() =>
               handleNavigation(section.to, !section.isInternal, section.id)
             }
-            activeClass={homePath && styles["active"]}
+            activeClass={
+              homePath || activeSection === null ? styles["active"] : ""
+            }
             to={section.to}
             spy={true}
             smooth={true}

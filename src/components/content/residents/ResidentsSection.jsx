@@ -1,5 +1,3 @@
-// SectionPartners.jsx
-
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Element } from "react-scroll";
@@ -12,6 +10,7 @@ import {
 import { FormattedMessage, useIntl } from "react-intl";
 import { Link } from "react-router-dom";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
+import Skeleton from "@mui/material/Skeleton";
 
 const ResidentSection = () => {
   const dispatch = useDispatch();
@@ -26,7 +25,36 @@ const ResidentSection = () => {
     }
   }, [status, dispatch]);
 
-  if (status === "loading") return <p>Loading...</p>;
+  if (status === "loading") {
+    return (
+      <Element
+        name="section-residents"
+        className="section container section-residents"
+      >
+        <header className="section__header">
+          <h2 className="section__title">
+            <FormattedMessage id="our_residents" />
+          </h2>
+        </header>
+        <div className="section__body">
+          <div className="residents">
+            <ul className="residents__list grid grid--3">
+              {[...Array(6)].map((_, index) => (
+                <li key={index} className="residents__item">
+                  <article className="resident-card">
+                    <div className="resident-card__logo">
+                      <Skeleton variant="circular" width={100} height={80} />
+                    </div>
+                    <Skeleton width="70%" height="2rem" />
+                  </article>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </Element>
+    );
+  }
   if (status === "failed") return <p>Error: {error}</p>;
 
   return (

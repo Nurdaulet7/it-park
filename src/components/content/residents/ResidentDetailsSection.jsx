@@ -57,7 +57,7 @@ const ResidentDetailsSection = () => {
           src={resident?.image}
           width={350}
           height={200}
-          alt={getTranslatedContent(resident, "name", locale)}
+          alt={resident.name_en}
         />
         <div className="detail-section__body-content">
           <div className="content-header">

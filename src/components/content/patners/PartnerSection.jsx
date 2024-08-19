@@ -13,7 +13,7 @@ const PartnerSection = () => {
       </header>
       <div className="section__body">
         <div className="residents">
-          <div className="residents__list grid grid--1">
+          <div className="residents__list ">
             <ProjectsSwiper isPartners={true} />
           </div>
         </div>

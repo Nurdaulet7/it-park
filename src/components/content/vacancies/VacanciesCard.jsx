@@ -3,9 +3,32 @@ import { FormattedDate, useIntl } from "react-intl";
 import { FaRegEye } from "react-icons/fa";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import { Link } from "react-router-dom";
+import Skeleton from "@mui/material/Skeleton";
 
-const VacanciesCard = ({ vacancy }) => {
+const VacanciesCard = ({ vacancy, forSkeleton = false }) => {
   const { locale } = useIntl();
+
+  if (forSkeleton) {
+    return (
+      <li className="vacancy_item">
+        <article className="vacancy-card">
+          <div className="vacancy-card__header">
+            <Skeleton variant="circle" width="40px" height={40} />
+            <Skeleton variant="text" width="30%" />
+          </div>
+          <div className="vacancy-card__body">
+            <Skeleton variant="text" width="80%" />
+            <Skeleton variant="text" width="100%" />
+            <Skeleton variant="text" width="20%" />
+          </div>
+          <div className="vacancy-card__footer">
+            <Skeleton variant="text" width="10%" />
+            <Skeleton variant="text" width="20%" />
+          </div>
+        </article>
+      </li>
+    );
+  }
 
   return (
     <li className="vacancy_item">

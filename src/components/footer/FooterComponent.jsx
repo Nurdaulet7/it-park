@@ -33,7 +33,7 @@ const FooterComponent = () => {
               </p>
             </div>
           </div>
-          <div className="footer__inner-map">
+          <div className="">
             <YandexMap className="map" />
           </div>
         </div>

@@ -19,6 +19,7 @@ import {
   selectPartnersStatus,
 } from "../../../redux/slices/partnersSlice";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
+import Skeleton from "@mui/material/Skeleton";
 
 const ProjectsSwiper = ({ isPartners = false }) => {
   const [slidesPerView, setSlidesPerView] = useState(4);
@@ -64,10 +65,12 @@ const ProjectsSwiper = ({ isPartners = false }) => {
   }, [status, dispatch]);
 
   if (isPartners) {
-    if (partnersStatus === "loading") return <p>Loading...</p>;
+    if (partnersStatus === "loading")
+      return <Skeleton variant="rectangular" width="100%" height={180} />;
     if (partnersStatus === "failed") return <p>Error: {partnersError}</p>;
   } else {
-    if (status === "loading") return <p>Loading...</p>;
+    if (status === "loading")
+      return <Skeleton variant="rectangular" width="100%" height={180} />;
     if (status === "failed") return <p>Error: {error}</p>;
   }
 

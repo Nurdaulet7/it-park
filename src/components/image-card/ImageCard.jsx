@@ -29,11 +29,7 @@ const ImageCard = ({ images, galleryId, titles }) => {
           data-fancybox={galleryId}
           style={{ display: "none" }}
         >
-          <img
-            src={image.src}
-            alt={`Gallery image ${index + 1}`}
-            loading="lazy"
-          />
+          <img src={image.src} alt={titles["en"]} loading="lazy" />
         </a>
       ))}
     </div>

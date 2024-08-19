@@ -10,6 +10,7 @@ import {
 import EventCard from "./EventCard";
 import { useState } from "react";
 import { scrollToTop } from "../../../utils/scrollToTop";
+import Skeleton from "@mui/material/Skeleton";
 
 const Events = () => {
   const dispatch = useDispatch();
@@ -28,7 +29,30 @@ const Events = () => {
     }
   }, [status, dispatch]);
 
-  if (status === "loading") return <p>Loading...</p>;
+  if (status === "loading") {
+    return (
+      <div className="container">
+        <header className="section__header">
+          <h2 className="section__title">
+            <FormattedMessage id="our_events" />
+          </h2>
+        </header>
+        <div className="section__body">
+          <div className="events">
+            <ul className="events__list grid grid--3">
+              {[...Array(itemsPerPage)].map((_, index) => (
+                <li key={index}>
+                  <Skeleton variant="rectangular" width="100%" height={180} />
+                  <Skeleton variant="text" />
+                  <Skeleton variant="text" width="60%" />
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    );
+  }
   if (status === "failed") return <p>Error: {error}</p>;
 
   const indexOfLastItem = currentPage * itemsPerPage;
