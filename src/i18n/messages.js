@@ -39,6 +39,10 @@ export const messages = {
     employment: "Employment type",
     salary: "Salary",
     summary: "Summary",
+    it_park_text1:
+      "This is a technopark operating in the field of information technology, a place where active, talented people turn their ideas into real projects.",
+    it_park_text2:
+      "The park was created to support and develop startup projects in the field of ICT, to prepare and test 2D and 3D graphic projects on laboratory simulators, controllers, and video panels using VR/AR technologies, to provide coworking center services aimed at improving the technological efficiency of IT projects, and to conduct training courses on various programs in the field of IT.",
   },
   [LOCALES.RUSSIAN]: {
     welcome: "IT PARK - место притяжения и развития информационных технологий",
@@ -78,6 +82,10 @@ export const messages = {
     employment: "Тип занятности",
     salary: "Заработная плата",
     summary: "Краткое описание",
+    it_park_text1:
+      "Это технопарк, работающий в области информационных технологий место, где активные, талантливые люди превращают свои идеи в реальные дела.",
+    it_park_text2:
+      "Парк создан в целях поддержки и развития стартап проектов в сфере ИКТ, подготовки и тестирования 2D и 3D графических проектов на лабораторных симуляторах, контроллерах и видеопанелях по VR/AR технологиям, предоставления услуг коворкинг центра по развитию и повышению технологической эффективности IT проектов, проведения обучающих курсов по различным программам в сфере ІТ.",
   },
   [LOCALES.KAZAKH]: {
     welcome: "IT PARK - ақпараттық технологияларды тарту және дамыту орны",
@@ -117,5 +125,9 @@ export const messages = {
     employment: "Жұмыспен қамту түрі",
     salary: "Айлық көрсеткіші",
     summary: "Қысқаша сипаттама",
+    it_park_text1:
+      "Бұл ақпараттық технологиялар саласында жұмыс істейтін технопарк, белсенді, талантты адамдар өз идеяларын шынайы істерге айналдыратын орын.",
+    it_park_text2:
+      "Парк ИКТ саласындағы стартап жобаларды қолдау және дамыту, зертханалық симуляторлар, контроллерлер және VR/AR технологиялары бойынша видеопанельдерде 2D және 3D графикалық жобаларды дайындау және тестілеу, IT жобаларының технологиялық тиімділігін арттыруға арналған коворкинг орталығының қызметтерін ұсыну, ІТ саласындағы әртүрлі бағдарламалар бойынша оқыту курстарын өткізу мақсатында құрылды.",
   },
 };

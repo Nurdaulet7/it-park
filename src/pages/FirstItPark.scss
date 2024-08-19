@@ -1,0 +1,54 @@
+@import "../styles/styles.scss";
+
+.it--container {
+  padding-inline: 0px;
+}
+
+.image-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+
+  h4 {
+    text-align: center;
+    margin: 0;
+    @include abs-center;
+    color: #fff;
+    z-index: 1; // Убедитесь, что текст находится поверх затемняющего слоя
+  }
+
+  a {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    border-radius: 8px;
+
+    img {
+      width: 100%;
+      display: block;
+      transition: transform 0.3s ease;
+      border-radius: var(--border-radius);
+    }
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4); // Полупрозрачный темный слой
+      z-index: 1;
+      transition: background 0.3s ease;
+    }
+
+    &:hover::before {
+      background: rgba(0, 0, 0, 0.6); // Увеличение затенения при наведении
+    }
+
+    &:hover img {
+      transform: scale(1.05); // Легкое увеличение изображения при наведении
+    }
+  }
+}

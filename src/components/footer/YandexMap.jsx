@@ -25,4 +25,5 @@ const YandexMap = () => {
   );
 };
 
+// 7404d4a8-4302-4310-91cf-395abdc9ccc2
 export default YandexMap;

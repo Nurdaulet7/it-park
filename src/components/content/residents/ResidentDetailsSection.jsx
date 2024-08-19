@@ -2,7 +2,7 @@
 
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   fetchResidents,
   selectCurrentResident,
@@ -93,7 +93,11 @@ const ResidentDetailsSection = () => {
           <div className="projects-list grid grid--3">
             {residentProjects.map((project, index) => {
               return (
-                <a href={"/"} className="projects-list__item" key={index}>
+                <Link
+                  to={`/projects/${project.id}`}
+                  className="projects-list__item"
+                  key={index}
+                >
                   <div className="projects-list__item-img">
                     <img
                       src={project.image}
@@ -104,7 +108,7 @@ const ResidentDetailsSection = () => {
                   <p className={"projects-list__item-title"}>
                     {getTranslatedContent(project, "title", locale)}
                   </p>
-                </a>
+                </Link>
               );
             })}
           </div>

@@ -1,0 +1,59 @@
+@import "../styles/styles.scss";
+
+.about-container {
+  padding-inline: 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  color: var(--menu-text-color);
+
+  p,
+  span {
+    font-size: 18px;
+  }
+
+  &__content {
+    display: flex;
+    gap: 20px;
+
+    @include tablet {
+      flex-wrap: wrap;
+    }
+
+    & .content-texts {
+      width: 50%;
+      display: flex;
+      flex-direction: column;
+      row-gap: 20px;
+
+      h2,
+      p {
+        margin: 0;
+      }
+
+      & .about-contacts {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      @include tablet {
+        width: 100%;
+      }
+    }
+
+    & .content-img {
+      width: 50%;
+
+      img {
+        width: 100%;
+        height: auto;
+        max-height: 700px;
+      }
+
+      @include tablet {
+        width: 100%;
+      }
+    }
+  }
+}

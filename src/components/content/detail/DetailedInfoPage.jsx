@@ -31,7 +31,7 @@ const DetailedInfoPage = ({ event, isNews = false }) => {
     : allEvents.filter((e) => e.id !== event.id);
 
   return (
-    <div className="section container detailed-info">
+    <div className="container detailed-info">
       <div className="detailed-info__body">
         <div className="detailed-info__content">
           <img
