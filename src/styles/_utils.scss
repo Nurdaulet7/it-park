@@ -59,3 +59,21 @@
     display: none !important;
   }
 }
+
+.skeleton {
+  background-color: var(--color-accent);
+  border-radius: 10px;
+  animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: var(--skeleton-background);
+  }
+  50% {
+    background-color: var(--skeleton-background);
+  }
+  100% {
+    background-color: var(--skeleton-background);
+  }
+}

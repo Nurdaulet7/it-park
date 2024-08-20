@@ -11,6 +11,7 @@ import { selectEventsError } from "../../../redux/slices/eventsSlice";
 import { useIntl } from "react-intl";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import DetailedInfoPage from "../detail/DetailedInfoPage";
+import SkeletonDetail from "../../skeleton/SkeletonDetail";
 
 const NewsDetailsSection = () => {
   const { id } = useParams();
@@ -32,7 +33,7 @@ const NewsDetailsSection = () => {
     }
   }, [dispatch, id, status]);
 
-  if (status === "loading") return <p>Loading...</p>;
+  if (status === "loading") return <SkeletonDetail />;
   if (status === "failed") return <p>Error: {error}</p>;
 
   if (!news) return <p>No news data available</p>;

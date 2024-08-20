@@ -65,6 +65,7 @@ $header-height-tablet: 68px;
   --burger-color: var(--burger-light-color);
   --color-accent-hover: var(--color-accent-h);
   --footer-background: var(--footer-light-color);
+  --skeleton-background: var(--menu-dark-default-color);
 }
 
 [data-theme="dark"] {
@@ -75,4 +76,5 @@ $header-height-tablet: 68px;
   --burger-color: var(--burger-dark-color);
   --color-accent-hover: #2f2f2f;
   --footer-background: var(--footer-dark-color);
+  --skeleton-background: var(--background-header-primary-dark);
 }

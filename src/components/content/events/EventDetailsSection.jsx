@@ -8,6 +8,7 @@ import {
 
 import { scrollToTop } from "../../../utils/scrollToTop";
 import DetailedInfoPage from "../detail/DetailedInfoPage";
+import SkeletonDetail from "../../skeleton/SkeletonDetail";
 
 const EventDetailsSection = () => {
   const { id } = useParams();
@@ -27,7 +28,7 @@ const EventDetailsSection = () => {
     }
   }, [dispatch, id, status]);
 
-  if (status === "loading") return <p>Loading...</p>;
+  if (status === "loading") return <SkeletonDetail />;
   if (status === "failed") return <p>Error: {error}</p>;
 
   if (!event) return <p>No event data available</p>;

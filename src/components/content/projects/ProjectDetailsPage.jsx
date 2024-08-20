@@ -11,6 +11,7 @@ import {
 import { FormattedMessage, useIntl } from "react-intl";
 import { scrollToTop } from "../../../utils/scrollToTop";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
+import SkeletonDetail from "../../skeleton/SkeletonDetail";
 
 const ProjectDetailsPage = () => {
   const { id } = useParams();
@@ -31,7 +32,7 @@ const ProjectDetailsPage = () => {
     }
   }, [dispatch, id, status]);
 
-  if (status === "loading") return <p>Loading...</p>;
+  if (status === "loading") return <SkeletonDetail />;
   if (status === "failed") return <p>Error: {error}</p>;
   if (!project) return <p>No project data available</p>;
 

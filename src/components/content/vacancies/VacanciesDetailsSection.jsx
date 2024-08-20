@@ -12,6 +12,7 @@ import { scrollToTop } from "../../../utils/scrollToTop";
 import { setCurrentEvent } from "../../../redux/slices/eventsSlice";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import { FormattedMessage, useIntl } from "react-intl";
+import SkeletonDetail from "../../skeleton/SkeletonDetail";
 
 const VacanciesDetailsSection = () => {
   const { id } = useParams();
@@ -33,7 +34,7 @@ const VacanciesDetailsSection = () => {
     }
   }, [dispatch, id, status]);
 
-  if (status === "loading") return <p>Loading...</p>;
+  if (status === "loading") return <SkeletonDetail />;
   if (status === "failed") return <p>Error: {error}</p>;
 
   if (!vacancy) return <p>No vacancy data available</p>;
