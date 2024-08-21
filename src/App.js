@@ -32,7 +32,10 @@ function App({ setLocale }) {
           />
           <FooterComponent />
           <Dialog isOpen={isDialogOpen} onClose={handleCloseDialog}>
-            <Menu setScrollToSection={setScrollToSection} />
+            <Menu
+              setScrollToSection={setScrollToSection}
+              onMenuItemClick={handleCloseDialog} // Закрытие диалога при клике на пункт меню
+            />
           </Dialog>
         </div>
       </BrowserRouter>

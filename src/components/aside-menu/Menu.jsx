@@ -58,7 +58,7 @@ const menu_sections = [
   },
 ];
 
-const Menu = ({ setScrollToSection }) => {
+const Menu = ({ setScrollToSection, onMenuItemClick }) => {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState(null);
   const [homePath, setCurrentPath] = useState(null);
@@ -71,6 +71,10 @@ const Menu = ({ setScrollToSection }) => {
     } else {
       setScrollToSection(path);
       navigate("/");
+    }
+
+    if (onMenuItemClick) {
+      onMenuItemClick();
     }
   };
 

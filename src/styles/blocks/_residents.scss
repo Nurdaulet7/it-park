@@ -67,6 +67,7 @@
       box-shadow: var(--shadow);
       min-height: 300px;
       height: auto;
+      object-fit: contain;
 
       @include mobile {
         order: 1;
