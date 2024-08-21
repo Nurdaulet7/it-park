@@ -38,7 +38,10 @@
     }
   }
 
-  &--form-input {
+  &--form-input-select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
     @include hover {
       color: var(--menu-text-color);
       background-color: var(--background-header-primary);
