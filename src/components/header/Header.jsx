@@ -6,7 +6,7 @@ import { FaRegUser } from "react-icons/fa";
 import LanguageSwitcher from "../lngSwitcher/LanguageSwitcher";
 import { FormattedMessage } from "react-intl";
 
-const Header = ({ onOpenDialog, setLocale }) => {
+const Header = ({ onOpenDialog, onOpenRegisterForm, setLocale }) => {
   return (
     <header className={cn(styles["header"])}>
       <div className={cn(styles["header__inner"], "layout")}>
@@ -32,8 +32,8 @@ const Header = ({ onOpenDialog, setLocale }) => {
               />
             )}
           />
-          <a
-            href="/"
+          <button
+            onClick={onOpenRegisterForm}
             className={cn(
               "button",
               "button--transparent",
@@ -45,18 +45,10 @@ const Header = ({ onOpenDialog, setLocale }) => {
               id="become_resident"
               defaultMessage="Стать резидентом"
             />
-          </a>
-          {/* <button
-            className={cn(
-              "button",
-              "button--transparent",
-              styles["header__button"]
-            )}
-          >
-            RU
-          </button> */}
+          </button>
           <LanguageSwitcher setLocale={setLocale} />
           <button
+            onClick={onOpenRegisterForm}
             className={cn(
               "button",
               "button--transparent",

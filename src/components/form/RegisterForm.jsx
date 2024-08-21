@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Dialog from "../dialog-menu/Dialog";
 
 const RegisterForm = ({ isOpen, onClose }) => {
   const [formData, setFormData] = useState({
@@ -22,66 +21,75 @@ const RegisterForm = ({ isOpen, onClose }) => {
   };
 
   return (
-    <Dialog isOpen={isOpen} onClose={onClose}>
-      <div className="register-form">
-        <h2>Зарегистрироваться</h2>
-        <form onSubmit={handleSubmit}>
-          <div>
-            <label>Название ТОО</label>
-            <input
-              type="text"
-              name="companyName"
-              value={formData.companyName}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label>Сфера деятельности</label>
-            <input
-              type="text"
-              name="activityField"
-              value={formData.activityField}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label>Ф.И.О</label>
-            <input
-              type="text"
-              name="fullName"
-              value={formData.fullName}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label>Телефон</label>
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div>
-            <label>Электронная почта</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <button type="submit" className="submit-button">
-            Отправить
-          </button>
-        </form>
+    <form className="register-form  form" onSubmit={handleSubmit}>
+      <h4>Стать резидентом</h4>
+      <div className="inputs">
+        <input
+          className="button--form-input button"
+          type="text"
+          name="companyName"
+          value={formData.companyName}
+          onChange={handleChange}
+          required
+          placeholder="Название ТОО"
+        />
+        <select
+          className="button--form-input-select button"
+          name="activityField"
+          value={formData.activityField}
+          onChange={handleChange}
+          required
+        >
+          <option value="" disabled>
+            Цифровизация
+          </option>
+          <option value="Образование">Образование</option>
+          <option value="Здравоохранение">Здравоохранение</option>
+          <option value="Финансы">Финансы</option>
+          <option value="Торговля">Торговля</option>
+          <option value="IT">IT</option>
+        </select>
+        {/* <input
+          className="button--form-input button "
+          type="text"
+          name="activityField"
+          value={formData.activityField}
+          onChange={handleChange}
+          required
+          placeholder="Цифровизация"
+        /> */}
+        <input
+          className="button--form-input button"
+          type="text"
+          name="fullName"
+          value={formData.fullName}
+          onChange={handleChange}
+          placeholder="Ф.И.О"
+          required
+        />
+        <input
+          className="button--form-input button"
+          type="tel"
+          name="phone"
+          value={formData.phone}
+          onChange={handleChange}
+          placeholder="Телефон"
+          required
+        />
+        <input
+          className="button--form-input button"
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="Электронная почта"
+          required
+        />
       </div>
-    </Dialog>
+      <button type="submit" className="button">
+        Отправить
+      </button>
+    </form>
   );
 };
 

@@ -46,7 +46,9 @@ const Carousel = () => {
         <SwiperSlide>
           <div className={styles["intro-info"]}>
             <div className={styles["title"]} data-swiper-parallax="-300">
-              <FormattedMessage id="welcome" />
+              <h2>
+                <FormattedMessage id="welcome" />
+              </h2>
             </div>
             <div className={styles["text"]} data-swiper-parallax="-100">
               <p>
@@ -61,7 +63,9 @@ const Carousel = () => {
         <SwiperSlide>
           <div className={styles["intro-info"]}>
             <div className={styles["title"]} data-swiper-parallax="-300">
-              <FormattedMessage id="welcome" />
+              <h2>
+                <FormattedMessage id="welcome" />
+              </h2>
             </div>
             <div className={styles["text"]} data-swiper-parallax="-100">
               <p>
