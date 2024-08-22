@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import cn from "classnames";
 import styles from "../content/Content.module.scss";
 import Menu from "../aside-menu/Menu";

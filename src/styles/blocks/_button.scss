@@ -28,26 +28,6 @@
     }
   }
 
-  &--form-input {
-    color: var(--menu-text-color);
-    background-color: var(--background-header-primary);
-
-    @include hover {
-      color: var(--color-white);
-      background-color: var(--background-header-primary);
-    }
-  }
-
-  &--form-input-select {
-    -webkit-appearance: none;
-    -moz-appearance: none;
-
-    @include hover {
-      color: var(--menu-text-color);
-      background-color: var(--background-header-primary);
-    }
-  }
-
   &--transparent {
     color: var(--menu-text-color);
     background-color: var(--background-primary);

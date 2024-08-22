@@ -7,13 +7,15 @@ import Dialog from "./components/dialog/Dialog";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { BrowserRouter } from "react-router-dom";
-import RegisterForm from "./components/form/RegisterForm";
-import FooterComponent from "./components/footer/FooterComponent";
 import FormDialog from "./components/dialog/FormDialog";
+import ResidentForm from "./components/form/ResidentForm";
+import FooterComponent from "./components/footer/FooterComponent";
+import LoginForm from "./components/form/LoginForm";
 
 function App({ setLocale }) {
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const [isRegisterFormOpen, setRegisterFormOpen] = useState(false);
+  const [isResidentFormOpen, setResidentFormOpen] = useState(false);
+  const [isLoginFormOpen, setLoginFormOpen] = useState(false);
   const [scrollToSection, setScrollToSection] = useState(null);
 
   const handleOpenDialog = () => {
@@ -24,12 +26,20 @@ function App({ setLocale }) {
     setDialogOpen(false);
   };
 
-  const handleOpenRegisterForm = () => {
-    setRegisterFormOpen(true);
+  const handleOpenResidentForm = () => {
+    setResidentFormOpen(true);
   };
 
-  const handleCloseRegisterForm = () => {
-    setRegisterFormOpen(false);
+  const handleCloseResidentForm = () => {
+    setResidentFormOpen(false);
+  };
+
+  const handleOpenLoginForm = () => {
+    setLoginFormOpen(true);
+  };
+
+  const handleCloseLoginForm = () => {
+    setLoginFormOpen(false);
   };
 
   return (
@@ -38,7 +48,8 @@ function App({ setLocale }) {
         <div className="App app-container">
           <Header
             onOpenDialog={handleOpenDialog}
-            onOpenRegisterForm={handleOpenRegisterForm}
+            onOpenResidentForm={handleOpenResidentForm}
+            onOpenLoginForm={handleOpenLoginForm}
             setLocale={setLocale}
           />
           <Content
@@ -50,14 +61,17 @@ function App({ setLocale }) {
             <Menu
               setScrollToSection={setScrollToSection}
               onMenuItemClick={handleCloseDialog} // Закрытие диалога при клике на пункт меню
-              onOpenRegisterForm={handleOpenRegisterForm}
+              onOpenResidentForm={handleOpenResidentForm}
             />
           </Dialog>
           <FormDialog
-            isOpen={isRegisterFormOpen}
-            onClose={handleCloseRegisterForm}
+            isOpen={isResidentFormOpen}
+            onClose={handleCloseResidentForm}
           >
-            <RegisterForm onClose={handleCloseRegisterForm} />
+            <ResidentForm onClose={handleCloseResidentForm} />
+          </FormDialog>
+          <FormDialog isOpen={isLoginFormOpen} onClose={handleCloseLoginForm}>
+            <LoginForm onClose={handleCloseLoginForm} />
           </FormDialog>
         </div>
       </BrowserRouter>

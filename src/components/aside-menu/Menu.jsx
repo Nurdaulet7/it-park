@@ -7,14 +7,13 @@ import { AiOutlineHome } from "react-icons/ai";
 import { HiOutlineUserGroup } from "react-icons/hi2";
 import { LuPartyPopper } from "react-icons/lu";
 import { RiMegaphoneLine } from "react-icons/ri";
-// import { FaRegHandshake } from "react-icons/fa";
 import {
   TbReportSearch,
   TbSettingsCog,
   TbRosetteNumber1,
 } from "react-icons/tb";
 import { MdOutlineErrorOutline } from "react-icons/md";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const menu_sections = [
   { id: "home", icon: AiOutlineHome, to: "section-home", isInternal: true },
@@ -58,7 +57,7 @@ const menu_sections = [
   },
 ];
 
-const Menu = ({ setScrollToSection, onMenuItemClick, onOpenRegisterForm }) => {
+const Menu = ({ setScrollToSection, onMenuItemClick, onOpenResidentForm }) => {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState(null);
   const [homePath, setCurrentPath] = useState(null);
@@ -93,7 +92,7 @@ const Menu = ({ setScrollToSection, onMenuItemClick, onOpenRegisterForm }) => {
         )}
       />
       <button
-        onClick={onOpenRegisterForm}
+        onClick={onOpenResidentForm}
         className={cn(
           "button button--tablet-button",
           styles["tablet-button"],

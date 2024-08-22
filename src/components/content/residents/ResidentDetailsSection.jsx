@@ -18,7 +18,6 @@ import {
 import { FormattedMessage, useIntl } from "react-intl";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import { scrollToTop } from "../../../utils/scrollToTop";
-import { Skeleton } from "@mui/material";
 import SkeletonDetail from "../../skeleton/SkeletonDetail";
 
 const ResidentDetailsSection = () => {
