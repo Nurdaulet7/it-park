@@ -3,10 +3,49 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const BASE_URL = "https://it-park.kz/ru/api";
+const CACHE_KEY = "cachedEvents"; // Ключ для хранения данных в localStorage
+const CACHE_TIMEOUT = 10 * 60 * 1000;
+
+const getCachedEvents = () => {
+  const cachedData = localStorage.getItem(CACHE_KEY);
+  if (cachedData) {
+    const { events, timestamp } = JSON.parse(cachedData);
+    const isCacheValid = Date.now() - timestamp < CACHE_TIMEOUT;
+    if (isCacheValid) {
+      return events;
+    }
+  }
+  return null;
+};
+
+const cacheEvents = (events) => {
+  localStorage.setItem(
+    CACHE_KEY,
+    JSON.stringify({ events, timestamp: Date.now() })
+  );
+};
 
 export const fetchEvents = createAsyncThunk("events/fetchEvents", async () => {
+  const cachedEvents = getCachedEvents();
+
+  if (cachedEvents) {
+    const response = await axios.get(`${BASE_URL}/events`);
+    const events = response.data;
+
+    if (events.length !== cachedEvents.length) {
+      cacheEvents(events);
+      return events;
+    }
+
+    return cachedEvents;
+  }
+
   const response = await axios.get(`${BASE_URL}/events`);
-  return response.data;
+  const events = response.data;
+
+  cacheEvents(events);
+
+  return events;
 });
 
 // Срез
@@ -33,9 +72,6 @@ const eventsSlice = createSlice({
       .addCase(fetchEvents.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.events = action.payload;
-        state.currentEvent = action.payload.find(
-          (event) => event.id === parseInt(action.meta.arg)
-        );
       })
       .addCase(fetchEvents.rejected, (state, action) => {
         state.status = "failed";
