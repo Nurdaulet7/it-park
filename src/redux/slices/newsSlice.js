@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const BASE_URL = "https://it-park.kz/ru/api";
+// const API_URL = "https://it-park.kz/kk/news/view?id=";
 const CACHE_KEY = "cachedNews";
 const CACHE_TIMEOUT = 10 * 60 * 1000;
 
@@ -23,6 +24,17 @@ const cacheNews = (news) => {
     JSON.stringify({ news, timestamp: Date.now() })
   );
 };
+
+// export const incrementViews = createAsyncThunk(
+//   "news/incrementViews",
+//   async (newsId) => {
+//     await axios.get(`${API_URL}${newsId}`);
+//     // После увеличения просмотров получаем обновленные данные
+//     const response = await axios.get(`${BASE_URL}/news`);
+//     console.log("VIEW");
+//     return { id: newsId, updatedNews: response.data };
+//   }
+// );
 
 export const fetchNews = createAsyncThunk("news/fetchNews", async () => {
   const cachedNews = getCachedNews();
@@ -78,6 +90,15 @@ const newsSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       });
+    // .addCase(incrementViews.fulfilled, (state, action) => {
+    //   const { id, updatedNews } = action.payload;
+    //   state.news = updatedNews; // Перезаписываем все новости обновленным массивом
+    //   // Также обновляем текущую новость, если она совпадает
+    //   if (state.currentNews?.id === id) {
+    //     state.currentNews = state.news.find((news) => news.id === id);
+    //   }
+    //   cacheNews(state.news); // Обновляем кэш
+    // });
   },
 });
 

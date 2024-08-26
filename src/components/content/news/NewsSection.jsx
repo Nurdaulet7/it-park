@@ -6,10 +6,9 @@ import {
   selectNewsError,
   selectNewsStatus,
 } from "../../../redux/slices/newsSlice";
-import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { Element } from "react-scroll";
-import Skeleton from "@mui/material/Skeleton";
 import NewsCard from "./NewsCard";
 
 const NewsSection = () => {
@@ -22,7 +21,8 @@ const NewsSection = () => {
     if (status === "idle") {
       dispatch(fetchNews());
     }
-  });
+  }, [dispatch, status]);
+
   if (status === "loading") {
     return (
       <Element name="section-news" className="section container section-news">
