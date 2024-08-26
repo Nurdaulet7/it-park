@@ -11,15 +11,19 @@ const scheme = z.object({
   activityField: z
     .string()
     .trim()
-    .min(1, "Поле не должно быть пустым")
-    .refine((val) => val.length > 0, "Поле не должно быть пустым"),
+    .min(1, "Вы не выбрали цифровизацию")
+    .refine((val) => val.length > 0, "Вы не выбрали цифровизацию"),
   fullName: z
     .string()
     .regex(
-      /(([A-Z]{1}[a-z]{1,40})(\s[A-Z]{1}[a-z]{1,40})?)\s([A-Z]{1}[a-z]{1,40})/
+      /^[\p{L}\s-]+$/u, // Это регулярное выражение принимает любые буквы (на любом языке) и пробелы
+      "Некорректное имя"
     )
-    .max(60),
-  phone: z.string().min(10, "Телефон должен содержать минимум 10 символов"),
+    .max(60, "Максимальная длина 60 символов"),
+  phone: z
+    .string()
+    .min(10, "Телефон должен содержать минимум 10 символов")
+    .regex(/^\d+$/, "Телефон должен содержать только цифры"),
   email: z.string().email("Некорректный адрес электронной почты"),
 });
 
@@ -33,12 +37,27 @@ const ResidentForm = ({ onClose }) => {
   };
 
   const [formData, setFormData] = useState(initialFormData);
-
   const [errors, setErrors] = useState({});
   const { formatMessage } = useIntl();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    const fieldScheme = scheme.shape[name];
+    const validationResult = fieldScheme.safeParse(value);
+
+    if (validationResult.success) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: undefined,
+      }));
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: validationResult.error.errors[0].message,
+      }));
+    }
   };
 
   const handleSubmit = (e) => {
@@ -55,11 +74,12 @@ const ResidentForm = ({ onClose }) => {
     } else {
       console.log(validationResult.data);
       setFormData(initialFormData);
-      onClose();
+      handleClose();
     }
   };
 
   const handleClose = () => {
+    setErrors({});
     setFormData(initialFormData); // Очистка формы при закрытии
     onClose();
   };

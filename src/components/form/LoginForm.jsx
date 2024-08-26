@@ -1,13 +1,22 @@
 import React, { useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
+import { z } from "zod";
+
+const loginSchema = z.object({
+  username: z.string().trim().min(1, "Вы не ввели логин"),
+  password: z.string().trim().min(1, "Вы не ввели пароль"),
+  remember: z.boolean().optional(),
+});
 
 const LoginForm = ({ onSwitchToRegister, onClose }) => {
-  const [formData, setFormData] = useState({
+  const initialLoginData = {
     username: "",
     password: "",
     remember: false,
-  });
+  };
 
+  const [formData, setFormData] = useState(initialLoginData);
+  const [errors, setErrors] = useState({});
   const { formatMessage } = useIntl();
 
   const handleChange = (e) => {
@@ -16,12 +25,43 @@ const LoginForm = ({ onSwitchToRegister, onClose }) => {
       ...formData,
       [name]: type === "checkbox" ? checked : value,
     });
+
+    const fieldScheme = loginSchema.shape[name];
+    const validationResult = fieldScheme.safeParse(value);
+
+    if (validationResult.success) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: undefined,
+      }));
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: validationResult.error.errors[0].message,
+      }));
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    onClose();
+    const validationResult = loginSchema.safeParse(formData);
+
+    if (!validationResult.success) {
+      const fieldErrors = {};
+      validationResult.error.errors.forEach((error) => {
+        fieldErrors[error.path[0]] = error.message;
+      });
+      setErrors(fieldErrors);
+    } else {
+      console.log(validationResult.data);
+      setFormData({
+        username: "",
+        password: "",
+        remember: false,
+      });
+      setErrors({});
+      onClose();
+    }
   };
 
   return (
@@ -30,23 +70,21 @@ const LoginForm = ({ onSwitchToRegister, onClose }) => {
         <FormattedMessage id="login" />
       </h4>
       <div className="inputs">
-        <input
-          className="button--form-input button"
+        <InputField
           type="text"
           name="username"
           value={formData.username}
           onChange={handleChange}
-          required
           placeholder={formatMessage({ id: "username" })}
+          error={errors.username}
         />
-        <input
-          className="button--form-input button"
-          type="password"
+        <InputField
+          type="text"
           name="password"
           value={formData.password}
           onChange={handleChange}
-          required
           placeholder={formatMessage({ id: "password" })}
+          error={errors.password}
         />
         <div className="form-buttons">
           <label className="checkbox-label">
@@ -79,25 +117,78 @@ const LoginForm = ({ onSwitchToRegister, onClose }) => {
   );
 };
 
+const registerScheme = z.object({
+  companyName: z.string().trim().min(1, "Поле не должно быть пустым"),
+  email: z.string().email("Некорректный адрес электронной почты"),
+  phone: z
+    .string()
+    .min(10, "Телефон должен содержать минимум 10 символов")
+    .regex(/^\d+$/, "Телефон должен содержать только цифры"),
+  username: z
+    .string()
+    .trim()
+    .min(3, "Имя пользователя должно содержать минимум 3 символа")
+    .max(20, "Имя пользователя должно содержать не более 20 символов"),
+  password: z
+    .string()
+    .min(8, "Пароль должен содержать минимум 8 символов")
+    .regex(/[a-z]/, "Пароль должен содержать хотя бы одну строчную букву")
+    .regex(/[A-Z]/, "Пароль должен содержать хотя бы одну заглавную букву")
+    .regex(/\d/, "Пароль должен содержать хотя бы одну цифру")
+    .regex(
+      /[@$!%*?&#]/,
+      "Пароль должен содержать хотя бы один специальный символ"
+    ),
+});
+
 export const RegisterForm = ({ onClose, onSwitchToLogin }) => {
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     companyName: "",
     email: "",
     phone: "",
     username: "",
     password: "",
-  });
-
+  };
+  const [formData, setFormData] = useState(initialFormData);
+  const [errors, setErrors] = useState({});
   const { formatMessage } = useIntl();
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+
+    const fieldScheme = registerScheme.shape[name];
+    const validationResult = fieldScheme.safeParse(value);
+
+    if (validationResult.success) {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: undefined,
+      }));
+    } else {
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        [name]: validationResult.error.errors[0].message,
+      }));
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData);
-    onClose();
+    const validationResult = registerScheme.safeParse(formData);
+
+    if (!validationResult.success) {
+      const fieldErrors = {};
+      validationResult.error.errors.forEach((error) => {
+        fieldErrors[error.path[0]] = error.message;
+      });
+      setErrors(fieldErrors);
+    } else {
+      console.log(validationResult.data);
+      setFormData(initialFormData);
+      setErrors({});
+      onClose();
+    }
   };
 
   return (
@@ -106,50 +197,45 @@ export const RegisterForm = ({ onClose, onSwitchToLogin }) => {
         <FormattedMessage id="sign_up" />
       </h4>
       <div className="inputs">
-        <input
-          className="button--form-input button"
+        <InputField
           type="text"
           name="companyName"
           value={formData.companyName}
           onChange={handleChange}
-          required
           placeholder={formatMessage({ id: "organization_name" })}
+          error={errors.companyName}
         />
-        <input
-          className="button--form-input button"
+        <InputField
           type="email"
           name="email"
           value={formData.email}
           onChange={handleChange}
-          required
           placeholder={formatMessage({ id: "email" })}
+          error={errors.email}
         />
-        <input
-          className="button--form-input button"
+        <InputField
           type="tel"
           name="phone"
           value={formData.phone}
           onChange={handleChange}
-          required
           placeholder={formatMessage({ id: "phone" })}
+          error={errors.phone}
         />
-        <input
-          className="button--form-input button"
+        <InputField
           type="text"
           name="username"
           value={formData.username}
           onChange={handleChange}
-          required
           placeholder={formatMessage({ id: "username" })}
+          error={errors.username}
         />
-        <input
-          className="button--form-input button"
+        <InputField
           type="password"
           name="password"
           value={formData.password}
           onChange={handleChange}
-          required
           placeholder={formatMessage({ id: "password" })}
+          error={errors.password}
         />
       </div>
 
@@ -181,5 +267,19 @@ const AuthForm = ({ onClose }) => {
     <RegisterForm onSwitchToLogin={switchToLogin} onClose={onClose} />
   );
 };
+
+const InputField = ({ type, name, value, onChange, placeholder, error }) => (
+  <>
+    <input
+      className="button--form-input button"
+      type={type}
+      name={name}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+    />
+    {error && <span className="error">{error}</span>}
+  </>
+);
 
 export default AuthForm;
