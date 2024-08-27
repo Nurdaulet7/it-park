@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { z } from "zod";
+import InputField from "./InputField";
 
 const scheme = z.object({
   companyName: z
@@ -27,7 +28,7 @@ const scheme = z.object({
   email: z.string().email("Некорректный адрес электронной почты"),
 });
 
-const ResidentForm = ({ onClose }) => {
+const ResidentForm = ({ isOpen, onClose }) => {
   const initialFormData = {
     companyName: "",
     activityField: "",
@@ -39,6 +40,13 @@ const ResidentForm = ({ onClose }) => {
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
   const { formatMessage } = useIntl();
+
+  useEffect(() => {
+    if (!isOpen) {
+      setFormData(initialFormData);
+      setErrors({});
+    }
+  }, [isOpen]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -80,7 +88,7 @@ const ResidentForm = ({ onClose }) => {
 
   const handleClose = () => {
     setErrors({});
-    setFormData(initialFormData); // Очистка формы при закрытии
+    setFormData(initialFormData);
     onClose();
   };
 
@@ -138,20 +146,6 @@ const ResidentForm = ({ onClose }) => {
     </form>
   );
 };
-
-const InputField = ({ type, name, value, onChange, placeholder, error }) => (
-  <>
-    <input
-      className="button--form-input button"
-      type={type}
-      name={name}
-      value={value}
-      onChange={onChange}
-      placeholder={placeholder}
-    />
-    {error && <span className="error">{error}</span>}
-  </>
-);
 
 const SelectField = ({ name, value, onChange, placeholder, error }) => (
   <>

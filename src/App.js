@@ -10,7 +10,7 @@ import { BrowserRouter } from "react-router-dom";
 import FormDialog from "./components/dialog/FormDialog";
 import ResidentForm from "./components/form/ResidentForm";
 import FooterComponent from "./components/footer/FooterComponent";
-import LoginForm from "./components/form/LoginForm";
+import AuthForm from "./components/form/AuthForm";
 
 function App({ setLocale }) {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -68,10 +68,13 @@ function App({ setLocale }) {
             isOpen={isResidentFormOpen}
             onClose={handleCloseResidentForm}
           >
-            <ResidentForm onClose={handleCloseResidentForm} />
+            <ResidentForm
+              isOpen={isResidentFormOpen}
+              onClose={handleCloseResidentForm}
+            />
           </FormDialog>
           <FormDialog isOpen={isLoginFormOpen} onClose={handleCloseLoginForm}>
-            <LoginForm onClose={handleCloseLoginForm} />
+            <AuthForm isOpen={isLoginFormOpen} onClose={handleCloseLoginForm} />
           </FormDialog>
         </div>
       </BrowserRouter>

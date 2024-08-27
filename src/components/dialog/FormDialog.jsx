@@ -13,7 +13,7 @@ const FormDialog = ({ isOpen, onClose, children }) => {
         >
           <button
             className="mobile-overlay__close-button cross-button"
-            type="submit"
+            type="button"
             onClick={onClose}
           >
             <span className="visually-hidden">Close navigation menu</span>
