@@ -63,6 +63,7 @@ export const messages = {
     commerce: "Commerce",
     full_name: "Full Name",
     send: "Send",
+    notFound: "Page not found",
   },
   [LOCALES.RUSSIAN]: {
     welcome: "IT PARK - место притяжения и развития информационных технологий",
@@ -125,6 +126,8 @@ export const messages = {
     commerce: "Торговля",
     full_name: "Ф.И.О",
     send: "Отправить",
+    notFound: "Страница не найдена",
+    back_home: "На главную страницу",
   },
   [LOCALES.KAZAKH]: {
     welcome: "IT PARK - ақпараттық технологияларды тарту және дамыту орны",
@@ -188,5 +191,7 @@ export const messages = {
     commerce: "Сауда",
     full_name: "Толық аты-жөні",
     send: "Жіберу",
+    notFound: "Парақша табылмады",
+    back_home: "Басты бетке өту",
   },
 };

@@ -10,7 +10,6 @@ import {
 import { Element } from "react-scroll";
 import { Link } from "react-router-dom";
 import EventCard from "./EventCard";
-import Skeleton from "@mui/material/Skeleton";
 
 const EventsSection = () => {
   const dispatch = useDispatch();
@@ -48,7 +47,6 @@ const EventsSection = () => {
     );
   }
 
-  if (status === "failed") return <p>Error: {error}</p>;
   if (status === "failed") return <p>Error: {error}</p>;
 
   return (

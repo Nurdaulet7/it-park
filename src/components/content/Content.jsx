@@ -22,6 +22,7 @@ import BackToTop from "../toggle/BackToTop";
 import ProjectDetailsPage from "./projects/ProjectDetailsPage";
 import FirstItPark from "../../pages/FirstItPark";
 import AboutUs from "../../pages/AboutUs";
+import { NotFound } from "../../pages/NotFound";
 
 const MainContent = ({ scrollToSection }) => {
   useEffect(() => {
@@ -71,6 +72,7 @@ const Content = ({ scrollToSection, setScrollToSection }) => {
           <Route path="/projects/:id" element={<ProjectDetailsPage />} />
           <Route path="/first_it_park" element={<FirstItPark />} />
           <Route path="/about_us" element={<AboutUs />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
     </main>

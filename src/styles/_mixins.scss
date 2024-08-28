@@ -1,6 +1,11 @@
 @mixin fluid-text($max: 48, $min: 16) {
   font-size: clamp(#{$min}px, #{$max / 1920 * 100}vw, #{$max}px);
 }
+
+@mixin fluid-text-error($max: 200, $min: 90) {
+  font-size: clamp(#{$min}px, #{$max / 1920 * 100}vw, #{$max}px);
+}
+
 @mixin reset-link {
   color: inherit;
 

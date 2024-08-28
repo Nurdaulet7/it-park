@@ -3,6 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
   fetchEvents,
+  selectCurrentEvent,
+  selectEventsError,
+  selectEventsStatus,
   setCurrentEvent,
 } from "../../../redux/slices/eventsSlice";
 
@@ -13,9 +16,9 @@ import SkeletonDetail from "../../skeleton/SkeletonDetail";
 const EventDetailsSection = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const event = useSelector((state) => state.events.currentEvent);
-  const status = useSelector((state) => state.events.status);
-  const error = useSelector((state) => state.events.error);
+  const event = useSelector(selectCurrentEvent);
+  const status = useSelector(selectEventsStatus);
+  const error = useSelector(selectEventsError);
 
   useEffect(() => {
     scrollToTop();

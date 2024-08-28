@@ -85,5 +85,6 @@ export const { setCurrentEvent } = eventsSlice.actions;
 export default eventsSlice.reducer;
 
 export const selectEvents = (state) => state.events.events;
+export const selectCurrentEvent = (state) => state.events.currentEvent;
 export const selectEventsStatus = (state) => state.events.status;
 export const selectEventsError = (state) => state.events.error;
