@@ -61,6 +61,19 @@ const Menu = ({ setScrollToSection, onMenuItemClick, onOpenResidentForm }) => {
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState(null);
   const [homePath, setCurrentPath] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const handleSearch = (e) => {
+    const query = e.target.value;
+    setSearchTerm(query);
+
+    // Обновляем параметры URL для поиска
+    if (query) {
+      navigate(`/search?query=${encodeURIComponent(query)}`);
+    } else {
+      navigate(""); // Если запрос пустой, возвращаемся на исходную страницу
+    }
+  };
 
   const handleNavigation = (path, isExternal, sectionId) => {
     setCurrentPath(!isExternal);
@@ -85,9 +98,10 @@ const Menu = ({ setScrollToSection, onMenuItemClick, onOpenResidentForm }) => {
         children={(placeholder) => (
           <input
             type="text"
-            className={cn("button input visible-tablet")}
-            form="search"
+            value={searchTerm}
+            onChange={handleSearch}
             placeholder={placeholder}
+            className={cn("button", "input", "visible-tablet")}
           />
         )}
       />

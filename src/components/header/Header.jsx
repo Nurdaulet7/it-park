@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import cn from "classnames";
 import styles from "./Header.module.scss";
 import logo from "../../images/logo-it-park.png";
 import { FaRegUser } from "react-icons/fa";
 import LanguageSwitcher from "../lngSwitcher/LanguageSwitcher";
 import { FormattedMessage } from "react-intl";
+import { useNavigate } from "react-router-dom";
 
 const Header = ({
   onOpenDialog,
@@ -12,6 +13,21 @@ const Header = ({
   onOpenLoginForm,
   setLocale,
 }) => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    const query = e.target.value;
+    setSearchTerm(query);
+
+    // Обновляем параметры URL для поиска
+    if (query) {
+      navigate(`/search?query=${encodeURIComponent(query)}`);
+    } else {
+      navigate(""); // Если запрос пустой, возвращаемся на исходную страницу
+    }
+  };
+
   return (
     <header className={cn(styles["header"])}>
       <div className={cn(styles["header__inner"], "layout")}>
@@ -25,13 +41,26 @@ const Header = ({
           />
         </a>
         <div className={cn(styles["header__buttons"])}>
-          <FormattedMessage
+          {/* <FormattedMessage
             id="search_placeholder"
             defaultMessage="Поиск по сайту"
             children={(placeholder) => (
               <input
                 type="text"
                 form="search"
+                placeholder={placeholder}
+                
+              />
+            )}
+          /> */}
+          <FormattedMessage
+            id="search_placeholder"
+            defaultMessage="Поиск по сайту"
+            children={(placeholder) => (
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={handleSearch}
                 placeholder={placeholder}
                 className={cn("hidden-tablet", "button", "input")}
               />

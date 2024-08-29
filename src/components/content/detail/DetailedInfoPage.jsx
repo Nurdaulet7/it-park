@@ -42,13 +42,18 @@ const DetailedInfoPage = ({ event, isNews = false }) => {
           />
           <div className="detailed-info__content-texts">
             <span className="tag-detail">
-              <FormattedDate
-                value={new Date(event.date)}
-                defaultMessage="Неправильная дата"
-                year="numeric"
-                month="2-digit"
-                day="2-digit"
-              />
+              {isNaN(new Date(event.date)) ? (
+                <span>
+                  <FormattedMessage id="invalid_date" />
+                </span>
+              ) : (
+                <FormattedDate
+                  value={new Date(event.date)}
+                  year="numeric"
+                  month="2-digit"
+                  day="2-digit"
+                />
+              )}
             </span>
             <h3>{getTranslatedContent(event, "title", locale)}</h3>
             <div>

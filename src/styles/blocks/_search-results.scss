@@ -1,0 +1,23 @@
+.search {
+  display: flex;
+  flex-direction: column;
+  row-gap: 30px;
+  color: var(--menu-text-color);
+
+  &-header {
+    h3 {
+      font-weight: 700;
+    }
+  }
+
+  &-body {
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+
+    .not_found_text {
+      color: var(--color-accent);
+      font-weight: 500;
+    }
+  }
+}

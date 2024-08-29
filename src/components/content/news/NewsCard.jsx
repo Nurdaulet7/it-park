@@ -12,12 +12,15 @@ const NewsCard = ({ news, forAside = false, forSkeleton = false }) => {
     return (
       <li className="news_item">
         <article className={`${forAside ? "news-card-aside" : ""} news-card`}>
-          <div className="news-card__header">
-            <Skeleton variant="rectangular" width="100%" height={180} />
-          </div>
+          {!forAside && (
+            <div className="news-card__header">
+              <Skeleton variant="rectangular" width="100%" height={180} />
+            </div>
+          )}
           <div className="news-card__content">
             <div className="news-card__body">
-              <Skeleton variant="text" width="60%" />
+              <Skeleton variant="text" width="20%" />
+              <Skeleton variant="text" width="100%" />
               <Skeleton variant="text" width="80%" />
             </div>
             <div className="news-card__footer">
@@ -39,13 +42,18 @@ const NewsCard = ({ news, forAside = false, forSkeleton = false }) => {
         <div className="news-card__content">
           <div className="news-card__body">
             <span className="tag tag-red">
-              <FormattedDate
-                value={new Date(news.date)}
-                defaultMessage="Неправильная дата"
-                year="numeric"
-                month="2-digit"
-                day="2-digit"
-              />
+              {isNaN(new Date(news.date)) ? (
+                <span>
+                  <FormattedMessage id="invalid_date" />
+                </span>
+              ) : (
+                <FormattedDate
+                  value={new Date(news.date)}
+                  year="numeric"
+                  month="2-digit"
+                  day="2-digit"
+                />
+              )}
             </span>
             <h4>{getTranslatedContent(news, "title", locale)}</h4>
           </div>

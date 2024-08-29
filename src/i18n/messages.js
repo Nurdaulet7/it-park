@@ -64,6 +64,9 @@ export const messages = {
     full_name: "Full Name",
     send: "Send",
     notFound: "Page not found",
+
+    search_results_for: "Search results for:",
+    invalid_date: "Invalid date",
   },
   [LOCALES.RUSSIAN]: {
     welcome: "IT PARK - место притяжения и развития информационных технологий",
@@ -128,6 +131,9 @@ export const messages = {
     send: "Отправить",
     notFound: "Страница не найдена",
     back_home: "На главную страницу",
+
+    search_results_for: "Результаты поиска для:",
+    invalid_date: "Неправильная дата",
   },
   [LOCALES.KAZAKH]: {
     welcome: "IT PARK - ақпараттық технологияларды тарту және дамыту орны",
@@ -193,5 +199,8 @@ export const messages = {
     send: "Жіберу",
     notFound: "Парақша табылмады",
     back_home: "Басты бетке өту",
+
+    search_results_for: "Іздеу нәтижелері:",
+    invalid_date: "Қате енгізілген күн",
   },
 };
