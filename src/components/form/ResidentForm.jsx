@@ -3,32 +3,9 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { z } from "zod";
 import InputField from "./InputField";
 
-const scheme = z.object({
-  companyName: z
-    .string()
-    .trim()
-    .min(1, "Поле не должно быть пустым")
-    .refine((val) => val.length > 0, "Поле не должно быть пустым"),
-  activityField: z
-    .string()
-    .trim()
-    .min(1, "Вы не выбрали цифровизацию")
-    .refine((val) => val.length > 0, "Вы не выбрали цифровизацию"),
-  fullName: z
-    .string()
-    .regex(
-      /^[\p{L}\s-]+$/u, // Это регулярное выражение принимает любые буквы (на любом языке) и пробелы
-      "Некорректное имя"
-    )
-    .max(60, "Максимальная длина 60 символов"),
-  phone: z
-    .string()
-    .min(10, "Телефон должен содержать минимум 10 символов")
-    .regex(/^\d+$/, "Телефон должен содержать только цифры"),
-  email: z.string().email("Некорректный адрес электронной почты"),
-});
-
 const ResidentForm = ({ isOpen, onClose }) => {
+  const { formatMessage } = useIntl();
+
   const initialFormData = {
     companyName: "",
     activityField: "",
@@ -37,9 +14,35 @@ const ResidentForm = ({ isOpen, onClose }) => {
     email: "",
   };
 
+  const scheme = z.object({
+    companyName: z
+      .string()
+      .trim()
+      .min(1, formatMessage({ id: "fieldNotEmpty" }))
+      .refine((val) => val.length > 0, formatMessage({ id: "fieldNotEmpty" })),
+    activityField: z
+      .string()
+      .trim()
+      .min(1, formatMessage({ id: "digitalizationNotSelected" }))
+      .refine(
+        (val) => val.length > 0,
+        formatMessage({ id: "digitalizationNotSelected" })
+      ),
+    fullName: z
+      .string()
+      .trim()
+      .min(1, formatMessage({ id: "fieldNotEmpty" }))
+      .regex(/^[\p{L}\s-]+$/u, formatMessage({ id: "invalidName" }))
+      .max(60, formatMessage({ id: "maxLengthExceeded" })),
+    phone: z
+      .string()
+      .min(10, formatMessage({ id: "phoneMinLength" }))
+      .regex(/^\d+$/, formatMessage({ id: "phoneDigitsOnly" })),
+    email: z.string().email(formatMessage({ id: "invalidEmail" })),
+  });
+
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
-  const { formatMessage } = useIntl();
 
   useEffect(() => {
     if (!isOpen) {

@@ -67,6 +67,14 @@ export const messages = {
 
     search_results_for: "Search results for:",
     invalid_date: "Invalid date",
+
+    fieldNotEmpty: "Field must not be empty",
+    digitalizationNotSelected: "You did not select digitalization",
+    invalidName: "Invalid name",
+    maxLengthExceeded: "Maximum length is 60 characters",
+    phoneMinLength: "Phone number must contain at least 10 characters",
+    phoneDigitsOnly: "Phone number must contain only digits",
+    invalidEmail: "Invalid email address",
   },
   [LOCALES.RUSSIAN]: {
     welcome: "IT PARK - место притяжения и развития информационных технологий",
@@ -134,6 +142,14 @@ export const messages = {
 
     search_results_for: "Результаты поиска для:",
     invalid_date: "Неправильная дата",
+
+    fieldNotEmpty: "Поле не должно быть пустым",
+    digitalizationNotSelected: "Вы не выбрали цифровизацию",
+    invalidName: "Некорректное имя",
+    maxLengthExceeded: "Максимальная длина 60 символов",
+    phoneMinLength: "Телефон должен содержать минимум 10 символов",
+    phoneDigitsOnly: "Телефон должен содержать только цифры",
+    invalidEmail: "Некорректный адрес электронной почты",
   },
   [LOCALES.KAZAKH]: {
     welcome: "IT PARK - ақпараттық технологияларды тарту және дамыту орны",
@@ -202,5 +218,13 @@ export const messages = {
 
     search_results_for: "Іздеу нәтижелері:",
     invalid_date: "Қате енгізілген күн",
+
+    fieldNotEmpty: "Өріс бос болмауы керек",
+    digitalizationNotSelected: "Сіз цифрландыруды таңдамадыңыз",
+    invalidName: "Қате толықтырдыңыз",
+    maxLengthExceeded: "Ең ұзын ұзындығы 60 таңба",
+    phoneMinLength: "Телефон нөмірі кемінде 10 таңбадан тұруы керек",
+    phoneDigitsOnly: "Телефон тек цифрлардан тұруы керек",
+    invalidEmail: "Электрондық пошта мекенжайы дұрыс емес",
   },
 };

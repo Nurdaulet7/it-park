@@ -20,7 +20,6 @@ import {
   selectVacanciesStatus,
 } from "../../../redux/slices/vacanciesSlice";
 import VacanciesCard from "../vacancies/VacanciesCard";
-import { scrollToTop } from "../../../utils/scrollToTop";
 
 const SearchResults = () => {
   const dispatch = useDispatch();
