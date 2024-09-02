@@ -63,19 +63,8 @@ const Menu = ({ setScrollToSection, onMenuItemClick, onOpenResidentForm }) => {
   const [homePath, setCurrentPath] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const handleSearch = (e) => {
-    const query = e.target.value;
-    setSearchTerm(query);
-
-    // Обновляем параметры URL для поиска
-    if (query) {
-      navigate(`/search?query=${encodeURIComponent(query)}`);
-    } else {
-      navigate(""); // Если запрос пустой, возвращаемся на исходную страницу
-    }
-  };
-
   const handleNavigation = (path, isExternal, sectionId) => {
+    setSearchTerm("");
     setCurrentPath(!isExternal);
     if (isExternal) {
       setActiveSection(sectionId);
@@ -90,6 +79,22 @@ const Menu = ({ setScrollToSection, onMenuItemClick, onOpenResidentForm }) => {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSearch();
+    }
+  };
+
+  const handleSearch = () => {
+    if (searchTerm) {
+      onMenuItemClick();
+      navigate(`/search?query=${encodeURIComponent(searchTerm)}`);
+    } else {
+      navigate("");
+    }
+  };
+
   return (
     <ul className={cn(styles["menu__list"])}>
       <FormattedMessage
@@ -99,7 +104,8 @@ const Menu = ({ setScrollToSection, onMenuItemClick, onOpenResidentForm }) => {
           <input
             type="text"
             value={searchTerm}
-            onChange={handleSearch}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={handleKeyDown} // Отслеживание нажатия клавиши "Enter"
             placeholder={placeholder}
             className={cn("button", "input", "visible-tablet")}
           />

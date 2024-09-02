@@ -24,7 +24,7 @@ const Header = ({
     if (query) {
       navigate(`/search?query=${encodeURIComponent(query)}`);
     } else {
-      navigate(""); // Если запрос пустой, возвращаемся на исходную страницу
+      navigate("");
     }
   };
 

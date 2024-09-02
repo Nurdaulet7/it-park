@@ -55,14 +55,12 @@ const NewsPage = () => {
 
   const handleNextPage = () => {
     if (currentPage < totalPages) {
-      console.log("Next");
       setCurrentPage(currentPage + 1);
       scrollToTop();
     }
   };
 
   const handlePrevPage = () => {
-    console.log("Prev");
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
       scrollToTop();

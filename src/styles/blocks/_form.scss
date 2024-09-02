@@ -72,6 +72,14 @@
     flex-direction: column;
     row-gap: 10px;
 
+    @include mobile {
+      width: 90%;
+    }
+
+    // .has_error {
+    //   row-gap: 15px;
+    // }
+
     .error {
       color: var(--color-accent);
     }

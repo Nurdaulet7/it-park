@@ -75,6 +75,17 @@ export const messages = {
     phoneMinLength: "Phone number must contain at least 10 characters",
     phoneDigitsOnly: "Phone number must contain only digits",
     invalidEmail: "Invalid email address",
+
+    loginRequired: "You did not enter a username",
+    passwordRequired: "You did not enter a password",
+
+    usernameMinLength: "Username must be at least 3 characters long",
+    usernameMaxLength: "Username must be no more than 20 characters long",
+    passwordMinLength: "Password must be at least 8 characters long",
+    passwordLowercase: "Password must contain at least one lowercase letter",
+    passwordUppercase: "Password must contain at least one uppercase letter",
+    passwordDigit: "Password must contain at least one digit",
+    passwordSpecialChar: "Password must contain at least one special character",
   },
   [LOCALES.RUSSIAN]: {
     welcome: "IT PARK - место притяжения и развития информационных технологий",
@@ -150,6 +161,18 @@ export const messages = {
     phoneMinLength: "Телефон должен содержать минимум 10 символов",
     phoneDigitsOnly: "Телефон должен содержать только цифры",
     invalidEmail: "Некорректный адрес электронной почты",
+
+    loginRequired: "Вы не ввели логин",
+    passwordRequired: "Вы не ввели пароль",
+
+    usernameMinLength: "Имя пользователя должно содержать минимум 3 символа",
+    usernameMaxLength: "Имя пользователя должно содержать не более 20 символов",
+    passwordMinLength: "Пароль должен содержать минимум 8 символов",
+    passwordLowercase: "Пароль должен содержать хотя бы одну строчную букву",
+    passwordUppercase: "Пароль должен содержать хотя бы одну заглавную букву",
+    passwordDigit: "Пароль должен содержать хотя бы одну цифру",
+    passwordSpecialChar:
+      "Пароль должен содержать хотя бы один специальный символ",
   },
   [LOCALES.KAZAKH]: {
     welcome: "IT PARK - ақпараттық технологияларды тарту және дамыту орны",
@@ -226,5 +249,16 @@ export const messages = {
     phoneMinLength: "Телефон нөмірі кемінде 10 таңбадан тұруы керек",
     phoneDigitsOnly: "Телефон тек цифрлардан тұруы керек",
     invalidEmail: "Электрондық пошта мекенжайы дұрыс емес",
+
+    loginRequired: "Логин енгізілген жоқ",
+    passwordRequired: "Құпиясөз енгізілген жоқ",
+
+    usernameMinLength: "Пайдаланушы аты кемінде 3 таңбадан тұруы керек",
+    usernameMaxLength: "Пайдаланушы аты 20 таңбадан аспауы керек",
+    passwordMinLength: "Құпиясөз кемінде 8 таңбадан тұруы керек",
+    passwordLowercase: "Құпиясөзде кемінде бір кіші әріп болуы керек",
+    passwordUppercase: "Құпиясөзде кемінде бір бас әріп болуы керек",
+    passwordDigit: "Құпиясөзде кемінде бір цифр болуы керек",
+    passwordSpecialChar: "Құпиясөзде кемінде бір арнайы таңба болуы керек",
   },
 };

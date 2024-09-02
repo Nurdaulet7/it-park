@@ -3,31 +3,9 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { z } from "zod";
 import InputField from "./InputField";
 
-const registerScheme = z.object({
-  companyName: z.string().trim().min(1, "Поле не должно быть пустым"),
-  email: z.string().email("Некорректный адрес электронной почты"),
-  phone: z
-    .string()
-    .min(10, "Телефон должен содержать минимум 10 символов")
-    .regex(/^\d+$/, "Телефон должен содержать только цифры"),
-  username: z
-    .string()
-    .trim()
-    .min(3, "Имя пользователя должно содержать минимум 3 символа")
-    .max(20, "Имя пользователя должно содержать не более 20 символов"),
-  password: z
-    .string()
-    .min(8, "Пароль должен содержать минимум 8 символов")
-    .regex(/[a-z]/, "Пароль должен содержать хотя бы одну строчную букву")
-    .regex(/[A-Z]/, "Пароль должен содержать хотя бы одну заглавную букву")
-    .regex(/\d/, "Пароль должен содержать хотя бы одну цифру")
-    .regex(
-      /[@$!%*?&#]/,
-      "Пароль должен содержать хотя бы один специальный символ"
-    ),
-});
-
 const RegisterForm = ({ onSwitchToLogin, isOpen, onClose }) => {
+  const { formatMessage } = useIntl();
+
   const initialFormData = {
     companyName: "",
     email: "",
@@ -35,9 +13,33 @@ const RegisterForm = ({ onSwitchToLogin, isOpen, onClose }) => {
     username: "",
     password: "",
   };
+
+  const registerScheme = z.object({
+    companyName: z
+      .string()
+      .trim()
+      .min(1, formatMessage({ id: "fieldNotEmpty" })),
+    email: z.string().email(formatMessage({ id: "invalidEmail" })),
+    phone: z
+      .string()
+      .min(10, formatMessage({ id: "phoneMinLength" }))
+      .regex(/^\d+$/, formatMessage({ id: "phoneDigitsOnly" })),
+    username: z
+      .string()
+      .trim()
+      .min(3, formatMessage({ id: "usernameMinLength" }))
+      .max(20, formatMessage({ id: "usernameMaxLength" })),
+    password: z
+      .string()
+      .min(8, formatMessage({ id: "passwordMinLength" }))
+      .regex(/[a-z]/, formatMessage({ id: "passwordLowercase" }))
+      .regex(/[A-Z]/, formatMessage({ id: "passwordUppercase" }))
+      .regex(/\d/, formatMessage({ id: "passwordDigit" }))
+      .regex(/[@$!%*?&#]/, formatMessage({ id: "passwordSpecialChar" })),
+  });
+
   const [formData, setFormData] = useState(initialFormData);
   const [errors, setErrors] = useState({});
-  const { formatMessage } = useIntl();
 
   useEffect(() => {
     if (!isOpen) {
@@ -129,6 +131,7 @@ const RegisterForm = ({ onSwitchToLogin, isOpen, onClose }) => {
           onChange={handleChange}
           placeholder={formatMessage({ id: "password" })}
           error={errors.password}
+          autocomplete="new-password"
         />
       </div>
 

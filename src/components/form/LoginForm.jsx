@@ -3,22 +3,29 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { z } from "zod";
 import InputField from "./InputField";
 
-const loginSchema = z.object({
-  username: z.string().trim().min(1, "Вы не ввели логин"),
-  password: z.string().trim().min(1, "Вы не ввели пароль"),
-  remember: z.boolean().optional(),
-});
-
 const LoginForm = ({ onSwitchToRegister, isOpen, onClose }) => {
+  const { formatMessage } = useIntl();
+
   const initialLoginData = {
     username: "",
     password: "",
     remember: false,
   };
 
+  const loginSchema = z.object({
+    username: z
+      .string()
+      .trim()
+      .min(1, formatMessage({ id: "loginRequired" })),
+    password: z
+      .string()
+      .trim()
+      .min(1, formatMessage({ id: "passwordRequired" })),
+    remember: z.boolean().optional(),
+  });
+
   const [formData, setFormData] = useState(initialLoginData);
   const [errors, setErrors] = useState({});
-  const { formatMessage } = useIntl();
 
   useEffect(() => {
     if (!isOpen) {
@@ -93,6 +100,7 @@ const LoginForm = ({ onSwitchToRegister, isOpen, onClose }) => {
           onChange={handleChange}
           placeholder={formatMessage({ id: "password" })}
           error={errors.password}
+          autocomplete="current-password"
         />
         <div className="form-buttons">
           <label className="checkbox-label">

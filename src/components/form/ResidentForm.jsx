@@ -99,6 +99,7 @@ const ResidentForm = ({ isOpen, onClose }) => {
     <form className="register-form form" onSubmit={handleSubmit}>
       <h4>{formatMessage({ id: "become_resident" })}</h4>
       <div className="inputs">
+        {/* <div className={`inputs ${errors.companyName ? "has_error" : ""}`}> */}
         <InputField
           type="text"
           name="companyName"

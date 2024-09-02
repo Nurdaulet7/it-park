@@ -80,6 +80,10 @@
       &.active {
         background-color: var(--color-accent);
         color: var(--color-white);
+
+        @include hover {
+          background-color: var(--color-accent) !important;
+        }
       }
     }
 

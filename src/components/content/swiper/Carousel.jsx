@@ -13,8 +13,15 @@ import { FormattedMessage } from "react-intl";
 import { Parallax, Pagination, Autoplay, Navigation } from "swiper/modules";
 import { Element } from "react-scroll";
 import classNames from "classnames";
+import { useNavigate } from "react-router-dom";
 
 const Carousel = () => {
+  const navigate = useNavigate();
+
+  const handleNavigation = () => {
+    navigate("/about_us");
+  };
+
   return (
     <Element
       name="section-home"
@@ -55,7 +62,7 @@ const Carousel = () => {
                 <FormattedMessage id="it_park_info" />
               </p>
             </div>
-            <button className={styles["button"]}>
+            <button className={styles["button"]} onClick={handleNavigation}>
               <FormattedMessage id="click_here" />
             </button>
           </div>
@@ -72,7 +79,7 @@ const Carousel = () => {
                 <FormattedMessage id="it_park_info" />
               </p>
             </div>
-            <button className={styles["button"]}>
+            <button className={styles["button"]} onClick={handleNavigation}>
               <FormattedMessage id="click_here" />
             </button>
           </div>
