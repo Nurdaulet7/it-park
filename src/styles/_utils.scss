@@ -61,9 +61,10 @@
 }
 
 .skeleton {
-  background-color: var(--color-accent);
+  background-color: var(--background-header-primary);
   border-radius: 10px;
   animation: pulse 1.5s infinite ease-in-out;
+  box-shadow: var(--shadow);
 }
 
 @keyframes pulse {

@@ -94,7 +94,7 @@ const LoginForm = ({ onSwitchToRegister, isOpen, onClose }) => {
           error={errors.username}
         />
         <InputField
-          type="text"
+          type="password"
           name="password"
           value={formData.password}
           onChange={handleChange}
