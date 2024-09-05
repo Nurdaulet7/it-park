@@ -24,6 +24,8 @@ import FirstItPark from "../../pages/FirstItPark";
 import AboutUs from "../../pages/AboutUs";
 import { NotFound } from "../../pages/NotFound";
 import SearchResults from "./search/SearchResults";
+import Profile from "../../pages/profile/UserProfile";
+import UserProfile from "../../pages/profile/UserProfile";
 
 const MainContent = ({ scrollToSection }) => {
   useEffect(() => {
@@ -74,6 +76,7 @@ const Content = ({ scrollToSection, setScrollToSection }) => {
           <Route path="/first_it_park" element={<FirstItPark />} />
           <Route path="/about_us" element={<AboutUs />} />
           <Route path="/search" element={<SearchResults />} />
+          <Route path="/profile" element={<UserProfile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
