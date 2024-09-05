@@ -6,7 +6,8 @@ import { FormattedDate, FormattedMessage, useIntl } from "react-intl";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import Skeleton from "@mui/material/Skeleton";
 
-const EventCard = ({ event, forAside = false }) => {
+const EventCard = (props) => {
+  const { event, forAside = false } = props;
   const { locale } = useIntl();
   if (!event) {
     return (

@@ -57,7 +57,8 @@ const menu_sections = [
   },
 ];
 
-const Menu = ({ setScrollToSection, onMenuItemClick, onOpenResidentForm }) => {
+const Menu = (props) => {
+  const { setScrollToSection, onMenuItemClick, onOpenResidentForm } = props;
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState(null);
   const [homePath, setCurrentPath] = useState(null);

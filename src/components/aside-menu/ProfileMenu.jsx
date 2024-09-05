@@ -1,7 +1,6 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import cn from "classnames";
-import styles from "../content/Content.module.scss";
 
 const menu_sections = [
   { id: "Мой профиль" },
@@ -13,25 +12,26 @@ const menu_sections = [
   { id: "Приемы" },
   { id: "Выйти с аккаунта" },
 ];
-
 const ProfileMenu = () => {
   return (
-    <ul className={cn(styles["menu__list"])}>
-      {menu_sections.map((section, index) => (
-        <article
-          className={cn(
-            styles["menu__list-link"],
-            "button button--transparent button--transparent--menu"
-          )}
-        >
-          <li key={index} className={cn(styles["menu__list-item"])}>
-            <span className="menu__list-item-text">
-              <FormattedMessage id={section.id} defaultMessage={section.id} />
-            </span>
-          </li>
-        </article>
-      ))}
-    </ul>
+    <div className={"menu"}>
+      <ul className={cn("menu__list")}>
+        {menu_sections.map((section, index) => (
+          <article
+            className={cn(
+              "menu__list-link",
+              "button button--transparent button--transparent--menu"
+            )}
+          >
+            <li key={index} className={cn("menu__list-item")}>
+              <span className="menu__list-item-text">
+                <FormattedMessage id={section.id} defaultMessage={section.id} />
+              </span>
+            </li>
+          </article>
+        ))}
+      </ul>
+    </div>
   );
 };
 
@@ -94,13 +94,13 @@ export default ProfileMenu;
 //     to: "/about_us",
 //     isInternal: false,
 //   },
-// ];
+// ;
 
 // const Menu = ({ setScrollToSection, onMenuItemClick, onOpenResidentForm }) => {
 //   const navigate = useNavigate();
-//   const [activeSection, setActiveSection] = useState(null);
-//   const [homePath, setCurrentPath] = useState(null);
-//   const [searchTerm, setSearchTerm] = useState("");
+//   const [activeSection, setActiveSection = useState(null);
+//   const [homePath, setCurrentPath = useState(null);
+//   const [searchTerm, setSearchTerm = useState("");
 
 //   const handleNavigation = (path, isExternal, sectionId) => {
 //     setSearchTerm("");
@@ -135,7 +135,7 @@ export default ProfileMenu;
 //   };
 
 //   return (
-//     <ul className={cn(styles["menu__list"])}>
+//     <ul className={cn("menu__list")}>
 //       <FormattedMessage
 //         id="search_placeholder"
 //         defaultMessage="Поиск по сайту"
@@ -154,7 +154,7 @@ export default ProfileMenu;
 //         onClick={onOpenResidentForm}
 //         className={cn(
 //           "button button--tablet-button",
-//           styles["tablet-button"],
+//           "tablet-button",
 //           "visible-tablet"
 //         )}
 //       >
@@ -164,13 +164,13 @@ export default ProfileMenu;
 //         />
 //       </button>
 //       {menu_sections.map((section, index) => (
-//         <li key={index} className={cn(styles["menu__list-item"])}>
+//         <li key={index} className={cn("menu__list-item")}>
 //           <ScrollLink
 //             onClick={() =>
 //               handleNavigation(section.to, !section.isInternal, section.id)
 //             }
 //             activeClass={
-//               homePath || activeSection === null ? styles["active"] : ""
+//               homePath || activeSection === null ? "active" : ""
 //             }
 //             to={section.to}
 //             spy={true}
@@ -178,12 +178,12 @@ export default ProfileMenu;
 //             offset={-96} // Высота хедера
 //             duration={100}
 //             className={cn(
-//               styles["menu__list-link"],
+//               "menu__list-link",
 //               "button button--transparent button--transparent--menu",
-//               homePath ? "" : activeSection === section.id && styles["active"]
+//               homePath ? "" : activeSection === section.id && "active"
 //             )}
 //           >
-//             <span className={cn(styles["menu__list-item-icon"])}>
+//             <span className={cn("menu__list-item-icon")}>
 //               {<section.icon />}
 //             </span>
 //             <span className="menu__list-item-text">

@@ -1,8 +1,22 @@
 // src/components/FormDialog/FormDialog.js
-import React from "react";
+import React, { useEffect } from "react";
 import cn from "classnames";
 
-const FormDialog = ({ isOpen, onClose, children }) => {
+const FormDialog = (props) => {
+  const { isOpen, onClose, children } = props;
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflowY = "hidden";
+    } else {
+      document.body.style.overflowY = "auto";
+    }
+
+    return () => {
+      document.body.style.overflowY = "auto";
+    };
+  }, [isOpen]);
+
   return (
     <dialog className={cn("form-overlay", { "form-overlay--open": isOpen })}>
       <div className="form-overlay__content">

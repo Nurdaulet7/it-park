@@ -1,0 +1,43 @@
+.profile {
+  display: flex;
+  column-gap: 20px;
+  justify-content: space-between;
+  color: var(--menu-text-color);
+
+  &__content {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+  }
+
+  &__aside {
+    height: fit-content;
+    /* width: auto; */
+    top: 96px;
+    position: sticky;
+    display: flex;
+    flex-direction: column;
+    row-gap: 20px;
+    right: 0;
+
+    .menu {
+      min-width: 240px;
+
+      &__list {
+        position: sticky;
+        top: 96px;
+        max-width: 100%;
+        max-height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: baseline;
+        row-gap: 12px;
+
+        input {
+          width: 80%;
+        }
+      }
+    }
+  }
+}

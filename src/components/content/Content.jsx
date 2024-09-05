@@ -24,7 +24,6 @@ import FirstItPark from "../../pages/FirstItPark";
 import AboutUs from "../../pages/AboutUs";
 import { NotFound } from "../../pages/NotFound";
 import SearchResults from "./search/SearchResults";
-import Profile from "../../pages/profile/UserProfile";
 import UserProfile from "../../pages/profile/UserProfile";
 
 const MainContent = ({ scrollToSection }) => {
@@ -51,7 +50,9 @@ const MainContent = ({ scrollToSection }) => {
   );
 };
 
-const Content = ({ scrollToSection, setScrollToSection }) => {
+const Content = (props) => {
+  const { scrollToSection, setScrollToSection } = props;
+
   return (
     <main className={cn("layout", styles["main"])}>
       <ThemeToggle />
@@ -76,7 +77,7 @@ const Content = ({ scrollToSection, setScrollToSection }) => {
           <Route path="/first_it_park" element={<FirstItPark />} />
           <Route path="/about_us" element={<AboutUs />} />
           <Route path="/search" element={<SearchResults />} />
-          <Route path="/profile" element={<UserProfile />} />
+          <Route path="/profile/*" element={<UserProfile />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>

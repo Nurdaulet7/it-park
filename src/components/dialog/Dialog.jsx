@@ -2,7 +2,9 @@
 import React from "react";
 import cn from "classnames";
 
-const Dialog = ({ isOpen, onClose, children }) => {
+const Dialog = (props) => {
+  const { isOpen, onClose, children } = props;
+
   return (
     <dialog
       className={cn("mobile-overlay", { "visible-desktop": isOpen })}

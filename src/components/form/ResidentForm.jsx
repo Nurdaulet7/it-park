@@ -3,7 +3,8 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { z } from "zod";
 import InputField from "./InputField";
 
-const ResidentForm = ({ isOpen, onClose }) => {
+const ResidentForm = (props) => {
+  const { isOpen, onClose } = props;
   const { formatMessage } = useIntl();
 
   const initialFormData = {

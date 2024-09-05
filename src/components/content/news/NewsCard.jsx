@@ -5,7 +5,8 @@ import { Link } from "react-router-dom";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import Skeleton from "@mui/material/Skeleton";
 
-const NewsCard = ({ news, forAside = false, forSkeleton = false }) => {
+const NewsCard = (props) => {
+  const { news, forAside = false, forSkeleton = false } = props;
   const { locale } = useIntl();
 
   if (forSkeleton) {

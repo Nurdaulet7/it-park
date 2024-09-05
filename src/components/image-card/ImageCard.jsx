@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { Fancybox as FancyboxNative } from "@fancyapps/ui";
 import { useIntl } from "react-intl";
 
-const ImageCard = ({ images, galleryId, titles }) => {
+const ImageCard = (props) => {
+  const { images, galleryId, titles } = props;
   const { locale } = useIntl();
 
   useEffect(() => {

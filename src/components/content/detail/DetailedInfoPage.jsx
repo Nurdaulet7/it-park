@@ -22,7 +22,9 @@ const formatTextWithParagraphs = (text) => {
   return paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>);
 };
 
-const DetailedInfoPage = ({ event, isNews = false }) => {
+const DetailedInfoPage = (props) => {
+  const { event, isNews = false } = props;
+
   const { locale } = useIntl();
   const allEvents = useSelector(selectEvents);
   const allNews = useSelector(selectNews);

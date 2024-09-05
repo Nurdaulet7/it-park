@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import RegisterForm from "./RegisterForm";
 import LoginForm from "./LoginForm";
 
-const AuthForm = ({ isOpen, onClose }) => {
+const AuthForm = (props) => {
+  const { isOpen, onClose } = props;
   const [isLogin, setIsLogin] = useState(true);
 
   const switchToRegister = () => setIsLogin(false);

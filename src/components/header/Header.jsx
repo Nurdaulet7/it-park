@@ -7,12 +7,9 @@ import LanguageSwitcher from "../lngSwitcher/LanguageSwitcher";
 import { FormattedMessage } from "react-intl";
 import { useNavigate } from "react-router-dom";
 
-const Header = ({
-  onOpenDialog,
-  onOpenResidentForm,
-  onOpenLoginForm,
-  setLocale,
-}) => {
+const Header = (props) => {
+  const { onOpenDialog, onOpenResidentForm, onOpenLoginForm, setLocale } =
+    props;
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate();
 
