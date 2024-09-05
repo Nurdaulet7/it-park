@@ -1,0 +1,36 @@
+{
+  "files": {
+    "main.css": "/static/css/main.a58d3f96.css",
+    "main.js": "/static/js/main.42676668.js",
+    "static/media/sliderImg.png": "/static/media/sliderImg.3a9559d102d4035bc4a4.png",
+    "static/media/aboutItpark.png": "/static/media/aboutItpark.0430711ab093db470150.png",
+    "static/media/techno2.jpg": "/static/media/techno2.7b4aa88adfb1a31ba388.jpg",
+    "static/media/freeZone3.jpg": "/static/media/freeZone3.3a0e22b6a6b3c6e9f866.jpg",
+    "static/media/techno5.jpg": "/static/media/techno5.5acda58fd757a0f17105.jpg",
+    "static/media/coworking3.jpeg": "/static/media/coworking3.26a7981a4ca7779ae4a1.jpeg",
+    "static/media/coworking2.jpeg": "/static/media/coworking2.c10ea1b120fc507f5e23.jpeg",
+    "static/media/coworking5.jpeg": "/static/media/coworking5.95317fc7b87c4ae4aced.jpeg",
+    "static/media/coworking1.jpg": "/static/media/coworking1.97bcb8cf1108e3abd966.jpg",
+    "static/media/techno3.jpg": "/static/media/techno3.628bf55087ecb5be8db8.jpg",
+    "static/media/business1.jpg": "/static/media/business1.dd2248d4ba924b3c33f2.jpg",
+    "static/media/freeZone2.jpg": "/static/media/freeZone2.e0460e2af52df850be13.jpg",
+    "static/media/coworking4.jpeg": "/static/media/coworking4.6fb7fa478713059d7028.jpeg",
+    "static/media/business2.jpg": "/static/media/business2.af800b78462e59e2263d.jpg",
+    "static/media/techno4.jpeg": "/static/media/techno4.c5e88f973e56505d1edb.jpeg",
+    "static/media/techno1.jpeg": "/static/media/techno1.0a9186e0461ceff60a93.jpeg",
+    "static/media/freeZone1.jpeg": "/static/media/freeZone1.128b1c1ba80c6673df2d.jpeg",
+    "static/media/videoZone.jpeg": "/static/media/videoZone.eb046833ac3e6694b827.jpeg",
+    "static/media/Montserrat-Bold.woff2": "/static/media/Montserrat-Bold.b4c99e29de526067f005.woff2",
+    "static/media/Montserrat-SemiBold.woff2": "/static/media/Montserrat-SemiBold.2ee525582a505c2acbf9.woff2",
+    "static/media/Montserrat-Medium.woff2": "/static/media/Montserrat-Medium.dbf367a0f41bb77a6312.woff2",
+    "static/media/Montserrat-Regular.woff2": "/static/media/Montserrat-Regular.a66265ef3ec2c9bd2fe8.woff2",
+    "static/media/Montserrat-Light.woff2": "/static/media/Montserrat-Light.86aaf964efb7b0799db5.woff2",
+    "index.html": "/index.html",
+    "main.a58d3f96.css.map": "/static/css/main.a58d3f96.css.map",
+    "main.42676668.js.map": "/static/js/main.42676668.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.a58d3f96.css",
+    "static/js/main.42676668.js"
+  ]
+}
