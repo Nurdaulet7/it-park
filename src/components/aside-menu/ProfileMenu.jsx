@@ -1,6 +1,19 @@
 import React from "react";
 import { FormattedMessage } from "react-intl";
 import cn from "classnames";
+import { useNavigate } from "react-router-dom";
+
+const LogoutButton = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("jwtToken");
+
+    navigate("/");
+  };
+
+  return <button onClick={handleLogout}>Выйти</button>;
+};
 
 const menu_sections = [
   { id: "Мой профиль" },
@@ -30,6 +43,7 @@ const ProfileMenu = () => {
             </li>
           </article>
         ))}
+        <LogoutButton />
       </ul>
     </div>
   );

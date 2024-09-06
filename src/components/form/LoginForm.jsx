@@ -2,22 +2,25 @@ import React, { useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { z } from "zod";
 import InputField from "./InputField";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = (props) => {
   const { onSwitchToRegister, isOpen, onClose } = props;
   const { formatMessage } = useIntl();
+  const navigate = useNavigate();
 
   const initialLoginData = {
-    username: "",
+    login: "",
     password: "",
     remember: false,
   };
 
   const loginSchema = z.object({
-    username: z
+    login: z
       .string()
       .trim()
-      .min(1, formatMessage({ id: "loginRequired" })),
+      .min(1, formatMessage({ id: "loginRequired" })), // Исправили на login
     password: z
       .string()
       .trim()
@@ -27,11 +30,13 @@ const LoginForm = (props) => {
 
   const [formData, setFormData] = useState(initialLoginData);
   const [errors, setErrors] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (!isOpen) {
       setFormData(initialLoginData);
       setErrors({});
+      setErrorMessage("");
     }
   }, [isOpen]);
 
@@ -58,7 +63,7 @@ const LoginForm = (props) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationResult = loginSchema.safeParse(formData);
 
@@ -69,14 +74,38 @@ const LoginForm = (props) => {
       });
       setErrors(fieldErrors);
     } else {
-      console.log(validationResult.data);
-      setFormData({
-        username: "",
-        password: "",
-        remember: false,
-      });
-      setErrors({});
-      onClose();
+      try {
+        const formDataToSend = new FormData();
+        formDataToSend.append("login", formData.login);
+        formDataToSend.append("password", formData.password);
+
+        console.log(formDataToSend);
+
+        const response = await axios.post(
+          "https://it-park.kz/kk/api/login",
+          formDataToSend
+        );
+
+        console.log(response);
+
+        if (response.data.token) {
+          const token = response.data.token;
+          localStorage.setItem("jwtToken", token);
+          navigate("/profile/user");
+          onClose();
+        } else {
+          setErrorMessage("Ошибка аутентификации. Проверьте введенные данные.");
+        }
+      } catch (error) {
+        console.error("Ошибка запроса:", error);
+        if (error.response && error.response.data) {
+          setErrorMessage(
+            error.response.data.message || "Неверные логин или пароль"
+          );
+        } else {
+          setErrorMessage("Ошибка сети. Попробуйте позже.");
+        }
+      }
     }
   };
 
@@ -88,11 +117,11 @@ const LoginForm = (props) => {
       <div className="inputs">
         <InputField
           type="text"
-          name="username"
-          value={formData.username}
+          name="login" // Исправлено на login
+          value={formData.login}
           onChange={handleChange}
-          placeholder={formatMessage({ id: "username" })}
-          error={errors.username}
+          placeholder={formatMessage({ id: "username" })} // Placeholder остаётся тем же
+          error={errors.login} // Ошибки для login
         />
         <InputField
           type="password"
@@ -118,6 +147,7 @@ const LoginForm = (props) => {
           </a>
         </div>
       </div>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
       <div className="log-reg-buttons">
         <button type="submit" className="button">
           <FormattedMessage id="sign_in" />

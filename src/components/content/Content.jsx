@@ -25,6 +25,7 @@ import AboutUs from "../../pages/AboutUs";
 import { NotFound } from "../../pages/NotFound";
 import SearchResults from "./search/SearchResults";
 import UserProfile from "../../pages/profile/UserProfile";
+import PrivateRoute from "./route/PrivateRoute";
 
 const MainContent = ({ scrollToSection }) => {
   useEffect(() => {
@@ -77,7 +78,14 @@ const Content = (props) => {
           <Route path="/first_it_park" element={<FirstItPark />} />
           <Route path="/about_us" element={<AboutUs />} />
           <Route path="/search" element={<SearchResults />} />
-          <Route path="/profile/*" element={<UserProfile />} />
+          <Route
+            path="/profile/*"
+            element={
+              <PrivateRoute>
+                <UserProfile />
+              </PrivateRoute>
+            }
+          />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
