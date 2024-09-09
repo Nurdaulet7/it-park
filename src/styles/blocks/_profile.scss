@@ -9,22 +9,60 @@
     display: flex;
     flex-direction: column;
     row-gap: 20px;
+
+    @include profile {
+      width: 100%;
+      background-color: aquamarine;
+    }
   }
 
   &__aside {
+    transition: all 0.3s ease-in-out;
     height: fit-content;
-    /* width: auto; */
-    top: 96px;
+    top: 92px;
     position: sticky;
     display: flex;
     flex-direction: column;
     row-gap: 20px;
     right: 0;
 
+    @include profile {
+      z-index: 99;
+      position: fixed;
+      height: 100vh;
+      right: -260px;
+    }
+
     .menu {
       min-width: 240px;
 
+      & .menu-toggle-btn {
+        position: absolute;
+        top: 50px;
+        left: -40px;
+        z-index: 100;
+        padding: 0;
+        border: none;
+        cursor: pointer;
+        background: var(--menu-text-color);
+        color: var(--background-header-primary);
+        transition: transform 0.3s ease-in-out;
+        border-radius: 10px 0 0 10px;
+        @include square(40px);
+
+        & * {
+          font-size: 25px;
+        }
+      }
+
       &__list {
+        @include profile {
+          padding: 10px;
+          box-shadow: var(--shadow);
+          border-radius: 10px 0 0 10px;
+          background: white;
+        }
+
         position: sticky;
         top: 96px;
         max-width: 100%;

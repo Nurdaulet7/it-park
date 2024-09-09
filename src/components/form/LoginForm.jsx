@@ -90,7 +90,12 @@ const LoginForm = (props) => {
 
         if (response.data.token) {
           const token = response.data.token;
+          const expiresIn = 5 * 60 * 60 * 1000;
+          const exprirationTime = new Date().getTime() + expiresIn;
+
           localStorage.setItem("jwtToken", token);
+          localStorage.setItem("tokenExpiration", exprirationTime);
+
           navigate("/profile/user");
           onClose();
         } else {

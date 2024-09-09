@@ -1,12 +1,33 @@
-import React from "react";
-import { Navigate } from "react-router-dom";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
+const checkTokenExpiration = () => {
+  const token = localStorage.getItem("jwtToken");
+  const expirationTime = localStorage.getItem("tokenExpiration");
+
+  if (token && expirationTime) {
+    const currentTime = new Date().getTime();
+
+    if (currentTime > expirationTime) {
+      localStorage.removeItem("jwtToken");
+      localStorage.removeItem("tokenExpiration");
+
+      return false;
+    }
+    return true;
+  }
+
+  return false;
+};
 
 const PrivateRoute = ({ children }) => {
-  const token = localStorage.getItem("jwtToken");
+  const navigate = useNavigate();
 
-  if (!token) {
-    return <Navigate to="/" />;
-  }
+  useEffect(() => {
+    if (!checkTokenExpiration()) {
+      navigate("/");
+    }
+  }, [navigate]);
 
   return children;
 };
