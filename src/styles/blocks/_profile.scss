@@ -4,6 +4,10 @@
   justify-content: space-between;
   color: var(--menu-text-color);
 
+  @include profile {
+    column-gap: 0;
+  }
+
   &__content {
     width: 80%;
     display: flex;
@@ -12,34 +16,44 @@
 
     @include profile {
       width: 100%;
-      background-color: aquamarine;
+      row-gap: 20px;
     }
   }
 
   &__aside {
-    transition: all 0.3s ease-in-out;
-    height: fit-content;
-    top: 92px;
-    position: sticky;
-    display: flex;
-    flex-direction: column;
-    row-gap: 20px;
-    right: 0;
-
-    @include profile {
-      z-index: 99;
-      position: fixed;
-      height: 100vh;
-      right: -260px;
-    }
-
-    .menu {
+    & .menu {
       min-width: 240px;
+      height: fit-content;
+      top: 96px;
+      position: sticky;
+      display: flex;
+      flex-direction: column;
+      row-gap: 20px;
+      right: 0;
+
+      transition: transform 0.3s ease-in-out;
+      transform: translateX(-100%);
+
+      &--open {
+        transform: translateX(0);
+      }
+
+      @include profile {
+        z-index: 99;
+        position: fixed;
+        height: 100vh;
+        right: -260px;
+      }
+
+      @include tablet {
+        top: 92px;
+      }
 
       & .menu-toggle-btn {
+        display: none;
         position: absolute;
         top: 50px;
-        left: -40px;
+        left: -64px;
         z-index: 100;
         padding: 0;
         border: none;
@@ -47,8 +61,18 @@
         background: var(--menu-text-color);
         color: var(--background-header-primary);
         transition: transform 0.3s ease-in-out;
-        border-radius: 10px 0 0 10px;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
         @include square(40px);
+
+        @include profile {
+          display: block;
+        }
+
+        @include mobile {
+          border-radius: 10px 0 0 10px;
+          left: -40px;
+        }
 
         & * {
           font-size: 25px;
@@ -56,13 +80,6 @@
       }
 
       &__list {
-        @include profile {
-          padding: 10px;
-          box-shadow: var(--shadow);
-          border-radius: 10px 0 0 10px;
-          background: white;
-        }
-
         position: sticky;
         top: 96px;
         max-width: 100%;
@@ -75,7 +92,122 @@
         input {
           width: 80%;
         }
+
+        @include profile {
+          top: 92px;
+          padding: 10px;
+          box-shadow: var(--shadow);
+          border-radius: 10px 0 0 10px;
+          background: var(--background-header-primary);
+        }
       }
     }
+  }
+}
+
+.menu__list-item-profile {
+  @include flex-center(true);
+  position: relative;
+  width: 100%;
+  justify-content: flex-start;
+  box-shadow: none;
+  height: var(--button-height);
+  padding-inline: 15px;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--menu-text-color);
+  border: var(--border);
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+
+  @include hover {
+    &::after {
+      width: 90%;
+    }
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    translate: -50%;
+    width: 0;
+    height: 4px;
+    border-radius: 5px;
+    background-color: var(--color-accent);
+    transition-duration: inherit;
+  }
+
+  &--active {
+    &::after {
+      width: 90%;
+    }
+  }
+}
+
+.profile-card {
+  display: flex;
+  flex-direction: column;
+  padding: 25px;
+  box-shadow: var(--shadow);
+  border-radius: var(--border-radius);
+  background-color: var(--background-header-primary);
+
+  &__body {
+    display: flex;
+    gap: 20px;
+
+    .profile-image {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+
+      img {
+        @include square(250px);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+      }
+    }
+
+    @include mobile {
+      flex-wrap: wrap;
+
+      .profile-image {
+        width: 100%;
+
+        img {
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+
+  .profile-content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    &__bottom {
+      display: flex;
+      justify-content: end;
+    }
+  }
+}
+
+.profile-change-button {
+  padding: 7px;
+  background-color: var(--color-accent);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-small);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+
+  @include hover {
+    transform: scale(1.08);
   }
 }

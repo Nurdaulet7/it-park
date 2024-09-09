@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import styles from "./Header.module.scss";
 import logo from "../../images/logo-it-park.png";
@@ -6,18 +6,28 @@ import { FaRegUser } from "react-icons/fa";
 import LanguageSwitcher from "../lngSwitcher/LanguageSwitcher";
 import { FormattedMessage } from "react-intl";
 import { useNavigate } from "react-router-dom";
+import checkTokenExpiration from "../../utils/checkTokenExpiration";
 
 const Header = (props) => {
   const { onOpenDialog, onOpenResidentForm, onOpenLoginForm, setLocale } =
     props;
   const [searchTerm, setSearchTerm] = useState("");
+
   const navigate = useNavigate();
+
+  const handleUserClick = async () => {
+    const token = checkTokenExpiration();
+    if (token) {
+      navigate("/profile/user");
+    } else {
+      onOpenLoginForm();
+    }
+  };
 
   const handleSearch = (e) => {
     const query = e.target.value;
     setSearchTerm(query);
 
-    // Обновляем параметры URL для поиска
     if (query) {
       navigate(`/search?query=${encodeURIComponent(query)}`);
     } else {
@@ -38,18 +48,6 @@ const Header = (props) => {
           />
         </a>
         <div className={cn(styles["header__buttons"])}>
-          {/* <FormattedMessage
-            id="search_placeholder"
-            defaultMessage="Поиск по сайту"
-            children={(placeholder) => (
-              <input
-                type="text"
-                form="search"
-                placeholder={placeholder}
-                
-              />
-            )}
-          /> */}
           <FormattedMessage
             id="search_placeholder"
             defaultMessage="Поиск по сайту"
@@ -79,7 +77,7 @@ const Header = (props) => {
           </button>
           <LanguageSwitcher setLocale={setLocale} />
           <button
-            onClick={onOpenLoginForm}
+            onClick={handleUserClick}
             className={cn(
               "button",
               "button--transparent",

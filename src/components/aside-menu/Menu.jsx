@@ -37,12 +37,6 @@ const menu_sections = [
     to: "section-projects",
     isInternal: true,
   },
-  // {
-  //   id: "partners",
-  //   icon: FaRegHandshake,
-  //   to: "section-partners",
-  //   isInternal: true,
-  // },
   {
     id: "first_it_park",
     icon: TbRosetteNumber1,

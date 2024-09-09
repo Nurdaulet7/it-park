@@ -20,7 +20,7 @@ const LoginForm = (props) => {
     login: z
       .string()
       .trim()
-      .min(1, formatMessage({ id: "loginRequired" })), // Исправили на login
+      .min(1, formatMessage({ id: "loginRequired" })),
     password: z
       .string()
       .trim()
@@ -91,10 +91,10 @@ const LoginForm = (props) => {
         if (response.data.token) {
           const token = response.data.token;
           const expiresIn = 5 * 60 * 60 * 1000;
-          const exprirationTime = new Date().getTime() + expiresIn;
+          const expirationTime = new Date().getTime() + expiresIn;
 
           localStorage.setItem("jwtToken", token);
-          localStorage.setItem("tokenExpiration", exprirationTime);
+          localStorage.setItem("tokenExpiration", expirationTime);
 
           navigate("/profile/user");
           onClose();
@@ -122,11 +122,11 @@ const LoginForm = (props) => {
       <div className="inputs">
         <InputField
           type="text"
-          name="login" // Исправлено на login
+          name="login"
           value={formData.login}
           onChange={handleChange}
-          placeholder={formatMessage({ id: "username" })} // Placeholder остаётся тем же
-          error={errors.login} // Ошибки для login
+          placeholder={formatMessage({ id: "username" })}
+          error={errors.login}
         />
         <InputField
           type="password"

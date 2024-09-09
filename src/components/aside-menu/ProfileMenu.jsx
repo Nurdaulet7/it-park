@@ -1,64 +1,80 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import cn from "classnames";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { CgMenuRightAlt } from "react-icons/cg";
+import { RiMenuFold4Fill } from "react-icons/ri";
 
-const LogoutButton = () => {
+const menu_sections = [
+  { id: "Мой профиль", url: "/profile/user" },
+  { id: "Мои новости", url: "/profile/news" },
+  { id: "Мои мероприятия", url: "/profile/events" },
+  { id: "Мои вакансии", url: "/profile/vacancies" },
+  { id: "Мои проекты", url: "/profile/projects" },
+  { id: "Электронный журнал", url: "/profile/journal" },
+  { id: "Приемы", url: "/profile/appointments" },
+  { id: "Выйти с аккаунта", url: "/logout" },
+];
+
+const ProfileMenu = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
+  useEffect(() => {
+    if (!isMenuOpen) {
+      document.body.style.overflowY = "hidden";
+    } else {
+      document.body.style.overflowY = "auto";
+    }
+
+    return () => {
+      document.body.style.overflowY = "auto";
+    };
+  }, [isMenuOpen]);
 
   const handleLogout = () => {
     localStorage.removeItem("jwtToken");
+    localStorage.removeItem("tokenExpiration");
 
     navigate("/");
   };
 
-  return <button onClick={handleLogout}>Выйти</button>;
-};
-
-const menu_sections = [
-  { id: "Мой профиль" },
-  { id: "Мои новости" },
-  { id: "Мои мероприятия" },
-  { id: "Мои вакансии" },
-  { id: "Мои проекты" },
-  { id: "Электронный журнал" },
-  { id: "Приемы" },
-  { id: "Выйти с аккаунта" },
-];
-const ProfileMenu = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // Состояние для управления видимостью меню
-
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev); // Переключаем состояние видимости меню
+  const handleSectionClick = (url) => {
+    if (url === "/logout") {
+      handleLogout();
+    } else {
+      navigate(url);
+    }
   };
 
   return (
-    <div className={"menu"}>
+    <div className={cn("menu", { "menu--open": isMenuOpen })}>
       <button
         className={cn("menu-toggle-btn", {
           "menu-toggle-btn--active": isMenuOpen,
         })}
         onClick={toggleMenu}
       >
-        <CgMenuRightAlt />
+        {isMenuOpen ? <CgMenuRightAlt /> : <RiMenuFold4Fill />}
       </button>
       <ul className={cn("menu__list")}>
         {menu_sections.map((section, index) => (
-          <article
-            className={cn(
-              "menu__list-link",
-              "button button--transparent button--transparent--menu"
-            )}
+          <li
+            key={index}
+            className={cn("menu__list-item-profile", {
+              "menu__list-item-profile--active":
+                location.pathname === section.url,
+            })}
+            onClick={() => handleSectionClick(section.url)}
           >
-            <li key={index} className={cn("menu__list-item")}>
-              <span className="menu__list-item-text">
-                <FormattedMessage id={section.id} defaultMessage={section.id} />
-              </span>
-            </li>
-          </article>
+            <span className="menu__list-item-text">{section.id}</span>
+          </li>
         ))}
-        <LogoutButton />
       </ul>
     </div>
   );
