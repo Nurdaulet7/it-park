@@ -5,6 +5,7 @@
 
   &_item {
     list-style-type: none;
+    position: relative;
   }
 
   &-card {
@@ -20,6 +21,29 @@
     border-radius: var(--border-radius);
     border: var(--border);
     transition: background-color 0.3s ease, transform 0.3s ease;
+
+    & .resident-icon {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      z-index: 1;
+      @include square(40px);
+      background-color: #fff;
+      font-size: 11px;
+      padding: 5px;
+      border-radius: var(--border-radius);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+
+      & img {
+        @include square(34px);
+        position: relative;
+        object-fit: contain;
+        border-radius: var(--border-radius-small);
+      }
+    }
 
     @include hover {
       transform: scale(1.02);
@@ -63,6 +87,7 @@
       width: 100%;
       display: flex;
       justify-content: space-between;
+      align-items: center;
 
       & .read-more {
         font-size: 18;
@@ -133,4 +158,30 @@
   background: var(--color-accent);
   background: linear-gradient(to bottom, var(--color-accent), #a22c47);
   color: #fafafa;
+}
+
+.change-buttons {
+  display: flex;
+  column-gap: 7px;
+
+  & .change {
+    padding: 7px;
+    border-radius: var(--border-radius-small);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    & * {
+      color: white;
+      font-size: 15px;
+    }
+  }
+
+  & .change-btn {
+    background-color: var(--color-accent);
+  }
+
+  & .delete-btn {
+    background-color: var(--color-gray);
+  }
 }

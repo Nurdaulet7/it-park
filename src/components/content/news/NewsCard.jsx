@@ -3,10 +3,17 @@ import { FormattedDate, FormattedMessage, useIntl } from "react-intl";
 import { FaRegEye } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
+import { FaPencilAlt } from "react-icons/fa";
+import { RiDeleteBinLine } from "react-icons/ri";
 import Skeleton from "@mui/material/Skeleton";
 
 const NewsCard = (props) => {
-  const { news, forAside = false, forSkeleton = false } = props;
+  const {
+    news,
+    forAside = false,
+    forSkeleton = false,
+    forProfile = false,
+  } = props;
   const { locale } = useIntl();
 
   if (forSkeleton) {
@@ -37,6 +44,16 @@ const NewsCard = (props) => {
   return (
     <li className="news_item">
       <article className={`${forAside ? "news-card-aside" : ""} news-card`}>
+        {!forAside && (
+          <div className="resident-icon">
+            <img
+              className="icon"
+              src={news.user_id.image}
+              alt={news.user_id.name_ru}
+            />
+          </div>
+        )}
+
         <div className="news-card__header">
           <img src={news.image} alt={news.title_en} />
         </div>
@@ -59,10 +76,21 @@ const NewsCard = (props) => {
             <h4>{getTranslatedContent(news, "title", locale)}</h4>
           </div>
           <div className="news-card__footer">
-            <span className="views">
-              <FaRegEye id="eye-icon" />
-              {news.views}
-            </span>
+            {forProfile ? (
+              <div className="change-buttons">
+                <a href="#" className="change change-btn">
+                  <FaPencilAlt />
+                </a>
+                <a href="#" className="change delete-btn">
+                  <RiDeleteBinLine />
+                </a>
+              </div>
+            ) : (
+              <span className="views">
+                <FaRegEye id="eye-icon" />
+                {news.views}
+              </span>
+            )}
             <Link to={`/news/${news.id}`} className="read-more">
               <FormattedMessage
                 id="read_more"
