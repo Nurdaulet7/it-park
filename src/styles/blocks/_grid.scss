@@ -9,6 +9,16 @@
     &--#{$i} {
       --gridColumns: #{$i};
     }
+
+    &---#{$i} {
+      --gridColumns: #{$i};
+    }
+  }
+
+  &---2 {
+    @include mobile {
+      --gridColumns: 1;
+    }
   }
 
   &--3 {

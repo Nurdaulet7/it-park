@@ -25,7 +25,7 @@ const ProfileCard = (props) => {
               <strong>Телефон:</strong> {userData.phone}
             </p>
             <p>
-              <strong>Электронная :</strong> {userData.email}
+              <strong>Электронная:</strong> {userData.email}
             </p>
             <p>
               <strong>БИН:</strong> {userData.iin}
@@ -35,7 +35,7 @@ const ProfileCard = (props) => {
             </p>
           </div>
           <div className="profile-content__bottom">
-            <a className="profile-change-button">
+            <a className="profile-change-button ">
               <FaPencilAlt />
             </a>
           </div>

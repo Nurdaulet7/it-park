@@ -1,7 +1,7 @@
 import React from "react";
 import { FormattedDate, FormattedMessage, useIntl } from "react-intl";
 import { FaRegEye } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import { FaPencilAlt } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
@@ -15,6 +15,11 @@ const NewsCard = (props) => {
     forProfile = false,
   } = props;
   const { locale } = useIntl();
+  const navigate = useNavigate();
+
+  const handleEditClick = () => {
+    navigate(`/profile/news/update?id=${news.id}`);
+  };
 
   if (forSkeleton) {
     return (
@@ -44,7 +49,7 @@ const NewsCard = (props) => {
   return (
     <li className="news_item">
       <article className={`${forAside ? "news-card-aside" : ""} news-card`}>
-        {!forAside && (
+        {!forAside && !forProfile && (
           <div className="resident-icon">
             <img
               className="icon"
@@ -78,12 +83,12 @@ const NewsCard = (props) => {
           <div className="news-card__footer">
             {forProfile ? (
               <div className="change-buttons">
-                <a href="#" className="change change-btn">
+                <button onClick={handleEditClick} className="change change-btn">
                   <FaPencilAlt />
-                </a>
-                <a href="#" className="change delete-btn">
+                </button>
+                <button className="change delete-btn">
                   <RiDeleteBinLine />
-                </a>
+                </button>
               </div>
             ) : (
               <span className="views">

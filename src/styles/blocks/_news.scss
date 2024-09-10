@@ -35,7 +35,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: background-color 0.3s ease, transform 0.3s ease;
 
       & img {
         @include square(34px);
@@ -165,15 +164,21 @@
   column-gap: 7px;
 
   & .change {
-    padding: 7px;
-    border-radius: var(--border-radius-small);
+    padding: 6px;
+    border-radius: 7px;
     display: flex;
     align-items: center;
     justify-content: center;
+    border: none;
+    box-shadow: var(--shadow);
 
     & * {
       color: white;
       font-size: 15px;
+    }
+
+    &:hover {
+      background-color: var(--color-accent-h);
     }
   }
 
