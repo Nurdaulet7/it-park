@@ -1,8 +1,14 @@
 .profile {
+  width: 100%;
   display: flex;
   column-gap: 20px;
   justify-content: space-between;
   color: var(--menu-text-color);
+
+  .profile_editor,
+  .profile__content {
+    width: 100%;
+  }
 
   @include profile {
     column-gap: 0;

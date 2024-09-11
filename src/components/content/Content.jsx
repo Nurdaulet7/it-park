@@ -26,7 +26,6 @@ import { NotFound } from "../../pages/NotFound";
 import SearchResults from "./search/SearchResults";
 import UserProfile from "../../pages/profile/UserProfile";
 import PrivateRoute from "./route/PrivateRoute";
-import EditNews from "./news/EditNews";
 
 const MainContent = ({ scrollToSection }) => {
   useEffect(() => {
@@ -79,8 +78,6 @@ const Content = (props) => {
           <Route path="/first_it_park" element={<FirstItPark />} />
           <Route path="/about_us" element={<AboutUs />} />
           <Route path="/search" element={<SearchResults />} />
-
-          {/* <Route path="/profile/news/update" element={<EditNews />} /> */}
 
           <Route
             path="/profile/*"

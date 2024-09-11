@@ -81,6 +81,12 @@
     background-color: var(--background-primary);
     color: var(--menu-text-color);
   }
+
+  &__editer {
+    padding-left: 10px;
+    background: none;
+    border-radius: var(--border-radius-small);
+  }
 }
 
 .option {

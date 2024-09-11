@@ -12,8 +12,10 @@ const UserProfile = () => {
 
   return (
     <div className="container">
-      <div className={shouldShowAside ? "profile" : ""}>
-        <div className="profile__content">
+      <div className="profile">
+        <div
+          className={shouldShowAside ? "profile__content" : "profile_editor"}
+        >
           <Routes>
             <Route path="user" element={<MyProfile />} />
             <Route path="news" element={<MyNews />} />
