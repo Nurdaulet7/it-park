@@ -3,13 +3,14 @@ import axios from "axios";
 import { getCachedData, cacheData } from "../../utils/cacheUtils";
 
 const CACHE_KEY = "cachedNews";
+const BASE_URL = "https://it-park.kz/ru/api";
 
 export const fetchNews = createAsyncThunk("news/fetchNews", async () => {
   const cachedNews = getCachedData(CACHE_KEY);
   console.log(cachedNews);
 
   if (cachedNews) {
-    const response = await axios.get(`/ru/api/news`);
+    const response = await axios.get(`${BASE_URL}/news`);
     const news = response.data;
 
     if (news.length !== cachedNews.length) {
@@ -20,7 +21,7 @@ export const fetchNews = createAsyncThunk("news/fetchNews", async () => {
     return cachedNews;
   }
 
-  const response = await axios.get(`/ru/api/news`);
+  const response = await axios.get(`${BASE_URL}/news`);
   const news = response.data;
 
   cacheData(CACHE_KEY, news);
