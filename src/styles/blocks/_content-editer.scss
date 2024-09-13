@@ -19,4 +19,27 @@
     flex-direction: column;
     gap: 10px;
   }
+
+  &__label {
+    @include fluid-text(18, 16);
+    font-weight: 500;
+  }
+
+  &__editor {
+    z-index: 1;
+  }
+
+  &__submit {
+    align-self: flex-end;
+    max-width: 280px;
+
+    @include mobile-s {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+}
+
+.ck-editor__editable {
+  color: var(--color-gray);
 }

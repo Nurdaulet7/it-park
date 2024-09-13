@@ -7,6 +7,7 @@
   right: var(--layout-padding-x);
   z-index: 99;
   border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
   display: flex;
 
   @include mobile {

@@ -10,7 +10,7 @@
 
     &::after {
       color: var(--color-white);
-      background-color: white; // Устанавливаем белый цвет
+      background-color: white;
       box-shadow: 0 -8px var(--burger-color), 0 8px var(--burger-color);
     }
 

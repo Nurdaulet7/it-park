@@ -87,6 +87,17 @@
     background: none;
     border-radius: var(--border-radius-small);
     background-color: var(--background-header-primary);
+
+    &-textarea {
+      padding: 10px;
+      min-height: 150px;
+    }
+
+    &-image {
+      padding: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
   }
 }
 
