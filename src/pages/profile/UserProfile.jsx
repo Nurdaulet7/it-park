@@ -5,6 +5,7 @@ import MyProfile from "./MyProfile/MyProfile";
 import MyNews from "./MyNews/MyNews";
 import { NotFound } from "../NotFound";
 import EditNews from "../../components/content/news/EditNews";
+import CreateNews from "./MyProfile/CreateNews";
 
 const UserProfile = () => {
   const location = useLocation();
@@ -20,6 +21,7 @@ const UserProfile = () => {
             <Route path="user" element={<MyProfile />} />
             <Route path="news" element={<MyNews />} />
             <Route path="news/update" element={<EditNews />} />
+            <Route path="news/create" element={<CreateNews />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

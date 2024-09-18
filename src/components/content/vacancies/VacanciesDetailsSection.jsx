@@ -13,6 +13,7 @@ import { setCurrentEvent } from "../../../redux/slices/eventsSlice";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import { FormattedMessage, useIntl } from "react-intl";
 import SkeletonDetail from "../../skeleton/SkeletonDetail";
+import HtmlContent from "../../../utils/HtmlContent";
 
 const VacanciesDetailsSection = () => {
   const { id } = useParams();
@@ -75,7 +76,9 @@ const VacanciesDetailsSection = () => {
           <h5>
             <FormattedMessage id="summary" />
           </h5>
-          <p>{getTranslatedContent(vacancy, "desc", locale)}</p>
+          <HtmlContent
+            content={getTranslatedContent(vacancy, "desc", locale)}
+          />
         </div>
       </div>
     </div>

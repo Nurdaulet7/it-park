@@ -114,8 +114,8 @@ const EditForm = ({ data, handleChange, handleImageChange, handleSubmit }) => {
               value={data.status}
               onChange={(e) => handleChange("status", e.target.value)}
             >
-              <option value="не виден">не виден</option>
-              <option value="виден">виден</option>
+              <option value={0}>не виден</option>
+              <option value={1}>виден</option>
             </select>
           </div>
 

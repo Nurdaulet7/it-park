@@ -2,6 +2,16 @@
   width: 100%;
   background-color: var(--footer-background);
 
+  p {
+    margin-bottom: 10px;
+  }
+
+  a {
+    @include hover {
+      text-decoration: underline;
+    }
+  }
+
   &-body {
     color: var(--menu-dark-default-color);
     padding-block: 30px;

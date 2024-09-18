@@ -17,6 +17,7 @@
     "axios": "^1.7.3",
     "ckeditor5-build-classic": "^1.0.0",
     "classnames": "^2.5.1",
+    "html-react-parser": "^5.1.16",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.2.1",

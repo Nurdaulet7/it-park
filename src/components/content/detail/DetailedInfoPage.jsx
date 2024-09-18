@@ -9,18 +9,7 @@ import { useSelector } from "react-redux";
 import { FaWhatsapp, FaInstagram, FaSquareFacebook } from "react-icons/fa6";
 import { FaTelegram } from "react-icons/fa";
 import { selectNews } from "../../../redux/slices/newsSlice";
-
-// const shuffleArray = (array) => {
-//   return array.sort(() => Math.random() - 0.5);
-// };
-
-const formatTextWithParagraphs = (text) => {
-  // Разбиваем текст на массив строк, используя двойные или более пробелы и переводы строки
-  const paragraphs = text
-    .split(/\s*\n\s*/)
-    .filter((paragraph) => paragraph.trim() !== "");
-  return paragraphs.map((paragraph, index) => <p key={index}>{paragraph}</p>);
-};
+import HtmlContent from "../../../utils/HtmlContent";
 
 const DetailedInfoPage = (props) => {
   const { event, isNews = false } = props;
@@ -59,9 +48,9 @@ const DetailedInfoPage = (props) => {
             </span>
             <h3>{getTranslatedContent(event, "title", locale)}</h3>
             <div>
-              {formatTextWithParagraphs(
-                getTranslatedContent(event, "content", locale)
-              )}
+              <HtmlContent
+                content={getTranslatedContent(event, "content", locale)}
+              />
             </div>
           </div>
           <div className="detailed-info__content-share">

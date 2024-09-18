@@ -4,6 +4,7 @@ import { FaRegEye } from "react-icons/fa";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import { Link } from "react-router-dom";
 import Skeleton from "@mui/material/Skeleton";
+import HtmlContent from "../../../utils/HtmlContent";
 
 const VacanciesCard = ({ vacancy, forSkeleton = false }) => {
   const { locale } = useIntl();
@@ -45,11 +46,13 @@ const VacanciesCard = ({ vacancy, forSkeleton = false }) => {
               {getTranslatedContent(vacancy, "title", locale)}
             </h4>
             <p className="vacancy-card__body-desc">
-              {
-                getTranslatedContent(vacancy, "desc", locale)
-                  .replace(/(.+?)\1/, "$1")
-                  .match(/^[^\.]+/)[0]
-              }
+              <HtmlContent
+                content={
+                  getTranslatedContent(vacancy, "desc", locale).match(
+                    /^[^\.]+/
+                  )[0]
+                }
+              />
             </p>
             <p className="vacancy-card__body-price">от 150 000тг</p>
           </div>

@@ -29,7 +29,9 @@ const FooterComponent = () => {
             <div className="footer__inner-bottom">
               <p>IT-Park ©2023.</p>
               <p>
-                <FormattedMessage id="copyright" />
+                <a href="#">
+                  <FormattedMessage id="copyright" />
+                </a>
               </p>
             </div>
           </div>

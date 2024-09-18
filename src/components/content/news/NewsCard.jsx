@@ -6,6 +6,7 @@ import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import { FaPencilAlt } from "react-icons/fa";
 import { RiDeleteBinLine } from "react-icons/ri";
 import Skeleton from "@mui/material/Skeleton";
+import DeleteButton from "../../../pages/profile/MyProfile/DeleteButton";
 
 const NewsCard = (props) => {
   const {
@@ -13,6 +14,7 @@ const NewsCard = (props) => {
     forAside = false,
     forSkeleton = false,
     forProfile = false,
+    setNews,
   } = props;
   const { locale } = useIntl();
   const navigate = useNavigate();
@@ -86,9 +88,18 @@ const NewsCard = (props) => {
                 <button onClick={handleEditClick} className="change change-btn">
                   <FaPencilAlt />
                 </button>
-                <button className="change delete-btn">
+                {/* <button className="change delete-btn">
                   <RiDeleteBinLine />
-                </button>
+                </button> */}
+                <DeleteButton
+                  entityId={news.id}
+                  entityType="news"
+                  onSuccess={() => {
+                    setNews((prevNews) =>
+                      prevNews.filter((item) => item.id !== news.id)
+                    );
+                  }}
+                />
               </div>
             ) : (
               <span className="views">

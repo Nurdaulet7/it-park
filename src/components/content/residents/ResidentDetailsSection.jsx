@@ -19,6 +19,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import { scrollToTop } from "../../../utils/scrollToTop";
 import SkeletonDetail from "../../skeleton/SkeletonDetail";
+import HtmlContent from "../../../utils/HtmlContent";
 
 const ResidentDetailsSection = () => {
   const { id } = useParams();
@@ -45,7 +46,6 @@ const ResidentDetailsSection = () => {
   if (status === "failed") return <p>Error: {error}</p>;
   if (!resident) return <p>No resident data available</p>;
 
-  // Фильтруем проекты, относящиеся к текущему резиденту
   const residentProjects = projects.filter((project) =>
     resident.user_id.some((user) => user.id === project.id)
   );
@@ -65,7 +65,9 @@ const ResidentDetailsSection = () => {
             <h4 className="content-header__title">
               {getTranslatedContent(resident, "name", locale)}
             </h4>
-            <p>{getTranslatedContent(resident, "content", locale)}</p>
+            <HtmlContent
+              content={getTranslatedContent(resident, "content", locale)}
+            />
           </div>
           <ul className="content-contacts">
             <li className="content-contacts__item">

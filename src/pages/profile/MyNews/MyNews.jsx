@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./MyNews.scss";
 import axios from "axios";
 import NewsCard from "../../../components/content/news/NewsCard";
+import { useNavigate } from "react-router-dom";
 
 const MyNews = () => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const getUserIdFromToken = () => {
     const token = localStorage.getItem("jwtToken");
@@ -62,11 +64,16 @@ const MyNews = () => {
   return (
     <div className="my-news">
       <div className="my-news__uploader">
-        <button className="upload-btn button">Опубликовать</button>
+        <button
+          className="upload-btn button"
+          onClick={() => navigate("/profile/news/create")}
+        >
+          Опубликовать
+        </button>
       </div>
       <div className="grid grid---2">
         {news.map((item, index) => (
-          <NewsCard key={index} news={item} forProfile />
+          <NewsCard key={index} news={item} forProfile setNews={setNews} />
         ))}
       </div>
     </div>

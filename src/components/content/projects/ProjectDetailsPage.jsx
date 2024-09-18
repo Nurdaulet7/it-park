@@ -12,6 +12,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { scrollToTop } from "../../../utils/scrollToTop";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import SkeletonDetail from "../../skeleton/SkeletonDetail";
+import HtmlContent from "../../../utils/HtmlContent";
 
 const ProjectDetailsPage = () => {
   const { id } = useParams();
@@ -50,7 +51,9 @@ const ProjectDetailsPage = () => {
       <div className="project-details__body">
         <div className="project-details__content">
           <h3>{getTranslatedContent(project, "title", locale)}</h3>
-          <p>{getTranslatedContent(project, "desc", locale)}</p>
+          <HtmlContent
+            content={getTranslatedContent(project, "desc", locale)}
+          />
         </div>
         <div className="project-details__img">
           <img src={project.image} alt={project.title_ru} loading="lazy" />

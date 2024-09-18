@@ -56,4 +56,5 @@ h5 {
 
 p {
   @include fluid-text(18, 16);
+  margin: 0;
 }
