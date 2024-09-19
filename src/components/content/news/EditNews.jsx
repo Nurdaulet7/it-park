@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { scrollToTop } from "../../../utils/scrollToTop";
 import axios from "axios";
-import defaultImg from "../../../images/itpark-default.png";
 import EditForm from "../../../pages/profile/MyProfile/EditForm";
+import { useDispatch } from "react-redux";
+import { editNews } from "../../../redux/slices/newsSlice";
 
 const EditNews = () => {
   const [searchParams] = useSearchParams();
@@ -15,11 +16,12 @@ const EditNews = () => {
     content_kk: "",
     desc_ru: "",
     desc_kk: "",
-    image: null,
+    file: null,
     date: "",
-    status: "не виден",
+    status: 0,
   });
   // const [existingImage, setExistingImage] = useState(null);
+  const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -32,9 +34,9 @@ const EditNews = () => {
           `https://it-park.kz/kk/api/news/${id}`
         );
         setNewsData(response.data);
-        // setExistingImage(response.data.image);
+        // setExistingImage(response.data.file);
         setLoading(false);
-        console.log(response.data.image);
+        console.log(response.data.file);
       } catch (err) {
         setError("Не удалось загрузить новости");
         setLoading(false);
@@ -55,44 +57,21 @@ const EditNews = () => {
     const file = e.target.files[0];
     setNewsData((prevData) => ({
       ...prevData,
-      image: file.name,
+      file: file,
     }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("jwtToken");
-    // const headers = {
-    //   Authorization: `Bearer ${token}`,
-    //   "Content-Type": "application/json",
-    // };
 
-    const formData = new FormData();
-    formData.append("title_ru", newsData.title_ru);
-    formData.append("title_kk", newsData.title_kk);
-    formData.append("content_ru", newsData.content_ru);
-    formData.append("content_kk", newsData.content_kk);
-    formData.append("desc_ru", newsData.desc_ru);
-    formData.append("desc_kk", newsData.desc_kk);
-    formData.append("date", newsData.date);
-    formData.append("status", newsData.status);
-
-    if (newsData.image) {
-      formData.append("image", newsData.image); // Отправляем только имя файла
-    } else {
-      formData.append("image", defaultImg); // Сохраняем текущее изображение или задаем дефолтное
-    }
-    formData.append("token", token);
-
-    try {
-      await axios.post(
-        `https://it-park.kz/kk/api/update?table=news&post_id=${id}`,
-        formData
-      );
-      navigate("/profile/news");
-    } catch (err) {
-      setError("Ошибка при обновлении новости");
-    }
+    dispatch(editNews({ id, newsData }))
+      .unwrap()
+      .then(() => {
+        navigate("/profile/news");
+      })
+      .catch((err) => {
+        console.log("Error during updating news", err);
+      });
   };
 
   if (loading) return <div>Загрузка...</div>;

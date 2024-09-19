@@ -120,13 +120,22 @@ const EditForm = ({ data, handleChange, handleImageChange, handleSubmit }) => {
           </div>
 
           <div className="news-edit__field">
-            <label className="news-edit__label" htmlFor="image">
+            <label className="news-edit__label" htmlFor="file">
               Выберите изображение:
             </label>
+            {data.file && (
+              <div className="news-edit__image-preview">
+                <img
+                  src={URL.createObjectURL(data.file)}
+                  alt="Текущее изображение"
+                />
+              </div>
+            )}
             <input
               className="news-edit__input button input input__editer input__editer-image"
               type="file"
-              name="image"
+              name="file"
+              accept="image/*"
               onChange={handleImageChange}
             />
           </div>

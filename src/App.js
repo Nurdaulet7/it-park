@@ -11,6 +11,7 @@ import FormDialog from "./components/dialog/FormDialog";
 import ResidentForm from "./components/form/ResidentForm";
 import FooterComponent from "./components/footer/FooterComponent";
 import AuthForm from "./components/form/AuthForm";
+import ToastNotification from "./components/Error/ToastNotification";
 
 function App({ setLocale }) {
   const [isDialogOpen, setDialogOpen] = useState(false);
@@ -46,6 +47,7 @@ function App({ setLocale }) {
     <Provider store={store}>
       <BrowserRouter>
         <div className="App app-container">
+          <ToastNotification />
           <Header
             onOpenDialog={handleOpenDialog}
             onOpenResidentForm={handleOpenResidentForm}

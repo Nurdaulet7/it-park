@@ -1,40 +1,148 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { getCachedData, cacheData } from "../../utils/cacheUtils";
+import defaultImg from "../../images/itpark_default.png";
+import { showNotification } from "./notificationSlice";
 
 const CACHE_KEY = "cachedNews";
 const BASE_URL = "https://it-park.kz/ru/api";
 
-export const fetchNews = createAsyncThunk("news/fetchNews", async () => {
-  const cachedNews = getCachedData(CACHE_KEY);
-  console.log(cachedNews);
+export const fetchNews = createAsyncThunk(
+  "news/fetchNews",
+  async (_, thunkAPI) => {
+    const cachedNews = getCachedData(CACHE_KEY);
 
-  if (cachedNews) {
-    const response = await axios.get(`${BASE_URL}/news`);
-    const news = response.data;
+    try {
+      const response = await axios.get(`${BASE_URL}/news`);
+      const news = response.data;
 
-    if (news.length !== cachedNews.length) {
-      cacheData(CACHE_KEY, news);
-      return news;
+      if (!cachedNews || news.length !== cachedNews.length) {
+        cacheData(CACHE_KEY, news);
+        return news;
+      }
+
+      thunkAPI.dispatch(
+        showNotification({ message: "Новости загружены", type: "success" })
+      );
+      return cachedNews;
+    } catch (error) {
+      thunkAPI.dispatch(
+        showNotification({ message: "Ошибка загрузки новостей", type: "error" })
+      );
+      return thunkAPI.rejectWithValue(error.message);
     }
-
-    return cachedNews;
   }
+);
 
-  const response = await axios.get(`${BASE_URL}/news`);
-  const news = response.data;
+export const createNews = createAsyncThunk(
+  "news/createNews",
+  async (newsData, thunkAPI) => {
+    const token = localStorage.getItem("jwtToken");
+    const formData = new FormData();
+    formData.append("title_ru", newsData.title_ru);
+    formData.append("title_kk", newsData.title_kk);
+    formData.append("content_ru", newsData.content_ru);
+    formData.append("content_kk", newsData.content_kk);
+    formData.append("desc_ru", newsData.desc_ru);
+    formData.append("desc_kk", newsData.desc_kk);
+    formData.append("date", newsData.date);
+    formData.append("status", newsData.status);
+    formData.append("file", newsData.file || defaultImg);
+    formData.append("token", token);
 
-  cacheData(CACHE_KEY, news);
+    try {
+      const response = await axios.post(
+        `https://it-park.kz/kk/api/create?table=news`,
+        formData
+      );
+      thunkAPI.dispatch(
+        showNotification({ message: "Новость создана", type: "success" })
+      );
+      return response.data;
+    } catch (error) {
+      thunkAPI.dispatch(
+        showNotification({ message: "Ошибка создания новости", type: "error" })
+      );
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 
-  return news;
-});
+export const editNews = createAsyncThunk(
+  "news/editNews",
+  async ({ id, newsData }, thunkAPI) => {
+    const token = localStorage.getItem("jwtToken");
+
+    const formData = new FormData();
+    formData.append("title_ru", newsData.title_ru);
+    formData.append("title_kk", newsData.title_kk);
+    formData.append("content_ru", newsData.content_ru);
+    formData.append("content_kk", newsData.content_kk);
+    formData.append("desc_ru", newsData.desc_ru);
+    formData.append("desc_kk", newsData.desc_kk);
+    formData.append("date", newsData.date);
+    formData.append("status", newsData.status);
+    formData.append("file", newsData.file);
+    formData.append("token", token);
+
+    try {
+      const response = await axios.post(
+        `https://it-park.kz/kk/api/update?table=news&post_id=${id}`,
+        formData
+      );
+      thunkAPI.dispatch(
+        showNotification({ message: "Новость обновлена", type: "success" })
+      );
+      return response.data;
+    } catch (error) {
+      thunkAPI.dispatch(
+        showNotification({
+          message: "Ошибка обновления новости",
+          type: "error",
+        })
+      );
+      return thunkAPI.rejectWithValue(
+        error.message || "Ошибка обновления новости"
+      );
+    }
+  }
+);
+
+export const deleteNews = createAsyncThunk(
+  "news/deleteNews",
+  async ({ entityId, entityType }, thunkAPI) => {
+    const token = localStorage.getItem("jwtToken");
+
+    const formData = new FormData();
+    formData.append("token", token);
+
+    try {
+      await axios.post(
+        `https://it-park.kz/kk/api/trash?table=${entityType}&post_id=${entityId}`,
+        formData
+      );
+      thunkAPI.dispatch(
+        showNotification({ message: "Новость удалена", type: "success" })
+      );
+      return entityId;
+    } catch (error) {
+      thunkAPI.dispatch(
+        showNotification({ message: "Ошибка удаления новости", type: "error" })
+      );
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 
 const newsSlice = createSlice({
   name: "news",
   initialState: {
     news: [],
     currentNews: null,
-    status: "idle",
+    fetchStatus: "idle",
+    createStatus: "idle",
+    updateStatus: "idle",
+    deleteStatus: "idle",
     error: null,
   },
 
@@ -47,15 +155,80 @@ const newsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchNews.pending, (state) => {
-        state.status = "loading";
+        state.fetchStatus = "loading";
+        showNotification({ message: "Загрузка новостей...", type: "info" });
       })
       .addCase(fetchNews.fulfilled, (state, action) => {
-        state.status = "succeeded";
+        state.fetchStatus = "succeeded";
         state.news = action.payload;
       })
       .addCase(fetchNews.rejected, (state, action) => {
-        state.status = "failed";
+        state.fetchStatus = "failed";
         state.error = action.error.message;
+      })
+
+      // Добавление новости (createNews)
+      .addCase(createNews.pending, (state) => {
+        state.createStatus = "loading";
+      })
+      .addCase(createNews.fulfilled, (state, action) => {
+        state.createStatus = "succeeded";
+        if (action.payload.status === 1) {
+          state.news.push(action.payload);
+          cacheData(CACHE_KEY, state.news);
+        }
+      })
+      .addCase(createNews.rejected, (state, action) => {
+        state.createStatus = "failed";
+        state.error = action.payload || "Ошибка при создании новости";
+      })
+
+      //Updating news
+      .addCase(editNews.pending, (state) => {
+        state.updateStatus = "loading";
+      })
+      .addCase(editNews.fulfilled, (state, action) => {
+        state.updateStatus = "succeeded";
+        const index = state.news.findIndex(
+          (news) => news.id === action.payload.id
+        );
+
+        if (index !== -1) {
+          if (action.payload.status === 1) {
+            state.news[index] = {
+              ...state.news[index],
+              ...action.payload,
+            };
+          } else {
+            state.news = state.news.filter(
+              (news) => news.id !== action.payload.id
+            );
+          }
+        } else {
+          if (action.payload.status === 1) {
+            state.news.push(action.payload);
+          }
+        }
+
+        cacheData(CACHE_KEY, state.news);
+      })
+      .addCase(editNews.rejected, (state, action) => {
+        state.updateStatus = "failed";
+        state.error = action.payload || "Ошибка при обновлении новости";
+      })
+
+      //Deleting news
+      .addCase(deleteNews.pending, (state) => {
+        state.deleteStatus = "loading";
+      })
+      .addCase(deleteNews.fulfilled, (state, action) => {
+        state.deleteStatus = "succeeded";
+        state.news = state.news.filter((news) => news.id !== action.payload);
+        cacheData(CACHE_KEY, state.news);
+      })
+      .addCase(deleteNews.rejected, (state, action) => {
+        state.deleteStatus = "failed";
+        state.error = action.payload || "Error during deleting news";
       });
   },
 });
@@ -65,53 +238,9 @@ export const { setCurrentNews } = newsSlice.actions;
 export default newsSlice.reducer;
 
 export const selectNews = (state) => state.news.news;
-export const selectNewsStatus = (state) => state.news.status;
 export const selectNewsError = (state) => state.news.error;
 export const selectCurrentNews = (state) => state.news.currentNews;
-
-// const BASE_URL = "https://it-park.kz/ru/api";
-// const API_URL = "https://it-park.kz/kk/news/view?id=";
-
-// const getCachedNews = () => {
-//   const cachedData = localStorage.getItem(CACHE_KEY);
-//   if (cachedData) {
-//     const { events, timestamp } = JSON.parse(cachedData);
-//     const isCacheValid = Date.now() - timestamp < CACHE_TIMEOUT;
-//     if (isCacheValid) {
-//       return events;
-//     }
-//   }
-//   return null;
-// };
-
-// const cacheNews = (news) => {
-//   localStorage.setItem(
-//     CACHE_KEY,
-//     JSON.stringify({ news, timestamp: Date.now() })
-//   );
-// };
-
-// export const incrementViews = createAsyncThunk(
-//   "news/incrementViews",
-//   async (newsId) => {
-//     await axios.get(`${API_URL}${newsId}`);
-//     // После увеличения просмотров получаем обновленные данные
-//     const response = await axios.get(`${BASE_URL}/news`);
-//     console.log("VIEW");
-//     return { id: newsId, updatedNews: response.data };
-//   }
-// );
-
-// state.currentNews = action.payload.find(
-//   (news) => news.id === parseInt(action.meta.arg)
-// );
-
-// .addCase(incrementViews.fulfilled, (state, action) => {
-//   const { id, updatedNews } = action.payload;
-//   state.news = updatedNews; // Перезаписываем все новости обновленным массивом
-//   // Также обновляем текущую новость, если она совпадает
-//   if (state.currentNews?.id === id) {
-//     state.currentNews = state.news.find((news) => news.id === id);
-//   }
-//   cacheNews(state.news); // Обновляем кэш
-// });
+export const selectNewsStatus = (state) => state.news.fetchStatus;
+export const selectCreateStatus = (state) => state.news.createStatus;
+export const selectDeleteStatus = (state) => state.news.deleteStatus;
+export const selectUpdateStatus = (state) => state.news.updateStatus;

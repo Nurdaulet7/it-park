@@ -2,9 +2,12 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchNews,
+  selectCreateStatus,
+  selectDeleteStatus,
   selectNews,
   selectNewsError,
   selectNewsStatus,
+  selectUpdateStatus,
 } from "../../../redux/slices/newsSlice";
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
@@ -14,14 +17,18 @@ import NewsCard from "./NewsCard";
 const NewsSection = () => {
   const dispatch = useDispatch();
   const news = useSelector(selectNews);
-  const status = useSelector(selectNewsStatus);
   const error = useSelector(selectNewsError);
+
+  const status = useSelector(selectNewsStatus);
+  const createStatus = useSelector(selectCreateStatus);
+  const deleteStatus = useSelector(selectDeleteStatus);
+  const updateStatus = useSelector(selectUpdateStatus);
 
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchNews());
     }
-  }, [dispatch, status]);
+  }, [dispatch, status, createStatus, deleteStatus, updateStatus]);
 
   if (status === "loading") {
     return (

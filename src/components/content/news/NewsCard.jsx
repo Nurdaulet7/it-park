@@ -4,7 +4,6 @@ import { FaRegEye } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import { FaPencilAlt } from "react-icons/fa";
-import { RiDeleteBinLine } from "react-icons/ri";
 import Skeleton from "@mui/material/Skeleton";
 import DeleteButton from "../../../pages/profile/MyProfile/DeleteButton";
 
@@ -51,7 +50,7 @@ const NewsCard = (props) => {
   return (
     <li className="news_item">
       <article className={`${forAside ? "news-card-aside" : ""} news-card`}>
-        {!forAside && !forProfile && (
+        {!forAside && !forProfile && news?.user_id?.image && (
           <div className="resident-icon">
             <img
               className="icon"
