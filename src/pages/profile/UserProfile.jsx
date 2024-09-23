@@ -4,12 +4,14 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import MyProfile from "./MyProfile/MyProfile";
 import MyNews from "./MyNews/MyNews";
 import { NotFound } from "../NotFound";
-import EditNews from "../../components/content/news/EditNews";
+import EditNews from "./MyProfile/EditNews";
 import CreateNews from "./MyProfile/CreateNews";
 
 const UserProfile = () => {
   const location = useLocation();
-  const shouldShowAside = location.pathname !== "/profile/news/update";
+  const shouldShowAside =
+    location.pathname !== "/profile/news/update" &&
+    location.pathname !== "/profile/news/create";
 
   return (
     <div className="container">

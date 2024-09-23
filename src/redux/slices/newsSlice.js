@@ -7,6 +7,16 @@ import { showNotification } from "./notificationSlice";
 const CACHE_KEY = "cachedNews";
 const BASE_URL = "https://it-park.kz/ru/api";
 
+const handleApiError = (error, thunkAPI, errorMessage) => {
+  const message = error.response?.message || errorMessage || error.message;
+  thunkAPI.dispatch(showNotification({ message: message, type: error }));
+  return thunkAPI.rejectWithValue(message);
+};
+
+const notifySuccess = (thunkAPI, message) => {
+  thunkAPI.dispatch(showNotification({ message: message, type: "success" }));
+};
+
 export const fetchNews = createAsyncThunk(
   "news/fetchNews",
   async (_, thunkAPI) => {
@@ -20,16 +30,10 @@ export const fetchNews = createAsyncThunk(
         cacheData(CACHE_KEY, news);
         return news;
       }
-
-      thunkAPI.dispatch(
-        showNotification({ message: "Новости загружены", type: "success" })
-      );
+      notifySuccess(thunkAPI, "Новости загружены");
       return cachedNews;
     } catch (error) {
-      thunkAPI.dispatch(
-        showNotification({ message: "Ошибка загрузки новостей", type: "error" })
-      );
-      return thunkAPI.rejectWithValue(error.message);
+      return handleApiError(error, thunkAPI, "Ошибка загрузки новостей");
     }
   }
 );
@@ -39,15 +43,9 @@ export const createNews = createAsyncThunk(
   async (newsData, thunkAPI) => {
     const token = localStorage.getItem("jwtToken");
     const formData = new FormData();
-    formData.append("title_ru", newsData.title_ru);
-    formData.append("title_kk", newsData.title_kk);
-    formData.append("content_ru", newsData.content_ru);
-    formData.append("content_kk", newsData.content_kk);
-    formData.append("desc_ru", newsData.desc_ru);
-    formData.append("desc_kk", newsData.desc_kk);
-    formData.append("date", newsData.date);
-    formData.append("status", newsData.status);
-    formData.append("file", newsData.file || defaultImg);
+    Object.entries(newsData).forEach(([key, value]) => {
+      formData.append(key, value || (key === "file" ? defaultImg : ""));
+    });
     formData.append("token", token);
 
     try {
@@ -55,14 +53,9 @@ export const createNews = createAsyncThunk(
         `https://it-park.kz/kk/api/create?table=news`,
         formData
       );
-      thunkAPI.dispatch(
-        showNotification({ message: "Новость создана", type: "success" })
-      );
+
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(
-        showNotification({ message: "Ошибка создания новости", type: "error" })
-      );
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -71,6 +64,7 @@ export const createNews = createAsyncThunk(
 export const editNews = createAsyncThunk(
   "news/editNews",
   async ({ id, newsData }, thunkAPI) => {
+    console.log("redux", newsData);
     const token = localStorage.getItem("jwtToken");
 
     const formData = new FormData();
@@ -82,7 +76,11 @@ export const editNews = createAsyncThunk(
     formData.append("desc_kk", newsData.desc_kk);
     formData.append("date", newsData.date);
     formData.append("status", newsData.status);
-    formData.append("file", newsData.file);
+
+    if (newsData.file) {
+      formData.append("file", newsData.file);
+    }
+
     formData.append("token", token);
 
     try {
@@ -90,17 +88,8 @@ export const editNews = createAsyncThunk(
         `https://it-park.kz/kk/api/update?table=news&post_id=${id}`,
         formData
       );
-      thunkAPI.dispatch(
-        showNotification({ message: "Новость обновлена", type: "success" })
-      );
       return response.data;
     } catch (error) {
-      thunkAPI.dispatch(
-        showNotification({
-          message: "Ошибка обновления новости",
-          type: "error",
-        })
-      );
       return thunkAPI.rejectWithValue(
         error.message || "Ошибка обновления новости"
       );

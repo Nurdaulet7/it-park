@@ -1,9 +1,18 @@
-import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import EditForm from "./EditForm";
 import { createNews } from "../../../redux/slices/newsSlice";
 import { useDispatch } from "react-redux";
+import { toast } from "react-toastify";
+
+const getCurrentDate = () => {
+  const today = new Date();
+  const day = String(today.getDate()).padStart(2, "0");
+  const month = String(today.getMonth() + 1).padStart(2, "0");
+  const year = today.getFullYear();
+
+  return `${year}-${month}-${day}`;
+};
 
 const CreateNews = () => {
   const [newsData, setNewsData] = useState({
@@ -14,8 +23,8 @@ const CreateNews = () => {
     desc_ru: "",
     desc_kk: "",
     file: null,
-    date: "",
-    status: 0,
+    date: getCurrentDate(),
+    status: 1,
   });
 
   const navigate = useNavigate();
@@ -38,8 +47,12 @@ const CreateNews = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(createNews(newsData))
-      .unwrap()
+    toast
+      .promise(dispatch(createNews(newsData)).unwrap(), {
+        pending: "Создание новости...",
+        success: "Новость успешно создана 👌",
+        error: "Ошибка при создании новости 🤯",
+      })
       .then(() => {
         navigate("/profile/news");
       })
@@ -48,43 +61,13 @@ const CreateNews = () => {
       });
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   const token = localStorage.getItem("jwtToken");
-
-  //   const formData = new FormData();
-  //   formData.append("title_ru", newsData.title_ru);
-  //   formData.append("title_kk", newsData.title_kk);
-  //   formData.append("content_ru", newsData.content_ru);
-  //   formData.append("content_kk", newsData.content_kk);
-  //   formData.append("desc_ru", newsData.desc_ru);
-  //   formData.append("desc_kk", newsData.desc_kk);
-  //   formData.append("date", newsData.date);
-  //   formData.append("status", newsData.status);
-
-  //   if (newsData.image) {
-  //     formData.append("image", newsData.image);
-  //   }
-  //   formData.append("token", token);
-
-  //   for (let [key, value] of formData.entries()) {
-  //     console.log(key, value);
-  //   }
-
-  //   try {
-  //     await axios.post(`https://it-park.kz/kk/api/create?table=news`, formData);
-  //     navigate("/profile/news");
-  //   } catch (err) {
-  //     console.error("Ошибка при создании новости", err);
-  //   }
-  // };
-
   return (
     <EditForm
       data={newsData}
       handleChange={handleChange}
       handleImageChange={handleImageChange}
       handleSubmit={handleSubmit}
+      forCreateNews
     />
   );
 };

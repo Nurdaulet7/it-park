@@ -2,10 +2,20 @@ import React from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
-const EditForm = ({ data, handleChange, handleImageChange, handleSubmit }) => {
+const EditForm = ({
+  data,
+  handleChange,
+  handleImageChange,
+  handleSubmit,
+  forCreateNews = false,
+}) => {
+  const imageUrl =
+    data.file instanceof File ? URL.createObjectURL(data.file) : data.image;
   return (
     <div className="news-edit">
-      <h3 className="news-edit__title">Редактирование</h3>
+      <h3 className="news-edit__title">
+        {forCreateNews ? "Добавьте новость" : "Редактирование"}
+      </h3>
       <form className="news-edit__form" onSubmit={handleSubmit}>
         <div className="news-edit__container grid grid--2">
           <div className="news-edit__field">
@@ -123,12 +133,12 @@ const EditForm = ({ data, handleChange, handleImageChange, handleSubmit }) => {
             <label className="news-edit__label" htmlFor="file">
               Выберите изображение:
             </label>
-            {data.file && (
+            {imageUrl && (
               <div className="news-edit__image-preview">
-                <img
-                  src={URL.createObjectURL(data.file)}
-                  alt="Текущее изображение"
-                />
+                <img src={imageUrl} alt="Текущее изображение" />
+                <p className="news-edit__image-hint">
+                  Вы можете выбрать новое изображение для замены.
+                </p>
               </div>
             )}
             <input
@@ -142,7 +152,7 @@ const EditForm = ({ data, handleChange, handleImageChange, handleSubmit }) => {
         </div>
 
         <button className="news-edit__submit button" type="submit">
-          Сохранить изменения
+          {forCreateNews ? "Добавить новость" : "Сохранить изменения"}
         </button>
       </form>
     </div>

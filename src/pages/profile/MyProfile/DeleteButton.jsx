@@ -51,9 +51,7 @@ const DeleteButton = ({ entityId, onSuccess, entityType }) => {
 
   return (
     <button onClick={handleDelete} className="change delete-btn">
-      <span className="icon">
-        <RiDeleteBinLine />
-      </span>
+      <RiDeleteBinLine />
     </button>
   );
 };

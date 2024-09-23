@@ -22,6 +22,8 @@ const ToastNotification = () => {
         toast.error(message);
       } else if (type === "info") {
         toast.info(message);
+      } else if (type === "pending") {
+        toast.info(message);
       } else {
         toast(message);
       }
