@@ -12,6 +12,7 @@ const EditNews = () => {
   const id = searchParams.get("id");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -71,6 +72,7 @@ const EditNews = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
     const newsToUpdate = {
       ...newsData,
@@ -87,6 +89,9 @@ const EditNews = () => {
       })
       .catch((err) => {
         console.log("Error during updating news", err);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
       });
   };
 
@@ -99,6 +104,7 @@ const EditNews = () => {
       handleChange={handleChange}
       handleImageChange={handleImageChange}
       handleSubmit={handleSubmit}
+      isSubmitting={isSubmitting}
     />
   );
 };

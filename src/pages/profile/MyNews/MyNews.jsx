@@ -57,7 +57,6 @@ const MyNews = () => {
     fetchNews();
   }, []);
 
-  if (loading) return <div>Загрузка...</div>;
   if (error) return <div>{error}</div>;
 
   return (
@@ -71,9 +70,13 @@ const MyNews = () => {
         </button>
       </div>
       <div className="grid grid---2">
-        {news.map((item, index) => (
-          <NewsCard key={index} news={item} forProfile setNews={setNews} />
-        ))}
+        {loading
+          ? [...Array(4)].map((_, index) => (
+              <NewsCard key={index} forSkeleton />
+            ))
+          : news.map((item, index) => (
+              <NewsCard key={index} news={item} forProfile setNews={setNews} />
+            ))}
       </div>
     </div>
   );

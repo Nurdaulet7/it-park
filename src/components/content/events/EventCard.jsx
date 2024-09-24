@@ -26,7 +26,7 @@ const EventCard = (props) => {
       <article
         className={`${forAside ? "event-card-aside" : ""} event-card`}
         style={{
-          background: `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.85)), url(${event.image}) center/cover no-repeat`,
+          background: `linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url(${event.image}) center/cover no-repeat`,
         }}
       >
         <p>

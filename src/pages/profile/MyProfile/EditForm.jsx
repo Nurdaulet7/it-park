@@ -9,6 +9,7 @@ const EditForm = ({
   handleImageChange,
   handleSubmit,
   forCreateNews = false,
+  isSubmitting,
 }) => {
   const newsSchema = z.object({
     title_ru: z
@@ -233,7 +234,13 @@ const EditForm = ({
           </div>
         </div>
 
-        <button className="news-edit__submit button" type="submit">
+        <button
+          className={`news-edit__submit button ${
+            isSubmitting ? "button-disabled" : ""
+          }`}
+          type="submit"
+          disabled={isSubmitting}
+        >
           {forCreateNews ? "Добавить новость" : "Сохранить изменения"}
         </button>
       </form>
