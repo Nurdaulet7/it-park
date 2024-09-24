@@ -64,7 +64,6 @@ export const createNews = createAsyncThunk(
 export const editNews = createAsyncThunk(
   "news/editNews",
   async ({ id, newsData }, thunkAPI) => {
-    console.log("redux", newsData);
     const token = localStorage.getItem("jwtToken");
 
     const formData = new FormData();

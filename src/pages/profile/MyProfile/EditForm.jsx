@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { z } from "zod";
 
 const EditForm = ({
   data,
@@ -9,38 +10,116 @@ const EditForm = ({
   handleSubmit,
   forCreateNews = false,
 }) => {
+  const newsSchema = z.object({
+    title_ru: z
+      .string()
+      .trim()
+      .min(1, "Заголовок (Рус) не должен быть пустым")
+      .min(10, "Заголовок (Рус) должен содержать минимум 10 символов"),
+    title_kk: z
+      .string()
+      .trim()
+      .min(1, "Заголовок (Каз) не должен быть пустым")
+      .min(10, "Заголовок (Каз) должен содержать минимум 10 символов"),
+    // file: z
+    //   .instanceof(File, "Необходимо загрузить изображения")
+    //   .refine(
+    //     (file) => file.size <= 1024 * 1024,
+    //     "Файл должен быть меньше 1 МБ"
+    //   ) // Проверка размера
+    //   .refine(
+    //     (file) => file.type.startsWith("image/"),
+    //     "Файл должен быть изображением"
+    //   ),
+  });
+  const [errors, setErrors] = useState({});
+
+  const validateField = (name, value) => {
+    try {
+      newsSchema.pick({ [name]: true }).parse({ [name]: value });
+      setErrors((prevErrors) => ({ ...prevErrors, [name]: null }));
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        setErrors((prevErrors) => ({
+          ...prevErrors,
+          [name]: error.errors[0].message,
+        }));
+      }
+    }
+  };
+
+  const handleFieldChange = (name, value) => {
+    handleChange(name, value);
+    validateField(name, value);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    try {
+      newsSchema.parse({
+        title_ru: data.title_ru,
+        title_kk: data.title_kk,
+        file: data.file,
+      });
+      setErrors({});
+      handleSubmit(e);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const fieldErrors = error.errors.reduce((acc, err) => {
+          acc[err.path[0]] = err.message;
+          return acc;
+        }, {});
+        setErrors(fieldErrors);
+      }
+    }
+  };
+
+  console.log("data file", data.file, data.image);
   const imageUrl =
     data.file instanceof File ? URL.createObjectURL(data.file) : data.image;
+
   return (
     <div className="news-edit">
       <h3 className="news-edit__title">
         {forCreateNews ? "Добавьте новость" : "Редактирование"}
       </h3>
-      <form className="news-edit__form" onSubmit={handleSubmit}>
+      <form className="news-edit__form" onSubmit={onSubmit}>
         <div className="news-edit__container grid grid--2">
           <div className="news-edit__field">
             <label className="news-edit__label" htmlFor="title_ru">
               Заголовок (Рус):
             </label>
             <input
-              className="news-edit__input button input input__editer"
+              className={`news-edit__input button input input__editer ${
+                errors.title_ru ? "input-error" : ""
+              }`}
               type="text"
               name="title_ru"
               value={data.title_ru}
-              onChange={(e) => handleChange("title_ru", e.target.value)}
+              placeholder="Заполните заголовок"
+              onChange={(e) => handleFieldChange("title_ru", e.target.value)}
             />
+            {errors.title_ru && (
+              <span className="error-message">{errors.title_ru}</span>
+            )}
           </div>
           <div className="news-edit__field">
             <label className="news-edit__label" htmlFor="title_kk">
               Заголовок (Каз):
             </label>
             <input
-              className="news-edit__input button input input__editer"
+              className={`news-edit__input button input input__editer ${
+                errors.title_kk ? "input-error" : ""
+              }`}
               type="text"
               name="title_kk"
               value={data.title_kk}
-              onChange={(e) => handleChange("title_kk", e.target.value)}
+              placeholder="Заполните заголовок"
+              onChange={(e) => handleFieldChange("title_kk", e.target.value)}
             />
+            {errors.title_kk && (
+              <span className="error-message">{errors.title_kk}</span>
+            )}
           </div>
         </div>
         <div className="news-edit__container grid grid--2">
@@ -148,6 +227,9 @@ const EditForm = ({
               accept="image/*"
               onChange={handleImageChange}
             />
+            {/* {errors.file && (
+              <span className="error-message">{errors.file}</span>
+            )} */}
           </div>
         </div>
 

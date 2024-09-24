@@ -41,7 +41,6 @@ const MyNews = () => {
           `https://it-park.kz/kk/api/news?user_id=${userId}`
         );
 
-        console.log("Response Data:", response.data);
         const newsArray = Object.values(response.data).filter(
           (item) => typeof item === "object" && item.id
         );

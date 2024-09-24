@@ -10,6 +10,11 @@ import { toast } from "react-toastify";
 const EditNews = () => {
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const [newsData, setNewsData] = useState({
     title_ru: "",
     title_kk: "",
@@ -21,10 +26,6 @@ const EditNews = () => {
     date: "",
     status: 0,
   });
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   useEffect(() => {
     scrollToTop();
@@ -33,9 +34,14 @@ const EditNews = () => {
         const response = await axios.get(
           `https://it-park.kz/kk/api/news/${id}`
         );
-        setNewsData(response.data);
+        const newsData = response.data;
+        console.log("newsData image: ", newsData.image);
+        setNewsData({
+          ...newsData,
+          file: newsData.image ? newsData.image : null,
+        });
         setLoading(false);
-        console.log(`image ${newsData.file}`);
+        console.log("File: ", newsData.file);
       } catch (err) {
         setError("Не удалось загрузить новости");
         setLoading(false);
@@ -51,14 +57,12 @@ const EditNews = () => {
         ...prevData,
         [name]: value,
       };
-      console.log("Updated data: ", newData);
       return newData;
     });
   };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
-    console.log(newsData);
     setNewsData((prevData) => ({
       ...prevData,
       file: file,
@@ -69,11 +73,8 @@ const EditNews = () => {
     e.preventDefault();
 
     const newsToUpdate = {
-      id,
       ...newsData,
     };
-
-    console.log("Submitting data: ", newsToUpdate);
 
     toast
       .promise(dispatch(editNews({ id, newsData: newsToUpdate })).unwrap(), {

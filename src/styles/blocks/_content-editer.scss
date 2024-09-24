@@ -50,10 +50,10 @@
 
   &::placeholder {
     color: var(--color-accent);
+    font-weight: 400;
   }
 }
 
 .error-message {
   color: var(--color-accent);
-  margin-top: 5px;
 }

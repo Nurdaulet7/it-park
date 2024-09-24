@@ -4,11 +4,14 @@ import { z } from "zod";
 import InputField from "./InputField";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { showNotification } from "../../redux/slices/notificationSlice";
+import { useDispatch } from "react-redux";
 
 const LoginForm = (props) => {
   const { onSwitchToRegister, isOpen, onClose } = props;
   const { formatMessage } = useIntl();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const initialLoginData = {
     login: "",
@@ -97,9 +100,18 @@ const LoginForm = (props) => {
           localStorage.setItem("tokenExpiration", expirationTime);
 
           navigate("/profile/user");
+          dispatch(
+            showNotification({ message: "Вход выполнен :)", type: "success" })
+          );
           onClose();
         } else {
           setErrorMessage("Ошибка аутентификации. Проверьте введенные данные.");
+          dispatch(
+            showNotification({
+              message: "Неверные логин или пароль",
+              type: "error",
+            })
+          );
         }
       } catch (error) {
         console.error("Ошибка запроса:", error);
@@ -108,6 +120,12 @@ const LoginForm = (props) => {
             error.response.data.message || "Неверные логин или пароль"
           );
         } else {
+          dispatch(
+            showNotification({
+              message: "Ошибка сети. Попробуйте позже.",
+              type: "error",
+            })
+          );
           setErrorMessage("Ошибка сети. Попробуйте позже.");
         }
       }
