@@ -7,6 +7,7 @@
   --color-gray: #363636;
   --color-dark-gray: #171717;
   --color-light-gray: #212121;
+  --color-pink: #f8d7da;
   // --menu-dark-default-color: #b4b4b4;
   --menu-dark-default-color: #ececec;
   --menu-light-default-color: #0c0404;
@@ -66,6 +67,8 @@ $header-height-tablet: 68px;
   --color-accent-hover: var(--color-accent-h);
   --footer-background: var(--footer-light-color);
   --skeleton-background: var(--menu-dark-default-color);
+  --error-notification-color: var(--color-pink);
+  --error-notification-text-color: #721c24;
 }
 
 [data-theme="dark"] {
@@ -77,4 +80,6 @@ $header-height-tablet: 68px;
   --color-accent-hover: #2f2f2f;
   --footer-background: var(--footer-dark-color);
   --skeleton-background: var(--background-header-primary-dark);
+  --error-notification-color: var(--color-light-gray);
+  --error-notification-text-color: var(--color-accent);
 }

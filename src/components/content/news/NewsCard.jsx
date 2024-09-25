@@ -3,9 +3,9 @@ import { FormattedDate, FormattedMessage, useIntl } from "react-intl";
 import { FaRegEye } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
-import { FaPencilAlt } from "react-icons/fa";
 import Skeleton from "@mui/material/Skeleton";
 import DeleteButton from "../../../pages/profile/MyProfile/DeleteButton";
+import EditButton from "../../../pages/profile/MyProfile/EditButton";
 
 const NewsCard = (props) => {
   const {
@@ -84,12 +84,7 @@ const NewsCard = (props) => {
           <div className="news-card__footer">
             {forProfile ? (
               <div className="change-buttons">
-                <button onClick={handleEditClick} className="change change-btn">
-                  <FaPencilAlt />
-                </button>
-                {/* <button className="change delete-btn">
-                  <RiDeleteBinLine />
-                </button> */}
+                <EditButton onClick={handleEditClick} />
                 <DeleteButton
                   entityId={news.id}
                   entityType="news"

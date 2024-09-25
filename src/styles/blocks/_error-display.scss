@@ -10,11 +10,12 @@
 
 .error-message {
   padding: 20px;
-  background-color: #f8d7da;
-  color: #721c24;
+  background-color: var(--error-notification-color);
+  color: var(--error-notification-text-color);
   border-color: #f5c6cb;
   border-radius: 4px;
   text-align: center;
+  font-weight: 500;
 }
 
 .retry-btn {
