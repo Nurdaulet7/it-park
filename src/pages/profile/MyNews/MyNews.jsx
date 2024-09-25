@@ -3,11 +3,13 @@ import "./MyNews.scss";
 import axios from "axios";
 import NewsCard from "../../../components/content/news/NewsCard";
 import { useNavigate } from "react-router-dom";
+import ErrorDisplay from "../../../components/Error/ErrorDisplay";
 
 const MyNews = () => {
   const [news, setNews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [errorType, setErrorType] = useState(null);
   const navigate = useNavigate();
 
   const getUserIdFromToken = () => {
@@ -26,38 +28,65 @@ const MyNews = () => {
     return payloadObject.user?.id || null;
   };
 
+  const fetchNews = async () => {
+    const userId = getUserIdFromToken();
+
+    if (!userId) {
+      setError("Не удалось получить идентификатор пользователя");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        `https://it-park.kz/kk/api/news?user_id=${userId}`
+      );
+
+      const newsArray = Object.values(response.data).filter(
+        (item) => typeof item === "object" && item.id
+      );
+
+      setNews(newsArray);
+      setLoading(false);
+    } catch (err) {
+      console.error("Ошибка получения новостей:", err);
+      let errorMessage = "Ошибка при получении новостей";
+      let errorType = "UnknownError";
+      if (err.response) {
+        errorMessage += `: Статус ${err.response.status}. ${err.response.data.message}`;
+        errorType = "ServerError";
+      } else if (err.request) {
+        errorMessage +=
+          ": Ответ от сервера не был получен, возможно, проблемы с сетью";
+        errorType = "NetworkError";
+      } else {
+        errorMessage += ": Проверьте соединение с интернетом";
+      }
+      setError(errorMessage);
+      setErrorType(errorType);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchNews = async () => {
-      const userId = getUserIdFromToken();
-
-      if (!userId) {
-        setError("Не удалось получить идентификатор пользователя");
-        setLoading(false);
-        return;
-      }
-
-      try {
-        const response = await axios.get(
-          `https://it-park.kz/kk/api/news?user_id=${userId}`
-        );
-
-        const newsArray = Object.values(response.data).filter(
-          (item) => typeof item === "object" && item.id
-        );
-
-        setNews(newsArray);
-        setLoading(false);
-      } catch (err) {
-        console.error("Ошибка получения новостей:", err);
-        setError("Ошибка при получении новостей");
-        setLoading(false);
-      }
-    };
-
     fetchNews();
   }, []);
 
-  if (error) return <div>{error}</div>;
+  const retryFetch = () => {
+    setError(null);
+    setLoading(true);
+    fetchNews();
+  };
+
+  if (error) {
+    return (
+      <ErrorDisplay
+        errorMessage={error}
+        errorType={errorType}
+        retryAction={retryFetch}
+      />
+    );
+  }
 
   return (
     <div className="my-news">

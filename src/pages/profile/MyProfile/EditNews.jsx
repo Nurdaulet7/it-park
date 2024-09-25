@@ -28,27 +28,25 @@ const EditNews = () => {
     status: 0,
   });
 
+  const fetchNews = async () => {
+    try {
+      const response = await axios.get(`https://it-park.kz/kk/api/news/${id}`);
+      const newsData = response.data;
+      console.log("newsData image: ", newsData.image);
+      setNewsData({
+        ...newsData,
+        file: newsData.image ? newsData.image : null,
+      });
+      setLoading(false);
+      console.log("File: ", newsData.file);
+    } catch (err) {
+      setError("Не удалось загрузить новости");
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     scrollToTop();
-    const fetchNews = async () => {
-      try {
-        const response = await axios.get(
-          `https://it-park.kz/kk/api/news/${id}`
-        );
-        const newsData = response.data;
-        console.log("newsData image: ", newsData.image);
-        setNewsData({
-          ...newsData,
-          file: newsData.image ? newsData.image : null,
-        });
-        setLoading(false);
-        console.log("File: ", newsData.file);
-      } catch (err) {
-        setError("Не удалось загрузить новости");
-        setLoading(false);
-      }
-    };
-
     fetchNews();
   }, [id]);
 
@@ -95,8 +93,11 @@ const EditNews = () => {
       });
   };
 
-  if (loading) return <div>Загрузка...</div>;
-  if (error) return <div>{error}</div>;
+  const retryFetch = () => {
+    setError(null);
+    setLoading(true);
+    fetchNews();
+  };
 
   return (
     <EditForm
@@ -105,6 +106,9 @@ const EditNews = () => {
       handleImageChange={handleImageChange}
       handleSubmit={handleSubmit}
       isSubmitting={isSubmitting}
+      loading={loading} // Новый проп для состояния загрузки
+      error={error}
+      retryFetch={retryFetch}
     />
   );
 };
