@@ -1,11 +1,14 @@
 // src/utils/cacheUtils.js
-export const CACHE_TIMEOUT = 10 * 60 * 1000; // 10 минут
+export const DEFAULT_CACHE_TIMEOUT = 10 * 60 * 1000;
 
-export const getCachedData = (CACHE_KEY) => {
+export const getCachedData = (
+  CACHE_KEY,
+  cacheTimeout = DEFAULT_CACHE_TIMEOUT
+) => {
   const cachedData = localStorage.getItem(CACHE_KEY);
   if (cachedData) {
     const { data, timestamp } = JSON.parse(cachedData);
-    const isCacheValid = Date.now() - timestamp < CACHE_TIMEOUT;
+    const isCacheValid = Date.now() - timestamp < cacheTimeout;
     if (isCacheValid) {
       return data;
     }
@@ -18,4 +21,8 @@ export const cacheData = (CACHE_KEY, data) => {
     CACHE_KEY,
     JSON.stringify({ data, timestamp: Date.now() })
   );
+};
+
+export const clearCache = (CACHE_KEY) => {
+  localStorage.removeItem(CACHE_KEY);
 };

@@ -4,6 +4,8 @@ import eventsReducer from "./slices/eventsSlice";
 import residentsReducer from "./slices/residentsSlice";
 import partnersReducer from "./slices/partnersSlice";
 import newsReducer from "./slices/newsSlice";
+import publicNewsReducer from "./slices/publicNewsSlice";
+import profileNewsReducer from "./slices/profileNewsSlice";
 import vacanciesReducer from "./slices/vacanciesSlice";
 import projectsReducer from "./slices/projectsSlice";
 import notificationReducer from "./slices/notificationSlice";
@@ -14,6 +16,8 @@ export const store = configureStore({
     residents: residentsReducer,
     partners: partnersReducer,
     news: newsReducer,
+    publicNews: publicNewsReducer,
+    profileNews: profileNewsReducer,
     vacancies: vacanciesReducer,
     projects: projectsReducer,
     notification: notificationReducer,

@@ -46,6 +46,7 @@ const MyNews = () => {
         (item) => typeof item === "object" && item.id
       );
 
+      console.log("NEWS", newsArray);
       setNews(newsArray);
       setLoading(false);
     } catch (err) {
