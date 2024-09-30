@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { z } from "zod";
@@ -12,7 +12,7 @@ const EditForm = ({
   handleSubmit,
   forCreateNews = false,
   isSubmitting,
-  loading,
+  status,
   error,
   retryFetch,
 }) => {
@@ -40,19 +40,22 @@ const EditForm = ({
   });
   const [errors, setErrors] = useState({});
 
-  const validateField = (name, value) => {
-    try {
-      newsSchema.pick({ [name]: true }).parse({ [name]: value });
-      setErrors((prevErrors) => ({ ...prevErrors, [name]: null }));
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        setErrors((prevErrors) => ({
-          ...prevErrors,
-          [name]: error.errors[0].message,
-        }));
+  const validateField = useCallback(
+    (name, value) => {
+      try {
+        newsSchema.pick({ [name]: true }).parse({ [name]: value });
+        setErrors((prevErrors) => ({ ...prevErrors, [name]: null }));
+      } catch (error) {
+        if (error instanceof z.ZodError) {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: error.errors[0].message,
+          }));
+        }
       }
-    }
-  };
+    },
+    [newsSchema]
+  );
 
   const handleFieldChange = (name, value) => {
     handleChange(name, value);
@@ -80,176 +83,11 @@ const EditForm = ({
     }
   };
 
-  if (loading)
-    return (
-      <div className="news-edit">
-        <Skeleton
-          className="skeleton"
-          animation="wave"
-          width="250px"
-          height={40}
-        />
-        <div className="news-edit__form">
-          <div className="news-edit__container grid grid--2">
-            <div className="news-edit__field">
-              <Skeleton
-                className="skeleton"
-                animation="wave"
-                width="150px"
-                height={25}
-              />
-              <Skeleton
-                className="skeleton"
-                animation="wave"
-                variant="rectangular"
-                width="100%"
-                height={45}
-              />
-            </div>
-            <div className="news-edit__field">
-              <Skeleton
-                className="skeleton"
-                animation="wave"
-                width="150px"
-                height={25}
-              />
-              <Skeleton
-                className="skeleton"
-                animation="wave"
-                variant="rectangular"
-                width="100%"
-                height={45}
-              />
-            </div>
-          </div>
-          <div className="news-edit__container grid grid--2">
-            <div className="news-edit__field">
-              <Skeleton
-                className="skeleton"
-                animation="wave"
-                width="200px"
-                height={25}
-              />
-              <Skeleton
-                className="skeleton"
-                animation="wave"
-                variant="rectangular"
-                width="100%"
-                height={150}
-              />
-            </div>
-            <div className="news-edit__field">
-              <Skeleton
-                className="skeleton"
-                animation="wave"
-                width="200px"
-                height={25}
-              />
-              <Skeleton
-                className="skeleton"
-                animation="wave"
-                variant="rectangular"
-                width="100%"
-                height={150}
-              />
-            </div>
-          </div>
-          <div className="news-edit__container grid grid--2">
-            <div className="news-edit__field">
-              <Skeleton
-                className="skeleton"
-                animation="wave"
-                width="100px"
-                height={25}
-              />
-              <Skeleton
-                className="skeleton"
-                animation="wave"
-                variant="rectangular"
-                width="100%"
-                height={100}
-              />
-            </div>
-            <div className="news-edit__field">
-              <Skeleton
-                className="skeleton"
-                animation="wave"
-                width="100px"
-                height={25}
-              />
-              <Skeleton
-                className="skeleton"
-                animation="wave"
-                variant="rectangular"
-                width="100%"
-                height={100}
-              />
-            </div>
-          </div>
-
-          <div className="news-edit__container grid grid--3">
-            <div className="news-edit__field">
-              <Skeleton
-                className="skeleton"
-                animation="wave"
-                width="100px"
-                height={25}
-              />
-              <Skeleton
-                className="skeleton"
-                animation="wave"
-                variant="rectangular"
-                width="100%"
-                height={45}
-              />
-            </div>
-
-            <div className="news-edit__field">
-              <Skeleton
-                className="skeleton"
-                animation="wave"
-                width="80px"
-                height={25}
-              />
-              <Skeleton
-                className="skeleton"
-                animation="wave"
-                variant="rectangular"
-                width="100%"
-                height={45}
-              />
-            </div>
-            <div className="news-edit__field">
-              <Skeleton
-                className="skeleton"
-                animation="wave"
-                width="150px"
-                height={25}
-              />
-              <Skeleton
-                className="skeleton"
-                animation="wave"
-                variant="rectangular"
-                width="100%"
-                height={45}
-              />
-            </div>
-          </div>
-
-          <Skeleton
-            className="skeleton news-edit__submit"
-            animation="wave"
-            variant="rectangular"
-            width="200px"
-            height={45}
-          />
-        </div>
-      </div>
-    );
-  if (error)
+  if (status === "loading") return <SkeletonLoader />;
+  if (status === "failed")
     return <ErrorDisplay errorMessage={error} retryAction={retryFetch} />;
 
-  console.log("data file", data.file, data.image);
+  // console.log("data file", data.file, data.image);
   const imageUrl =
     data.file instanceof File ? URL.createObjectURL(data.file) : data.image;
 
@@ -420,6 +258,167 @@ const EditForm = ({
       </form>
     </div>
   );
+};
+
+const SkeletonLoader = () => {
+  <div className="news-edit">
+    <Skeleton className="skeleton" animation="wave" width="250px" height={40} />
+    <div className="news-edit__form">
+      <div className="news-edit__container grid grid--2">
+        <div className="news-edit__field">
+          <Skeleton
+            className="skeleton"
+            animation="wave"
+            width="150px"
+            height={25}
+          />
+          <Skeleton
+            className="skeleton"
+            animation="wave"
+            variant="rectangular"
+            width="100%"
+            height={45}
+          />
+        </div>
+        <div className="news-edit__field">
+          <Skeleton
+            className="skeleton"
+            animation="wave"
+            width="150px"
+            height={25}
+          />
+          <Skeleton
+            className="skeleton"
+            animation="wave"
+            variant="rectangular"
+            width="100%"
+            height={45}
+          />
+        </div>
+      </div>
+      <div className="news-edit__container grid grid--2">
+        <div className="news-edit__field">
+          <Skeleton
+            className="skeleton"
+            animation="wave"
+            width="200px"
+            height={25}
+          />
+          <Skeleton
+            className="skeleton"
+            animation="wave"
+            variant="rectangular"
+            width="100%"
+            height={150}
+          />
+        </div>
+        <div className="news-edit__field">
+          <Skeleton
+            className="skeleton"
+            animation="wave"
+            width="200px"
+            height={25}
+          />
+          <Skeleton
+            className="skeleton"
+            animation="wave"
+            variant="rectangular"
+            width="100%"
+            height={150}
+          />
+        </div>
+      </div>
+      <div className="news-edit__container grid grid--2">
+        <div className="news-edit__field">
+          <Skeleton
+            className="skeleton"
+            animation="wave"
+            width="100px"
+            height={25}
+          />
+          <Skeleton
+            className="skeleton"
+            animation="wave"
+            variant="rectangular"
+            width="100%"
+            height={100}
+          />
+        </div>
+        <div className="news-edit__field">
+          <Skeleton
+            className="skeleton"
+            animation="wave"
+            width="100px"
+            height={25}
+          />
+          <Skeleton
+            className="skeleton"
+            animation="wave"
+            variant="rectangular"
+            width="100%"
+            height={100}
+          />
+        </div>
+      </div>
+
+      <div className="news-edit__container grid grid--3">
+        <div className="news-edit__field">
+          <Skeleton
+            className="skeleton"
+            animation="wave"
+            width="100px"
+            height={25}
+          />
+          <Skeleton
+            className="skeleton"
+            animation="wave"
+            variant="rectangular"
+            width="100%"
+            height={45}
+          />
+        </div>
+
+        <div className="news-edit__field">
+          <Skeleton
+            className="skeleton"
+            animation="wave"
+            width="80px"
+            height={25}
+          />
+          <Skeleton
+            className="skeleton"
+            animation="wave"
+            variant="rectangular"
+            width="100%"
+            height={45}
+          />
+        </div>
+        <div className="news-edit__field">
+          <Skeleton
+            className="skeleton"
+            animation="wave"
+            width="150px"
+            height={25}
+          />
+          <Skeleton
+            className="skeleton"
+            animation="wave"
+            variant="rectangular"
+            width="100%"
+            height={45}
+          />
+        </div>
+      </div>
+
+      <Skeleton
+        className="skeleton news-edit__submit"
+        animation="wave"
+        variant="rectangular"
+        width="200px"
+        height={45}
+      />
+    </div>
+  </div>;
 };
 
 export default EditForm;

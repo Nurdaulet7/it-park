@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { showNotification } from "./notificationSlice";
 import axios from "axios";
-import { cacheData, getCachedData } from "../../utils/cacheUtils";
+// import { cacheData, getCachedData } from "../../utils/cacheUtils";
 import { publicNewsRemoved, publicNewsUpdated } from "./publicNewsSlice";
 
 const BASE_URL = "https://it-park.kz/kk/api";
@@ -34,19 +34,21 @@ export const fetchProfileNews = createAsyncThunk(
       return thunkAPI.rejectWithValue(message);
     }
 
-    const cachedProfileNews = getCachedData(PROFILE_NEWS_CACHE_KEY);
+    // const cachedProfileNews = getCachedData(PROFILE_NEWS_CACHE_KEY);
 
-    if (cachedProfileNews) {
-      return cachedProfileNews;
-    }
+    // if (cachedProfileNews) {
+    //   return cachedProfileNews;
+    // }
 
     try {
       const response = await axios.get(
-        `https://it-park.kz/kk/api/new?user_id=${userId}`
+        `https://it-park.kz/kk/api/news?user_id=${userId}`
       );
-      const profileNews = response.data;
+      const profileNews = Object.values(response.data).filter(
+        (item) => typeof item === "object" && item.id
+      );
 
-      cacheData(PROFILE_NEWS_CACHE_KEY, profileNews);
+      //   cacheData(PROFILE_NEWS_CACHE_KEY, profileNews);
       return profileNews;
     } catch (error) {
       const message =
@@ -93,9 +95,18 @@ export const editProfileNews = createAsyncThunk(
     const token = localStorage.getItem("jwtToken");
 
     const formData = new FormData();
-    Object.entries(newsData).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
+    formData.append("title_ru", newsData.title_ru);
+    formData.append("title_kk", newsData.title_kk);
+    formData.append("content_ru", newsData.content_ru);
+    formData.append("content_kk", newsData.content_kk);
+    formData.append("desc_ru", newsData.desc_ru);
+    formData.append("desc_kk", newsData.desc_kk);
+    formData.append("date", newsData.date);
+    formData.append("status", newsData.status);
+
+    if (newsData.file) {
+      formData.append("file", newsData.file);
+    }
     formData.append("token", token);
 
     try {
@@ -140,6 +151,7 @@ const profileNewsSlice = createSlice({
   name: "profileNews",
   initialState: {
     news: [],
+    currentProfileNews: null,
     fetchStatus: "idle",
     createStatus: "idle",
     updateStatus: "idle",
@@ -147,9 +159,14 @@ const profileNewsSlice = createSlice({
     error: null,
   },
   reducers: {
+    setCurrentProfileNews: (state, action) => {
+      state.currentProfileNews = state.news.find(
+        (news) => news.id === action.payload
+      );
+    },
     profileNewsAdded: (state, action) => {
       state.news.push(action.payload);
-      cacheData(PROFILE_NEWS_CACHE_KEY, state.news);
+      //   cacheData(PROFILE_NEWS_CACHE_KEY, state.news);
     },
     profileNewsUpdated: (state, action) => {
       const index = state.news.findIndex(
@@ -157,12 +174,12 @@ const profileNewsSlice = createSlice({
       );
       if (index !== -1) {
         state.news[index] = { ...state.news[index], ...action.payload };
-        cacheData(PROFILE_NEWS_CACHE_KEY, state.news);
+        // cacheData(PROFILE_NEWS_CACHE_KEY, state.news);
       }
     },
     profileNewsDeleted: (state, action) => {
       state.news = state.news.filter((news) => news.id !== action.payload);
-      cacheData(PROFILE_NEWS_CACHE_KEY, state.news);
+      //   cacheData(PROFILE_NEWS_CACHE_KEY, state.news);
     },
   },
   extraReducers: (builder) => {
@@ -186,7 +203,7 @@ const profileNewsSlice = createSlice({
       .addCase(createProfileNews.fulfilled, (state, action) => {
         state.createStatus = "succeeded";
         state.news.push(action.payload);
-        cacheData(PROFILE_NEWS_CACHE_KEY, state.news);
+        // cacheData(PROFILE_NEWS_CACHE_KEY, state.news);
       })
       .addCase(createProfileNews.rejected, (state, action) => {
         state.createStatus = "failed";
@@ -205,7 +222,7 @@ const profileNewsSlice = createSlice({
         if (index !== -1) {
           state.news[index] = { ...state.news[index], ...action.payload };
         }
-        cacheData(PROFILE_NEWS_CACHE_KEY, state.news);
+        // cacheData(PROFILE_NEWS_CACHE_KEY, state.news);
       })
       .addCase(editProfileNews.rejected, (state, action) => {
         state.updateStatus = "failed";
@@ -218,7 +235,7 @@ const profileNewsSlice = createSlice({
       .addCase(deleteProfileNews.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.news = state.news.filter((news) => news.id !== action.payload);
-        cacheData(PROFILE_NEWS_CACHE_KEY, state.news);
+        // cacheData(PROFILE_NEWS_CACHE_KEY, state.news);
       })
       .addCase(deleteProfileNews.rejected, (state, action) => {
         state.deleteStatus = "failed";
@@ -227,6 +244,22 @@ const profileNewsSlice = createSlice({
   },
 });
 
-export const { profileNewsAdded, profileNewsUpdated, profileNewsDeleted } =
-  profileNewsSlice.actions;
+export const {
+  setCurrentProfileNews,
+  profileNewsAdded,
+  profileNewsUpdated,
+  profileNewsDeleted,
+} = profileNewsSlice.actions;
 export default profileNewsSlice.reducer;
+export const selectProfileNews = (state) => state.profileNews.news;
+export const selectCurrentProfileNews = (state) =>
+  state.profileNews.currentProfileNews;
+export const selectProfileNewsFetchStatus = (state) =>
+  state.profileNews.fetchStatus;
+export const selectProfileNewsCreateStatus = (state) =>
+  state.profileNews.createStatus;
+export const selectProfileNewsUpdateStatus = (state) =>
+  state.profileNews.updateStatus;
+export const selectProfileNewsDeleteStatus = (state) =>
+  state.profileNews.deleteStatus;
+export const selectProfileNewsError = (state) => state.profileNews.error;

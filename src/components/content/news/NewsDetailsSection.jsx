@@ -1,32 +1,33 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import {
-  fetchNews,
-  selectCurrentNews,
-  selectNewsStatus,
-  setCurrentNews,
-} from "../../../redux/slices/newsSlice";
-import { selectEventsError } from "../../../redux/slices/eventsSlice";
+
 import DetailedInfoPage from "../detail/DetailedInfoPage";
 import SkeletonDetail from "../../skeleton/SkeletonDetail";
+import {
+  fetchPublicNews,
+  selectCurrentPublicNews,
+  selectPublicNewsError,
+  selectPublicNewsFetchStatus,
+  setCurrentPublicNews,
+} from "../../../redux/slices/publicNewsSlice";
 
 const NewsDetailsSection = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const news = useSelector(selectCurrentNews);
-  const status = useSelector(selectNewsStatus);
-  const error = useSelector(selectEventsError);
+  const news = useSelector(selectCurrentPublicNews);
+  const status = useSelector(selectPublicNewsFetchStatus);
+  const error = useSelector(selectPublicNewsError);
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
     if (status === "idle") {
-      dispatch(fetchNews()).then(() => {
-        dispatch(setCurrentNews(parseInt(id)));
+      dispatch(fetchPublicNews()).then(() => {
+        dispatch(setCurrentPublicNews(parseInt(id)));
       });
     } else {
-      dispatch(setCurrentNews(parseInt(id)));
+      dispatch(setCurrentPublicNews(parseInt(id)));
     }
   }, [dispatch, id, status]);
 

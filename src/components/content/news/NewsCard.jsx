@@ -4,8 +4,8 @@ import { FaRegEye } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import Skeleton from "@mui/material/Skeleton";
-import DeleteButton from "../../../pages/profile/MyProfile/DeleteButton";
-import EditButton from "../../../pages/profile/MyProfile/EditButton";
+import DeleteButton from "../../../pages/profile/ActionButtons/DeleteButton";
+import EditButton from "../../../pages/profile/ActionButtons/EditButton";
 
 const NewsCard = (props) => {
   const {
@@ -13,7 +13,6 @@ const NewsCard = (props) => {
     forAside = false,
     forSkeleton = false,
     forProfile = false,
-    setNews,
   } = props;
   const { locale } = useIntl();
   const navigate = useNavigate();
@@ -85,15 +84,7 @@ const NewsCard = (props) => {
             {forProfile ? (
               <div className="change-buttons">
                 <EditButton onClick={handleEditClick} />
-                <DeleteButton
-                  entityId={news.id}
-                  entityType="news"
-                  onSuccess={() => {
-                    setNews((prevNews) =>
-                      prevNews.filter((item) => item.id !== news.id)
-                    );
-                  }}
-                />
+                <DeleteButton entityId={news.id} entityType="news" />
               </div>
             ) : (
               <span className="views">

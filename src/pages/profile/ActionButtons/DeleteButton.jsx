@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { deleteNews } from "../../../redux/slices/newsSlice";
 import ReactDOM from "react-dom";
 import cn from "classnames";
+import { fetchPublicNews } from "../../../redux/slices/publicNewsSlice";
+import { fetchProfileNews } from "../../../redux/slices/profileNewsSlice";
 
 const Dialog = ({ isOpen, onClose, onConfirm, title, children }) => {
   if (!isOpen) return null;
@@ -28,7 +30,7 @@ const Dialog = ({ isOpen, onClose, onConfirm, title, children }) => {
   );
 };
 
-const DeleteButton = ({ entityId, onSuccess, entityType }) => {
+const DeleteButton = ({ entityId, entityType }) => {
   const dispatch = useDispatch();
   const [isDialogOpen, setDialogOpen] = useState(false);
 
@@ -48,7 +50,8 @@ const DeleteButton = ({ entityId, onSuccess, entityType }) => {
     dispatch(deleteNews({ entityId, entityType }))
       .unwrap()
       .then(() => {
-        onSuccess();
+        dispatch(fetchPublicNews({ forceRefresh: true }));
+        dispatch(fetchProfileNews());
         setDialogOpen(false);
       })
       .catch((error) => {

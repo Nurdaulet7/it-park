@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchNews,
-  selectNews,
-  selectNewsError,
-  selectNewsStatus,
-} from "../../../redux/slices/newsSlice";
+
 import { FormattedMessage, useIntl } from "react-intl";
 import NewsCard from "./NewsCard";
 import { scrollToTop } from "../../../utils/scrollToTop";
+import {
+  fetchPublicNews,
+  selectPublicNews,
+  selectPublicNewsError,
+  selectPublicNewsFetchStatus,
+} from "../../../redux/slices/publicNewsSlice";
 
 const NewsPage = () => {
   const dispatch = useDispatch();
-  const news = useSelector(selectNews);
-  const status = useSelector(selectNewsStatus);
-  const error = useSelector(selectNewsError);
+  const news = useSelector(selectPublicNews);
+  const status = useSelector(selectPublicNewsFetchStatus);
+  const error = useSelector(selectPublicNewsError);
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -22,7 +23,7 @@ const NewsPage = () => {
   useEffect(() => {
     scrollToTop();
     if (status === "idle") {
-      dispatch(fetchNews());
+      dispatch(fetchPublicNews());
     }
   }, [status, dispatch]);
 

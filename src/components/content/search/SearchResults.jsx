@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import {
   fetchNews,
-  selectNews,
-  selectNewsStatus,
 } from "../../../redux/slices/newsSlice";
 import {
   fetchEvents,
@@ -20,12 +18,17 @@ import {
   selectVacanciesStatus,
 } from "../../../redux/slices/vacanciesSlice";
 import VacanciesCard from "../vacancies/VacanciesCard";
+import {
+  fetchPublicNews,
+  selectPublicNews,
+  selectPublicNewsFetchStatus,
+} from "../../../redux/slices/publicNewsSlice";
 
 const SearchResults = () => {
   const dispatch = useDispatch();
 
-  const news = useSelector(selectNews);
-  const newsStatus = useSelector(selectNewsStatus);
+  const news = useSelector(selectPublicNews);
+  const newsStatus = useSelector(selectPublicNewsFetchStatus);
   const events = useSelector(selectEvents);
   const eventsStatus = useSelector(selectEventsStatus);
   const vacancies = useSelector(selectVacancies);
@@ -37,7 +40,7 @@ const SearchResults = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
     if (newsStatus === "idle") {
-      dispatch(fetchNews());
+      dispatch(fetchPublicNews());
     }
     if (eventsStatus === "idle") {
       dispatch(fetchEvents());

@@ -1,20 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { scrollToTop } from "../../../utils/scrollToTop";
-import axios from "axios";
 import EditForm from "./EditForm";
-import { useDispatch } from "react-redux";
-import { editNews } from "../../../redux/slices/newsSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import {
+  editProfileNews,
+  fetchProfileNews,
+  selectCurrentProfileNews,
+  selectProfileNewsError,
+  selectProfileNewsFetchStatus,
+  setCurrentProfileNews,
+} from "../../../redux/slices/profileNewsSlice";
+import { fetchPublicNews } from "../../../redux/slices/publicNewsSlice";
 
 const EditNews = () => {
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const currentNews = useSelector(selectCurrentProfileNews);
+  const fetchStatus = useSelector(selectProfileNewsFetchStatus);
+  const error = useSelector(selectProfileNewsError);
 
   const [newsData, setNewsData] = useState({
     title_ru: "",
@@ -28,45 +37,52 @@ const EditNews = () => {
     status: 0,
   });
 
-  const fetchNews = async () => {
-    try {
-      const response = await axios.get(`https://it-park.kz/kk/api/news/${id}`);
-      const newsData = response.data;
-      console.log("newsData image: ", newsData.image);
-      setNewsData({
-        ...newsData,
-        file: newsData.image ? newsData.image : null,
-      });
-      setLoading(false);
-      console.log("File: ", newsData.file);
-    } catch (err) {
-      setError("Не удалось загрузить новости");
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     scrollToTop();
-    fetchNews();
-  }, [id]);
 
-  const handleChange = (name, value) => {
-    setNewsData((prevData) => {
-      const newData = {
-        ...prevData,
-        [name]: value,
-      };
-      return newData;
-    });
-  };
+    if (fetchStatus === "idle") {
+      dispatch(fetchProfileNews()).then(() => {
+        dispatch(setCurrentProfileNews(parseInt(id)));
+      });
+    } else if (fetchStatus === "succeeded") {
+      dispatch(setCurrentProfileNews(parseInt(id)));
+    }
+  }, [id, fetchStatus, dispatch]);
 
-  const handleImageChange = (e) => {
+  useEffect(() => {
+    if (currentNews) {
+      setNewsData({
+        ...currentNews,
+        file: currentNews.image || null,
+      });
+    }
+  }, [currentNews]);
+
+  const handleChange = useCallback((name, value) => {
+    setNewsData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  }, []);
+
+  const handleImageChange = useCallback((e) => {
     const file = e.target.files[0];
+
+    if (file && !file.type.startsWith("image/")) {
+      toast.error("Выберите изображение.");
+      return;
+    }
+
+    if (file && file.size > 1 * 1024 * 1024) {
+      toast.error("Изображение не должно превышать 1MB.");
+      return;
+    }
+
     setNewsData((prevData) => ({
       ...prevData,
       file: file,
     }));
-  };
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -77,12 +93,17 @@ const EditNews = () => {
     };
 
     toast
-      .promise(dispatch(editNews({ id, newsData: newsToUpdate })).unwrap(), {
-        pending: "Изменение новости...",
-        success: "Новость успешно изменена 👌",
-        error: "Ошибка при изменении новости 🤯",
-      })
+      .promise(
+        dispatch(editProfileNews({ id, newsData: newsToUpdate })).unwrap(),
+        {
+          pending: "Изменение новости...",
+          success: "Новость успешно изменена 👌",
+          error: "Ошибка при изменении новости 🤯",
+        }
+      )
       .then(() => {
+        dispatch(fetchProfileNews());
+        dispatch(fetchPublicNews({ forceRefresh: true }));
         navigate("/profile/news");
       })
       .catch((err) => {
@@ -94,9 +115,10 @@ const EditNews = () => {
   };
 
   const retryFetch = () => {
-    setError(null);
-    setLoading(true);
-    fetchNews();
+    dispatch(fetchProfileNews()).then(() => {
+      dispatch(setCurrentProfileNews(parseInt(id)));
+      error = dispatch(selectProfileNewsError);
+    });
   };
 
   return (
@@ -106,7 +128,7 @@ const EditNews = () => {
       handleImageChange={handleImageChange}
       handleSubmit={handleSubmit}
       isSubmitting={isSubmitting}
-      loading={loading} // Новый проп для состояния загрузки
+      status={fetchStatus}
       error={error}
       retryFetch={retryFetch}
     />

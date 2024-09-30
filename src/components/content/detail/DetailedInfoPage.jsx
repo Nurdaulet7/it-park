@@ -8,15 +8,15 @@ import { selectEvents } from "../../../redux/slices/eventsSlice";
 import { useSelector } from "react-redux";
 import { FaWhatsapp, FaInstagram, FaSquareFacebook } from "react-icons/fa6";
 import { FaTelegram } from "react-icons/fa";
-import { selectNews } from "../../../redux/slices/newsSlice";
 import HtmlContent from "../../../utils/HtmlContent";
+import { selectPublicNews } from "../../../redux/slices/publicNewsSlice";
 
 const DetailedInfoPage = (props) => {
   const { event, isNews = false } = props;
 
   const { locale } = useIntl();
   const allEvents = useSelector(selectEvents);
-  const allNews = useSelector(selectNews);
+  const allNews = useSelector(selectPublicNews);
   const filteredEvents = isNews
     ? allNews.filter((e) => e.id !== event.id)
     : allEvents.filter((e) => e.id !== event.id);
