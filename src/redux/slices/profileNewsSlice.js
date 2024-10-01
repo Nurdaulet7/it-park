@@ -5,7 +5,7 @@ import axios from "axios";
 import { publicNewsRemoved, publicNewsUpdated } from "./publicNewsSlice";
 
 const BASE_URL = "https://it-park.kz/kk/api";
-const PROFILE_NEWS_CACHE_KEY = "cachedProfileNews";
+// const PROFILE_NEWS_CACHE_KEY = "cachedProfileNews";
 
 const getUserIdFromToken = () => {
   const token = localStorage.getItem("jwtToken");
@@ -133,16 +133,26 @@ export const editProfileNews = createAsyncThunk(
 
 export const deleteProfileNews = createAsyncThunk(
   "profileNews/deleteProfileNews",
-  async (id, thunkAPI) => {
+  async ({ entityId, entityType }, thunkAPI) => {
     const token = localStorage.getItem("jwtToken");
 
+    const formData = new FormData();
+    formData.append("token", token);
+
     try {
-      await axios.post(`${BASE_URL}/trash?table=news&post_id=${id}`, { token });
-      thunkAPI.dispatch(profileNewsDeleted(id));
-      thunkAPI.dispatch(publicNewsRemoved(id));
-      return id;
+      await axios.post(
+        `https://it-park.kz/kk/api/trash?table=${entityType}&post_id=${entityId}`,
+        formData
+      );
+      thunkAPI.dispatch(
+        showNotification({ message: "Новость удалена", type: "success" })
+      );
+      return entityId;
     } catch (error) {
-      return thunkAPI.rejectWithValue("Ошибка удаления новости");
+      thunkAPI.dispatch(
+        showNotification({ message: "Ошибка удаления новости", type: "error" })
+      );
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );

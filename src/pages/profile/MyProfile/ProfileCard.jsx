@@ -1,8 +1,14 @@
 import React from "react";
-import { FaPencilAlt } from "react-icons/fa";
+import EditButton from "../ActionButtons/EditButton";
+import { useNavigate } from "react-router-dom";
 
 const ProfileCard = (props) => {
   const { userData } = props;
+
+  const navigate = useNavigate();
+  const handleEditClick = () => {
+    navigate(`/profile/news/update?id=${1}`);
+  };
 
   return (
     <div className="profile-card">
@@ -34,10 +40,8 @@ const ProfileCard = (props) => {
               <strong>Резидент:</strong> {userData.education_name}
             </p>
           </div>
-          <div className="profile-content__bottom">
-            <a className="profile-change-button ">
-              <FaPencilAlt />
-            </a>
+          <div className="profile-content__bottom change-buttons">
+            <EditButton onClick={handleEditClick} />
           </div>
         </div>
       </div>

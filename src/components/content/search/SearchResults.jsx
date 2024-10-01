@@ -2,9 +2,6 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
 import {
-  fetchNews,
-} from "../../../redux/slices/newsSlice";
-import {
   fetchEvents,
   selectEvents,
   selectEventsStatus,
