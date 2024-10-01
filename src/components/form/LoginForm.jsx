@@ -2,16 +2,25 @@ import React, { useEffect, useState } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { z } from "zod";
 import InputField from "./InputField";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { showNotification } from "../../redux/slices/notificationSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  clearError,
+  loginUser,
+  selectAuthError,
+  selectAuthStatus,
+  selectAuthToken,
+} from "../../redux/slices/authSlice";
+import { RotatingLines } from "react-loader-spinner";
 
 const LoginForm = (props) => {
   const { onSwitchToRegister, isOpen, onClose } = props;
   const { formatMessage } = useIntl();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const token = useSelector(selectAuthToken);
+  const authError = useSelector(selectAuthError);
+  const authStatus = useSelector(selectAuthStatus);
 
   const initialLoginData = {
     login: "",
@@ -33,15 +42,23 @@ const LoginForm = (props) => {
 
   const [formData, setFormData] = useState(initialLoginData);
   const [errors, setErrors] = useState({});
-  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  // const [authError, setErrorMessage] = useState("");
 
   useEffect(() => {
     if (!isOpen) {
       setFormData(initialLoginData);
       setErrors({});
-      setErrorMessage("");
+      // setErrorMessage("");
+      dispatch(clearError());
     }
-  }, [isOpen]);
+  }, [isOpen, dispatch]);
+
+  // useEffect(() => {
+  //   if (authStatus === "succeeded" && token) {
+  //     onClose();
+  //   }
+  // }, [authStatus, token, navigate, onClose]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -77,57 +94,13 @@ const LoginForm = (props) => {
       });
       setErrors(fieldErrors);
     } else {
-      try {
-        const formDataToSend = new FormData();
-        formDataToSend.append("login", formData.login);
-        formDataToSend.append("password", formData.password);
+      setIsLoading(true);
+      const result = await dispatch(loginUser(formData));
+      setIsLoading(false);
 
-        console.log(formDataToSend);
-
-        const response = await axios.post(
-          "https://it-park.kz/kk/api/login",
-          formDataToSend
-        );
-
-        console.log(response);
-
-        if (response.data.token) {
-          const token = response.data.token;
-          const expiresIn = 5 * 60 * 60 * 1000;
-          const expirationTime = new Date().getTime() + expiresIn;
-
-          localStorage.setItem("jwtToken", token);
-          localStorage.setItem("tokenExpiration", expirationTime);
-
-          navigate("/profile/user");
-          dispatch(
-            showNotification({ message: "Вход выполнен :)", type: "success" })
-          );
-          onClose();
-        } else {
-          setErrorMessage("Ошибка аутентификации. Проверьте введенные данные.");
-          dispatch(
-            showNotification({
-              message: "Неверные логин или пароль",
-              type: "error",
-            })
-          );
-        }
-      } catch (error) {
-        console.error("Ошибка запроса:", error);
-        if (error.response && error.response.data) {
-          setErrorMessage(
-            error.response.data.message || "Неверные логин или пароль"
-          );
-        } else {
-          dispatch(
-            showNotification({
-              message: "Ошибка сети. Попробуйте позже.",
-              type: "error",
-            })
-          );
-          setErrorMessage("Ошибка сети. Попробуйте позже.");
-        }
+      if (result.meta.requestStatus === "fulfilled") {
+        navigate("/profile/user");
+        onClose(); // Закрываем форму или модальное окно
       }
     }
   };
@@ -137,43 +110,70 @@ const LoginForm = (props) => {
       <h4>
         <FormattedMessage id="login" />
       </h4>
-      <div className="inputs">
-        <InputField
-          type="text"
-          name="login"
-          value={formData.login}
-          onChange={handleChange}
-          placeholder={formatMessage({ id: "username" })}
-          error={errors.login}
+      {isLoading ? (
+        <RotatingLines
+          visible={true}
+          height="20%"
+          width="20%"
+          color="gray"
+          strokeColor="#e02d2d"
+          strokeWidth="5"
+          animationDuration="0.75"
+          ariaLabel="rotating-lines-loading"
         />
-        <InputField
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder={formatMessage({ id: "password" })}
-          error={errors.password}
-          autocomplete="current-password"
-        />
-        <div className="form-buttons">
-          <label className="checkbox-label">
-            <input
-              type="checkbox"
-              name="remember"
-              checked={formData.remember}
+      ) : (
+        <>
+          <div className="inputs">
+            <InputField
+              type="text"
+              name="login"
+              value={formData.login}
               onChange={handleChange}
+              placeholder={formatMessage({ id: "username" })}
+              error={errors.login}
             />
-            <FormattedMessage id="remember_me" />
-          </label>
-          <a href="#" className="forgot-password-link">
-            <FormattedMessage id="forgot_password" />
-          </a>
-        </div>
-      </div>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
+            <InputField
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder={formatMessage({ id: "password" })}
+              error={errors.password}
+              autocomplete="current-password"
+            />
+            <div className="form-buttons">
+              <label className="checkbox-label">
+                <input
+                  type="checkbox"
+                  name="remember"
+                  checked={formData.remember}
+                  onChange={handleChange}
+                />
+                <FormattedMessage id="remember_me" />
+              </label>
+              <a href="#" className="forgot-password-link">
+                <FormattedMessage id="forgot_password" />
+              </a>
+            </div>
+          </div>
+          {authError && (
+            <p style={{ width: "85%" }} className="error-message">
+              {authError}
+            </p>
+          )}
+        </>
+      )}
       <div className="log-reg-buttons">
-        <button type="submit" className="button">
-          <FormattedMessage id="sign_in" />
+        <button
+          type="submit"
+          className={`button ${isLoading ? "button-disabled" : ""}`}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <FormattedMessage id="loading" defaultMessage={"Загрузка..."} />
+          ) : (
+            <FormattedMessage id="sign_in" />
+          )}
         </button>
         <button
           type="button"
@@ -188,3 +188,56 @@ const LoginForm = (props) => {
 };
 
 export default LoginForm;
+
+// try {
+//   const formDataToSend = new FormData();
+//   formDataToSend.append("login", formData.login);
+//   formDataToSend.append("password", formData.password);
+
+//   console.log(formDataToSend);
+
+//   const response = await axios.post(
+//     "https://it-park.kz/kk/api/login",
+//     formDataToSend
+//   );
+
+//   console.log(response);
+
+//   if (response.data.token) {
+//     const token = response.data.token;
+//     const expiresIn = 5 * 60 * 60 * 1000;
+//     const expirationTime = new Date().getTime() + expiresIn;
+
+//     localStorage.setItem("jwtToken", token);
+//     localStorage.setItem("tokenExpiration", expirationTime);
+
+//     navigate("/profile/user");
+//     dispatch(
+//       showNotification({ message: "Вход выполнен :)", type: "success" })
+//     );
+//     onClose();
+//   } else {
+//     setErrorMessage("Ошибка аутентификации. Проверьте введенные данные.");
+//     dispatch(
+//       showNotification({
+//         message: "Неверные логин или пароль",
+//         type: "error",
+//       })
+//     );
+//   }
+// } catch (error) {
+//   console.error("Ошибка запроса:", error);
+//   if (error.response && error.response.data) {
+//     setErrorMessage(
+//       error.response.data.message || "Неверные логин или пароль"
+//     );
+//   } else {
+//     dispatch(
+//       showNotification({
+//         message: "Ошибка сети. Попробуйте позже.",
+//         type: "error",
+//       })
+//     );
+//     setErrorMessage("Ошибка сети. Попробуйте позже.");
+//   }
+// }

@@ -17,6 +17,7 @@ export const loginUser = createAsyncThunk(
 
       if (response.data.token) {
         const token = response.data.token;
+        const user = response.data.user || null;
         const expiresIn = 5 * 60 * 60 * 1000;
         const expirationTime = new Date().getTime() + expiresIn;
 
@@ -26,7 +27,7 @@ export const loginUser = createAsyncThunk(
         dispatch(
           showNotification({ message: "Вход выполнен", type: "success" })
         );
-        return { token };
+        return { token, user };
       } else {
         return rejectWithValue(
           "Ошибка аутентификации. Проверьте введенные данные."
@@ -67,6 +68,9 @@ const authSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    setToken: (state, action) => {
+      state.token = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -76,15 +80,19 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.token = action.payload.token;
+        state.user = action.payload.user || null;
+        localStorage.setItem("jwtToken", action.payload.token);
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.status = "failed";
-        state.error = action.error.message || "Ошибка при входе в систему.";
+        state.error = "Ошибка при входе в систему.";
       });
   },
 });
 
-export const { logout, clearError } = authSlice.actions;
+export const { logout, clearError, setToken } = authSlice.actions;
 export default authSlice.reducer;
 
 export const selectAuthToken = (state) => state.auth.token;
+export const selectAuthError = (state) => state.auth.error;
+export const selectAuthStatus = (state) => state.auth.status;

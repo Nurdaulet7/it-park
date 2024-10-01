@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import ProfileCard from "./ProfileCard";
+import { useSelector } from "react-redux";
+import { selectAuthToken } from "../../../redux/slices/authSlice";
 
 const MyProfile = () => {
   const [userData, setUserData] = useState(null);
+  const token = useSelector(selectAuthToken);
 
   const getUserDataFromToken = () => {
-    const token = localStorage.getItem("jwtToken");
-
     if (token) {
       const tokenParts = token.split(".");
       const payloadBase64 = tokenParts[1];

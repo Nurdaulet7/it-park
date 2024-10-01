@@ -9,7 +9,6 @@ import vacanciesReducer from "./slices/vacanciesSlice";
 import projectsReducer from "./slices/projectsSlice";
 import notificationReducer from "./slices/notificationSlice";
 import authenticationReducer from "./slices/authSlice";
-
 export const store = configureStore({
   reducer: {
     events: eventsReducer,
@@ -20,6 +19,6 @@ export const store = configureStore({
     vacancies: vacanciesReducer,
     projects: projectsReducer,
     notification: notificationReducer,
-    authentication: authenticationReducer,
+    auth: authenticationReducer,
   },
 });

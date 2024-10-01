@@ -1,17 +1,21 @@
 import { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import checkTokenExpiration from "../../../utils/checkTokenExpiration";
+import { selectAuthToken } from "../../../redux/slices/authSlice";
+import { checkTokenExpiration } from "../../../utils/checkTokenExpiration";
 
 const PrivateRoute = ({ children }) => {
   const navigate = useNavigate();
+  const token = useSelector(selectAuthToken); // Получаем токен из глобального состояния
 
   useEffect(() => {
-    if (!checkTokenExpiration()) {
+    if (!token || !checkTokenExpiration()) {
       navigate("/");
     }
-  }, [navigate]);
+  }, [token, navigate]);
 
-  return children;
+  console.log("Children");
+  return token ? children : null;
 };
 
 export default PrivateRoute;

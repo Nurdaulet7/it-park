@@ -4,6 +4,9 @@ import cn from "classnames";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CgMenuRightAlt } from "react-icons/cg";
 import { RiMenuFold4Fill } from "react-icons/ri";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/slices/authSlice";
+import { showNotification } from "../../redux/slices/notificationSlice";
 
 const menu_sections = [
   { id: "Мой профиль", url: "/profile/user" },
@@ -18,6 +21,7 @@ const menu_sections = [
 
 const ProfileMenu = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(true);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -38,9 +42,13 @@ const ProfileMenu = () => {
   }, [isMenuOpen]);
 
   const handleLogout = () => {
-    localStorage.removeItem("jwtToken");
-    localStorage.removeItem("tokenExpiration");
-
+    dispatch(logout());
+    dispatch(
+      showNotification({
+        message: "Вы вышли",
+        type: "success",
+      })
+    );
     navigate("/");
   };
 
