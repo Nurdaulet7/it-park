@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 import { showNotification } from "./notificationSlice";
 
 // export const registerUser = createAsyncThunk(
@@ -39,11 +40,13 @@ export const loginUser = createAsyncThunk(
 
       if (response.data.token) {
         const token = response.data.token;
-        const tokenParts = token.split(".");
-        const payloadBase64 = tokenParts[1];
-        const payloadDecoded = atob(payloadBase64);
-        const payloadObject = JSON.parse(payloadDecoded);
-        const user = payloadObject.user || null;
+        // const tokenParts = token.split(".");
+        // const payloadBase64 = tokenParts[1];
+        // const payloadDecoded = atob(payloadBase64);
+        // const payloadObject = JSON.parse(payloadDecoded);
+        // const user = payloadObject.user || null;
+        const decodedToken = jwtDecode(token);
+        const user = decodedToken.user || null;
         const expiresIn = 5 * 60 * 60 * 1000;
         const expirationTime = new Date().getTime() + expiresIn;
 

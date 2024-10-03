@@ -6,8 +6,9 @@ const ProfileCard = (props) => {
   const { userData } = props;
 
   const navigate = useNavigate();
+
   const handleEditClick = () => {
-    navigate(`/profile/user/update`);
+    navigate(`/profile/user/update`, { state: { user: userData } }); // Передаем данные пользователя
   };
 
   return (

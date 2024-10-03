@@ -2,8 +2,9 @@ import React, { useCallback, useState } from "react";
 import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import { z } from "zod";
-import { Skeleton } from "@mui/material";
 import ErrorDisplay from "../../../components/Error/ErrorDisplay";
+import InputField from "../../../components/editor/InputField";
+import EditFormSkeleton from "../../../components/editor/EditFormSkeleton";
 
 const EditForm = ({
   data,
@@ -83,7 +84,7 @@ const EditForm = ({
     }
   };
 
-  if (status === "loading") return <SkeletonLoader />;
+  if (status === "loading") return <EditFormSkeleton />;
   if (status === "failed")
     return <ErrorDisplay errorMessage={error} retryAction={retryFetch} />;
 
@@ -98,70 +99,40 @@ const EditForm = ({
       </h3>
       <form className="news-edit__form" onSubmit={onSubmit}>
         <div className="news-edit__container grid grid--2">
-          <div className="news-edit__field">
-            <label className="news-edit__label" htmlFor="title_ru">
-              Заголовок (Рус):
-            </label>
-            <input
-              className={`news-edit__input button input input__editer ${
-                errors.title_ru ? "input-error" : ""
-              }`}
-              type="text"
-              name="title_ru"
-              value={data.title_ru}
-              placeholder="Заполните заголовок"
-              onChange={(e) => handleFieldChange("title_ru", e.target.value)}
-            />
-            {errors.title_ru && (
-              <span className="error-message">{errors.title_ru}</span>
-            )}
-          </div>
-          <div className="news-edit__field">
-            <label className="news-edit__label" htmlFor="title_kk">
-              Заголовок (Каз):
-            </label>
-            <input
-              className={`news-edit__input button input input__editer ${
-                errors.title_kk ? "input-error" : ""
-              }`}
-              type="text"
-              name="title_kk"
-              value={data.title_kk}
-              placeholder="Заполните заголовок"
-              onChange={(e) => handleFieldChange("title_kk", e.target.value)}
-            />
-            {errors.title_kk && (
-              <span className="error-message">{errors.title_kk}</span>
-            )}
-          </div>
+          <InputField
+            label="Заголовок (Рус)"
+            name="title_ru"
+            value={data.title_ru}
+            placeholder="Заполните заголовок"
+            onChange={(e) => handleFieldChange("title_ru", e.target.value)}
+            error={errors.title_ru}
+          />
+          <InputField
+            label="Заголовок (Каз):"
+            name="title_kk"
+            value={data.title_kk}
+            placeholder="Заполните заголовок"
+            onChange={(e) => handleFieldChange("title_kk", e.target.value)}
+            error={errors.title_kk}
+          />
         </div>
         <div className="news-edit__container grid grid--2">
-          <div className="news-edit__field">
-            <label className="news-edit__label" htmlFor="desc_ru">
-              Краткое описание:
-            </label>
-            <textarea
-              className="news-edit__input button input input__editer input__editer-textarea"
-              type="text"
-              name="desc_ru"
-              value={data.desc_ru}
-              placeholder="Заполните краткое описание"
-              onChange={(e) => handleChange("desc_ru", e.target.value)}
-            />
-          </div>
-          <div className="news-edit__field">
-            <label className="news-edit__label" htmlFor="desc_kk">
-              Қысқаша мазмұндама:
-            </label>
-            <textarea
-              className="news-edit__input button input input__editer input__editer-textarea"
-              type="text"
-              name="desc_kk"
-              value={data.desc_kk}
-              placeholder="Қысқаша мазмұңдаманы толтырыңыз"
-              onChange={(e) => handleChange("desc_kk", e.target.value)}
-            />
-          </div>
+          <InputField
+            label="Краткое описание:"
+            name="desc_ru"
+            value={data.desc_ru}
+            placeholder="Заполните краткое описание"
+            onChange={(e) => handleChange("desc_ru", e.target.value)}
+            isTextarea
+          />
+          <InputField
+            label="Қысқаша мазмұндама:"
+            name="desc_kk"
+            value={data.desc_kk}
+            placeholder="Қысқаша мазмұңдаманы толтырыңыз"
+            onChange={(e) => handleChange("desc_kk", e.target.value)}
+            isTextarea
+          />
         </div>
         <div className="news-edit__container grid grid--2">
           <div className="news-edit__field">
@@ -258,167 +229,6 @@ const EditForm = ({
       </form>
     </div>
   );
-};
-
-const SkeletonLoader = () => {
-  <div className="news-edit">
-    <Skeleton className="skeleton" animation="wave" width="250px" height={40} />
-    <div className="news-edit__form">
-      <div className="news-edit__container grid grid--2">
-        <div className="news-edit__field">
-          <Skeleton
-            className="skeleton"
-            animation="wave"
-            width="150px"
-            height={25}
-          />
-          <Skeleton
-            className="skeleton"
-            animation="wave"
-            variant="rectangular"
-            width="100%"
-            height={45}
-          />
-        </div>
-        <div className="news-edit__field">
-          <Skeleton
-            className="skeleton"
-            animation="wave"
-            width="150px"
-            height={25}
-          />
-          <Skeleton
-            className="skeleton"
-            animation="wave"
-            variant="rectangular"
-            width="100%"
-            height={45}
-          />
-        </div>
-      </div>
-      <div className="news-edit__container grid grid--2">
-        <div className="news-edit__field">
-          <Skeleton
-            className="skeleton"
-            animation="wave"
-            width="200px"
-            height={25}
-          />
-          <Skeleton
-            className="skeleton"
-            animation="wave"
-            variant="rectangular"
-            width="100%"
-            height={150}
-          />
-        </div>
-        <div className="news-edit__field">
-          <Skeleton
-            className="skeleton"
-            animation="wave"
-            width="200px"
-            height={25}
-          />
-          <Skeleton
-            className="skeleton"
-            animation="wave"
-            variant="rectangular"
-            width="100%"
-            height={150}
-          />
-        </div>
-      </div>
-      <div className="news-edit__container grid grid--2">
-        <div className="news-edit__field">
-          <Skeleton
-            className="skeleton"
-            animation="wave"
-            width="100px"
-            height={25}
-          />
-          <Skeleton
-            className="skeleton"
-            animation="wave"
-            variant="rectangular"
-            width="100%"
-            height={100}
-          />
-        </div>
-        <div className="news-edit__field">
-          <Skeleton
-            className="skeleton"
-            animation="wave"
-            width="100px"
-            height={25}
-          />
-          <Skeleton
-            className="skeleton"
-            animation="wave"
-            variant="rectangular"
-            width="100%"
-            height={100}
-          />
-        </div>
-      </div>
-
-      <div className="news-edit__container grid grid--3">
-        <div className="news-edit__field">
-          <Skeleton
-            className="skeleton"
-            animation="wave"
-            width="100px"
-            height={25}
-          />
-          <Skeleton
-            className="skeleton"
-            animation="wave"
-            variant="rectangular"
-            width="100%"
-            height={45}
-          />
-        </div>
-
-        <div className="news-edit__field">
-          <Skeleton
-            className="skeleton"
-            animation="wave"
-            width="80px"
-            height={25}
-          />
-          <Skeleton
-            className="skeleton"
-            animation="wave"
-            variant="rectangular"
-            width="100%"
-            height={45}
-          />
-        </div>
-        <div className="news-edit__field">
-          <Skeleton
-            className="skeleton"
-            animation="wave"
-            width="150px"
-            height={25}
-          />
-          <Skeleton
-            className="skeleton"
-            animation="wave"
-            variant="rectangular"
-            width="100%"
-            height={45}
-          />
-        </div>
-      </div>
-
-      <Skeleton
-        className="skeleton news-edit__submit"
-        animation="wave"
-        variant="rectangular"
-        width="200px"
-        height={45}
-      />
-    </div>
-  </div>;
 };
 
 export default EditForm;
