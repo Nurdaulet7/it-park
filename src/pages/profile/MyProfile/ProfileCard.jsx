@@ -7,7 +7,7 @@ const ProfileCard = (props) => {
 
   const navigate = useNavigate();
   const handleEditClick = () => {
-    navigate(`/profile/news/update?id=${1}`);
+    navigate(`/profile/user/update`);
   };
 
   return (

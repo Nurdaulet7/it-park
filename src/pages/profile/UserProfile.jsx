@@ -6,12 +6,15 @@ import MyNews from "./MyNews/MyNews";
 import { NotFound } from "../NotFound";
 import EditNews from "./MyProfile/EditNews";
 import CreateNews from "./MyProfile/CreateNews";
+import NewsDetailsSection from "../../components/content/news/NewsDetailsSection";
+import EditProfile from "./MyProfile/EditProfile";
 
 const UserProfile = () => {
   const location = useLocation();
   const shouldShowAside =
     location.pathname !== "/profile/news/update" &&
-    location.pathname !== "/profile/news/create";
+    location.pathname !== "/profile/news/create" &&
+    !/\/profile\/news\/\d+/.test(location.pathname);
 
   return (
     <div className="container">
@@ -21,9 +24,14 @@ const UserProfile = () => {
         >
           <Routes>
             <Route path="user" element={<MyProfile />} />
+            <Route path="user/update" element={<EditProfile />} />
             <Route path="news" element={<MyNews />} />
             <Route path="news/update" element={<EditNews />} />
             <Route path="news/create" element={<CreateNews />} />
+            <Route
+              path="/news/:id"
+              element={<NewsDetailsSection isProfileNews />}
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

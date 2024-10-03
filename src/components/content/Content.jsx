@@ -72,6 +72,10 @@ const Content = (props) => {
           <Route path="/events" element={<Events />} />
           <Route path="/news" element={<NewsPage />} />
           <Route path="/news/:id" element={<NewsDetailsSection />} />
+          {/* <Route
+            path="/news-profile/:id"
+            element={<NewsDetailsSection isProfileNews />}
+          /> */}
           <Route path="/vacancies" element={<VacanciesPage />} />
           <Route path="/vacancies/:id" element={<VacanciesDetailsSection />} />
           <Route path="/projects/:id" element={<ProjectDetailsPage />} />

@@ -92,7 +92,10 @@ const NewsCard = (props) => {
                 {news.views}
               </span>
             )}
-            <Link to={`/news/${news.id}`} className="read-more">
+            <Link
+              to={forProfile ? `/profile/news/${news.id}` : `/news/${news.id}`}
+              className="read-more"
+            >
               <FormattedMessage
                 id="read_more"
                 defaultMessage={"Читать далее »"}

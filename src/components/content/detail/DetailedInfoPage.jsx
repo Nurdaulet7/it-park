@@ -10,13 +10,16 @@ import { FaWhatsapp, FaInstagram, FaSquareFacebook } from "react-icons/fa6";
 import { FaTelegram } from "react-icons/fa";
 import HtmlContent from "../../../utils/HtmlContent";
 import { selectPublicNews } from "../../../redux/slices/publicNewsSlice";
+import { selectProfileNews } from "../../../redux/slices/profileNewsSlice";
 
 const DetailedInfoPage = (props) => {
-  const { event, isNews = false } = props;
+  const { event, isNews = false, isProfileNews = false } = props;
 
   const { locale } = useIntl();
   const allEvents = useSelector(selectEvents);
-  const allNews = useSelector(selectPublicNews);
+  const allNews = useSelector(
+    isProfileNews ? selectProfileNews : selectPublicNews
+  );
   const filteredEvents = isNews
     ? allNews.filter((e) => e.id !== event.id)
     : allEvents.filter((e) => e.id !== event.id);
