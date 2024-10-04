@@ -106,7 +106,7 @@ const Menu = (props) => {
           />
         )}
       />
-      <button
+      {/* <button
         onClick={onOpenResidentForm}
         className={cn(
           "button button--tablet-button",
@@ -118,7 +118,7 @@ const Menu = (props) => {
           id="become_resident"
           defaultMessage="Стать резидентом"
         />
-      </button>
+      </button> */}
       {menu_sections.map((section, index) => (
         <li key={index} className={cn(styles["menu__list-item"])}>
           <ScrollLink

@@ -14,7 +14,8 @@ const UserProfile = () => {
   const shouldShowAside =
     location.pathname !== "/profile/news/update" &&
     location.pathname !== "/profile/news/create" &&
-    !/\/profile\/news\/\d+/.test(location.pathname);
+    !/\/profile\/news\/\d+/.test(location.pathname) &&
+    location.pathname !== "/profile/user/update";
 
   return (
     <div className="container">

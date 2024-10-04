@@ -63,7 +63,7 @@ const Header = (props) => {
               />
             )}
           />
-          <button
+          {/* <button
             onClick={onOpenResidentForm}
             className={cn(
               "button",
@@ -76,7 +76,7 @@ const Header = (props) => {
               id="become_resident"
               defaultMessage="Стать резидентом"
             />
-          </button>
+          </button> */}
           <LanguageSwitcher setLocale={setLocale} />
           <button
             onClick={handleUserClick}

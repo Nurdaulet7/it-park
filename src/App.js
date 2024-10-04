@@ -50,7 +50,7 @@ function App({ setLocale }) {
           <ToastNotification />
           <Header
             onOpenDialog={handleOpenDialog}
-            onOpenResidentForm={handleOpenResidentForm}
+            // onOpenResidentForm={handleOpenResidentForm}
             onOpenLoginForm={handleOpenLoginForm}
             setLocale={setLocale}
           />
@@ -63,10 +63,10 @@ function App({ setLocale }) {
             <Menu
               setScrollToSection={setScrollToSection}
               onMenuItemClick={handleCloseDialog} // Закрытие диалога при клике на пункт меню
-              onOpenResidentForm={handleOpenResidentForm}
+              // onOpenResidentForm={handleOpenResidentForm}
             />
           </Dialog>
-          <FormDialog
+          {/* <FormDialog
             isOpen={isResidentFormOpen}
             onClose={handleCloseResidentForm}
           >
@@ -74,7 +74,7 @@ function App({ setLocale }) {
               isOpen={isResidentFormOpen}
               onClose={handleCloseResidentForm}
             />
-          </FormDialog>
+          </FormDialog> */}
           <FormDialog isOpen={isLoginFormOpen} onClose={handleCloseLoginForm}>
             <AuthForm isOpen={isLoginFormOpen} onClose={handleCloseLoginForm} />
           </FormDialog>
