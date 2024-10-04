@@ -52,7 +52,7 @@ const menu_sections = [
 ];
 
 const Menu = (props) => {
-  const { setScrollToSection, onMenuItemClick, onOpenResidentForm } = props;
+  const { setScrollToSection, onMenuItemClick } = props;
   const navigate = useNavigate();
   const [activeSection, setActiveSection] = useState(null);
   const [homePath, setCurrentPath] = useState(null);
@@ -106,19 +106,6 @@ const Menu = (props) => {
           />
         )}
       />
-      {/* <button
-        onClick={onOpenResidentForm}
-        className={cn(
-          "button button--tablet-button",
-          styles["tablet-button"],
-          "visible-tablet"
-        )}
-      >
-        <FormattedMessage
-          id="become_resident"
-          defaultMessage="Стать резидентом"
-        />
-      </button> */}
       {menu_sections.map((section, index) => (
         <li key={index} className={cn(styles["menu__list-item"])}>
           <ScrollLink

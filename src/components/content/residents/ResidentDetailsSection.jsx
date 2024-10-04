@@ -90,7 +90,6 @@ const ResidentDetailsSection = () => {
           <header className="projects__section">
             <h3 className="projects__title">
               <FormattedMessage id="our_projects" />
-              {/* {getTranslatedContent(resident, "name", locale)} */}
             </h3>
           </header>
           <div className="projects-list grid grid--3">

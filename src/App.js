@@ -8,14 +8,12 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { BrowserRouter } from "react-router-dom";
 import FormDialog from "./components/dialog/FormDialog";
-import ResidentForm from "./components/form/ResidentForm";
 import FooterComponent from "./components/footer/FooterComponent";
 import AuthForm from "./components/form/AuthForm";
 import ToastNotification from "./components/Error/ToastNotification";
 
 function App({ setLocale }) {
   const [isDialogOpen, setDialogOpen] = useState(false);
-  const [isResidentFormOpen, setResidentFormOpen] = useState(false);
   const [isLoginFormOpen, setLoginFormOpen] = useState(false);
   const [scrollToSection, setScrollToSection] = useState(null);
 
@@ -25,14 +23,6 @@ function App({ setLocale }) {
 
   const handleCloseDialog = () => {
     setDialogOpen(false);
-  };
-
-  const handleOpenResidentForm = () => {
-    setResidentFormOpen(true);
-  };
-
-  const handleCloseResidentForm = () => {
-    setResidentFormOpen(false);
   };
 
   const handleOpenLoginForm = () => {
@@ -50,7 +40,6 @@ function App({ setLocale }) {
           <ToastNotification />
           <Header
             onOpenDialog={handleOpenDialog}
-            // onOpenResidentForm={handleOpenResidentForm}
             onOpenLoginForm={handleOpenLoginForm}
             setLocale={setLocale}
           />
@@ -63,18 +52,8 @@ function App({ setLocale }) {
             <Menu
               setScrollToSection={setScrollToSection}
               onMenuItemClick={handleCloseDialog} // Закрытие диалога при клике на пункт меню
-              // onOpenResidentForm={handleOpenResidentForm}
             />
           </Dialog>
-          {/* <FormDialog
-            isOpen={isResidentFormOpen}
-            onClose={handleCloseResidentForm}
-          >
-            <ResidentForm
-              isOpen={isResidentFormOpen}
-              onClose={handleCloseResidentForm}
-            />
-          </FormDialog> */}
           <FormDialog isOpen={isLoginFormOpen} onClose={handleCloseLoginForm}>
             <AuthForm isOpen={isLoginFormOpen} onClose={handleCloseLoginForm} />
           </FormDialog>

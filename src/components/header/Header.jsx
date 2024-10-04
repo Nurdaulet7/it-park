@@ -11,8 +11,7 @@ import { useSelector } from "react-redux";
 import { selectAuthToken } from "../../redux/slices/authSlice";
 
 const Header = (props) => {
-  const { onOpenDialog, onOpenResidentForm, onOpenLoginForm, setLocale } =
-    props;
+  const { onOpenDialog, onOpenLoginForm, setLocale } = props;
   const [searchTerm, setSearchTerm] = useState("");
   const token = useSelector(selectAuthToken);
 
@@ -63,20 +62,6 @@ const Header = (props) => {
               />
             )}
           />
-          {/* <button
-            onClick={onOpenResidentForm}
-            className={cn(
-              "button",
-              "button--transparent",
-              styles["header__button"],
-              "hidden-tablet"
-            )}
-          >
-            <FormattedMessage
-              id="become_resident"
-              defaultMessage="Стать резидентом"
-            />
-          </button> */}
           <LanguageSwitcher setLocale={setLocale} />
           <button
             onClick={handleUserClick}
