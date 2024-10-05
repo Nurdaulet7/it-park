@@ -51,9 +51,9 @@ const MyNews = () => {
           Опубликовать
         </button>
       </div>
-      <div className="grid grid---2">
+      <div className="grid grid---3">
         {status === "loading"
-          ? [...Array(4)].map((_, index) => (
+          ? [...Array(6)].map((_, index) => (
               <NewsCard key={index} forSkeleton />
             ))
           : news.map((item, index) => (

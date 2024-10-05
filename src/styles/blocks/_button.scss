@@ -128,3 +128,42 @@
 .button-event {
   padding-inline: 20px;
 }
+
+.action-buttons {
+  display: flex;
+  column-gap: 7px;
+
+  & .change {
+    padding: 7px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    box-shadow: var(--shadow);
+
+    & * {
+      color: white;
+      font-size: 15px;
+    }
+
+    &:hover {
+      background-color: var(--color-accent-h);
+    }
+  }
+
+  & .change-btn {
+    background-color: var(--color-accent);
+  }
+
+  & .delete-btn {
+    background-color: var(--color-gray);
+  }
+
+  &-event {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
+  }
+}

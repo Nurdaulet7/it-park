@@ -41,7 +41,7 @@ const ProfileCard = (props) => {
               <strong>Резидент:</strong> {userData.education_name}
             </p>
           </div>
-          <div className="profile-content__bottom change-buttons">
+          <div className="profile-content__bottom action-buttons">
             <EditButton onClick={handleEditClick} />
           </div>
         </div>

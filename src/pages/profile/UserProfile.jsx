@@ -8,6 +8,7 @@ import EditNews from "./MyProfile/EditNews";
 import CreateNews from "./MyProfile/CreateNews";
 import NewsDetailsSection from "../../components/content/news/NewsDetailsSection";
 import EditProfile from "./MyProfile/EditProfile";
+import MyEvents from "./MyProfile/MyEvents";
 
 const UserProfile = () => {
   const location = useLocation();
@@ -33,6 +34,7 @@ const UserProfile = () => {
               path="/news/:id"
               element={<NewsDetailsSection isProfileNews />}
             />
+            <Route path="events" element={<MyEvents />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

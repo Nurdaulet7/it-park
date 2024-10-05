@@ -48,7 +48,7 @@ const NewsCard = (props) => {
 
   return (
     <li className="news_item">
-      <article className={`${forAside ? "news-card-aside" : ""} news-card`}>
+      <article className={`${forAside ? "news-card-aside" : ""} news-card `}>
         {!forAside && !forProfile && news?.user_id?.image && (
           <div className="resident-icon">
             <img
@@ -59,11 +59,15 @@ const NewsCard = (props) => {
           </div>
         )}
 
-        <div className="news-card__header">
+        <div
+          className={`news-card__header ${forProfile ? "profile-header" : ""}`}
+        >
           <img src={news.image} alt={news.title_en} />
         </div>
         <div className="news-card__content">
-          <div className="news-card__body">
+          <div
+            className={`news-card__body ${forProfile ? "profile-body" : ""}`}
+          >
             <span className="tag tag-red">
               {isNaN(new Date(news.date)) ? (
                 <span>
@@ -82,7 +86,7 @@ const NewsCard = (props) => {
           </div>
           <div className="news-card__footer">
             {forProfile ? (
-              <div className="change-buttons">
+              <div className="action-buttons">
                 <EditButton onClick={handleEditClick} />
                 <DeleteButton entityId={news.id} entityType="news" />
               </div>

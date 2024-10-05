@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 import { FormattedDate, FormattedMessage, useIntl } from "react-intl";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import Skeleton from "@mui/material/Skeleton";
+import EditButton from "../../../pages/profile/ActionButtons/EditButton";
+import DeleteButton from "../../../pages/profile/ActionButtons/DeleteButton";
 
 const EventCard = (props) => {
-  const { event, forAside = false } = props;
+  const { event, forAside = false, forProfile = false } = props;
   const { locale } = useIntl();
   if (!event) {
     return (
@@ -23,6 +25,12 @@ const EventCard = (props) => {
 
   return (
     <li className="events__item">
+      {forProfile && (
+        <div className="action-buttons action-buttons-event">
+          <EditButton onClick={() => 1 + 2} />
+          <DeleteButton entityId={event.id} entityType="news" />
+        </div>
+      )}
       <article
         className={`${forAside ? "event-card-aside" : ""} event-card`}
         style={{

@@ -1,6 +1,9 @@
 $desktop-above: 1281px;
 $desktop: 1280px;
 
+$desktop-profile-above: 1501px;
+$desktop-profile: 1500px;
+
 $tablet-above: 1024px;
 $tablet: 1023px;
 
@@ -21,6 +24,18 @@ $profile: 1300px;
 
 @mixin desktop {
   @media (max-width: $desktop) {
+    @content;
+  }
+}
+
+@mixin desktop-profile-above {
+  @media (min-width: $desktop-profile-above) {
+    @content;
+  }
+}
+
+@mixin desktop-profile {
+  @media (max-width: $desktop-profile) {
     @content;
   }
 }

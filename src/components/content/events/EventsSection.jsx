@@ -36,7 +36,7 @@ const EventsSection = () => {
         </header>
         <div className="section__body">
           <div className="events">
-            <ul className="events__list grid grid--2">
+            <ul className="events__list grid grid---2">
               {[...Array(2)].map((_, index) => (
                 <EventCard key={index} />
               ))}
@@ -58,7 +58,7 @@ const EventsSection = () => {
       </header>
       <div className="section__body">
         <div className="events">
-          <ul className="events__list grid grid--2">
+          <ul className="events__list grid grid---2">
             {events.slice(0, 2).map((event, index) => (
               <EventCard key={index} event={event} />
             ))}
