@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import {
   fetchEvents,
   selectEvents,
@@ -10,6 +10,7 @@ import {
 import { scrollToTop } from "../../../utils/scrollToTop";
 import ErrorDisplay from "../../../components/Error/ErrorDisplay";
 import EventCard from "../../../components/content/events/EventCard";
+import PaginationControls from "../../../components/pagination/PaginationControls";
 
 const MyEvents = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,18 @@ const MyEvents = () => {
   const events = useSelector(selectEvents);
   const status = useSelector(selectEventsStatus);
   const error = useSelector(selectEventsError);
+
+  const location = useLocation(); // Получите текущий путь
+
+  const itemsPerPage = 6;
+  const queryParams = new URLSearchParams(location.search);
+  const initialPage = parseInt(queryParams.get("page")) || 1; // Получите номер страницы из URL или установите 1 по умолчанию
+  const [currentPage, setCurrentPage] = useState(initialPage);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentEvent = events.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(events.length / itemsPerPage);
 
   const retryFetch = () => {
     dispatch(fetchEvents());
@@ -50,10 +63,17 @@ const MyEvents = () => {
           ? [...Array(6)].map((_, index) => (
               <EventCard key={index} forSkeleton />
             ))
-          : events.map((item, index) => (
+          : currentEvent.map((item, index) => (
               <EventCard key={index} event={item} forProfile />
             ))}
       </div>
+      <PaginationControls
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+        path="profile/events"
+        itemsPerPage={itemsPerPage}
+      />
     </div>
   );
 };

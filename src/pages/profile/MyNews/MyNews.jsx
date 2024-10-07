@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./MyNews.scss";
 import NewsCard from "../../../components/content/news/NewsCard";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ErrorDisplay from "../../../components/Error/ErrorDisplay";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -10,6 +10,7 @@ import {
   selectProfileNewsError,
   selectProfileNewsFetchStatus,
 } from "../../../redux/slices/profileNewsSlice";
+import PaginationControls from "../../../components/pagination/PaginationControls";
 
 const MyNews = () => {
   const dispatch = useDispatch();
@@ -18,6 +19,18 @@ const MyNews = () => {
   const news = useSelector(selectProfileNews);
   const status = useSelector(selectProfileNewsFetchStatus);
   const error = useSelector(selectProfileNewsError);
+
+  const location = useLocation(); // Получите текущий путь
+
+  const itemsPerPage = 6;
+  const queryParams = new URLSearchParams(location.search);
+  const initialPage = parseInt(queryParams.get("page")) || 1; // Получите номер страницы из URL или установите 1 по умолчанию
+  const [currentPage, setCurrentPage] = useState(initialPage);
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentNews = news.slice(indexOfFirstItem, indexOfLastItem);
+  const totalPages = Math.ceil(news.length / itemsPerPage);
 
   const retryFetch = () => {
     dispatch(fetchProfileNews());
@@ -56,10 +69,17 @@ const MyNews = () => {
           ? [...Array(6)].map((_, index) => (
               <NewsCard key={index} forSkeleton />
             ))
-          : news.map((item, index) => (
+          : currentNews.map((item, index) => (
               <NewsCard key={index} news={item} forProfile />
             ))}
       </div>
+      <PaginationControls
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+        path="profile/news"
+        itemsPerPage={itemsPerPage}
+      />
     </div>
   );
 };

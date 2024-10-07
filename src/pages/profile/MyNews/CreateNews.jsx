@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import EditForm from "./EditForm";
+import EditForm from "../profileComponents/EditForm";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import {

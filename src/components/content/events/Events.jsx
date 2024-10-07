@@ -46,11 +46,7 @@ const Events = () => {
           <div className="events">
             <ul className="events__list grid grid--3">
               {[...Array(itemsPerPage)].map((_, index) => (
-                <li key={index}>
-                  <Skeleton variant="rectangular" width="100%" height={180} />
-                  <Skeleton variant="text" />
-                  <Skeleton variant="text" width="60%" />
-                </li>
+                <EventCard key={index} forSkeleton />
               ))}
             </ul>
           </div>

@@ -1,7 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { scrollToTop } from "../../../utils/scrollToTop";
-import EditForm from "./EditForm";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import {
@@ -13,6 +12,7 @@ import {
   setCurrentProfileNews,
 } from "../../../redux/slices/profileNewsSlice";
 import { fetchPublicNews } from "../../../redux/slices/publicNewsSlice";
+import EditForm from "../profileComponents/EditForm";
 
 const EditNews = () => {
   const [searchParams] = useSearchParams();

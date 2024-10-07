@@ -4,11 +4,11 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import MyProfile from "./MyProfile/MyProfile";
 import MyNews from "./MyNews/MyNews";
 import { NotFound } from "../NotFound";
-import EditNews from "./MyProfile/EditNews";
-import CreateNews from "./MyProfile/CreateNews";
+import EditNews from "./MyNews/EditNews";
+import CreateNews from "./MyNews/CreateNews";
 import NewsDetailsSection from "../../components/content/news/NewsDetailsSection";
 import EditProfile from "./MyProfile/EditProfile";
-import MyEvents from "./MyProfile/MyEvents";
+import MyEvents from "./MyEvents/MyEvents";
 
 const UserProfile = () => {
   const location = useLocation();

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { scrollToTop } from "../../../utils/scrollToTop";
-import EditForm from "./EditForm";
+import EditForm from "../profileComponents/EditForm";
 import { toast } from "react-toastify";
 import { selectProfileNewsError } from "../../../redux/slices/profileNewsSlice";
 import { useSelector } from "react-redux";
