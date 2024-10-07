@@ -11,6 +11,8 @@ import EventCard from "./EventCard";
 import { useState } from "react";
 import { scrollToTop } from "../../../utils/scrollToTop";
 import Skeleton from "@mui/material/Skeleton";
+import PaginationControls from "../../pagination/PaginationControls";
+import { useLocation } from "react-router-dom";
 
 const Events = () => {
   const dispatch = useDispatch();
@@ -18,9 +20,12 @@ const Events = () => {
   const status = useSelector(selectEventsStatus);
   const error = useSelector(selectEventsError);
   const { locale } = useIntl();
+  const location = useLocation();
 
-  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
+  const queryParams = new URLSearchParams(location.search);
+  const initialPage = parseInt(queryParams.get("page")) || 1;
+  const [currentPage, setCurrentPage] = useState(initialPage);
 
   useEffect(() => {
     scrollToTop();
@@ -60,20 +65,6 @@ const Events = () => {
   const currentEvents = events.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(events.length / itemsPerPage);
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-      scrollToTop();
-    }
-  };
-
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-      scrollToTop();
-    }
-  };
-
   return (
     <div className={`container`}>
       <header className="section__header">
@@ -89,23 +80,13 @@ const Events = () => {
             ))}
           </ul>
         </div>
-        <div className="pagination-controls">
-          <button
-            className="button button-pagination"
-            onClick={handlePrevPage}
-            disabled={currentPage === 1}
-          >
-            {`<`}
-          </button>
-          <span className="button button-pagination-counter">{`${currentPage} / ${totalPages}`}</span>
-          <button
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-            className="button button-pagination"
-          >
-            {`>`}
-          </button>
-        </div>
+        <PaginationControls
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+          path="events"
+          itemsPerPage={itemsPerPage}
+        />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
-import { FormattedMessage, useIntl } from "react-intl";
+import { useLocation, useNavigate } from "react-router-dom"; // Импортируйте useLocation и useNavigate
+import { FormattedMessage } from "react-intl";
 import NewsCard from "./NewsCard";
 import { scrollToTop } from "../../../utils/scrollToTop";
 import {
@@ -10,15 +10,19 @@ import {
   selectPublicNewsError,
   selectPublicNewsFetchStatus,
 } from "../../../redux/slices/publicNewsSlice";
+import PaginationControls from "../../pagination/PaginationControls";
 
 const NewsPage = () => {
   const dispatch = useDispatch();
   const news = useSelector(selectPublicNews);
   const status = useSelector(selectPublicNewsFetchStatus);
   const error = useSelector(selectPublicNewsError);
+  const location = useLocation(); // Получите текущий путь
 
-  const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
+  const queryParams = new URLSearchParams(location.search);
+  const initialPage = parseInt(queryParams.get("page")) || 1; // Получите номер страницы из URL или установите 1 по умолчанию
+  const [currentPage, setCurrentPage] = useState(initialPage);
 
   useEffect(() => {
     scrollToTop();
@@ -26,6 +30,11 @@ const NewsPage = () => {
       dispatch(fetchPublicNews());
     }
   }, [status, dispatch]);
+
+  // useEffect(() => {
+  //   // Обновите URL при изменении текущей страницы
+  //   navigate(`/news?page=${currentPage}&per_page=${itemsPerPage}`);
+  // }, [currentPage, navigate]);
 
   if (status === "loading") {
     return (
@@ -47,6 +56,7 @@ const NewsPage = () => {
       </div>
     );
   }
+
   if (status === "failed") return <p>Error: {error}</p>;
 
   const indexOfLastItem = currentPage * itemsPerPage;
@@ -54,19 +64,19 @@ const NewsPage = () => {
   const currentNews = news.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(news.length / itemsPerPage);
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-      scrollToTop();
-    }
-  };
+  // const handleNextPage = () => {
+  //   if (currentPage < totalPages) {
+  //     setCurrentPage(currentPage + 1);
+  //     scrollToTop();
+  //   }
+  // };
 
-  const handlePrevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-      scrollToTop();
-    }
-  };
+  // const handlePrevPage = () => {
+  //   if (currentPage > 1) {
+  //     setCurrentPage(currentPage - 1);
+  //     scrollToTop();
+  //   }
+  // };
 
   return (
     <div className={`container`}>
@@ -83,7 +93,14 @@ const NewsPage = () => {
             ))}
           </ul>
         </div>
-        <div className="pagination-controls">
+        <PaginationControls
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+          path="news"
+          itemsPerPage={itemsPerPage}
+        />
+        {/* <div className="pagination-controls">
           <button
             className="button button-pagination"
             onClick={handlePrevPage}
@@ -99,7 +116,7 @@ const NewsPage = () => {
           >
             {`>`}
           </button>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -14,6 +14,7 @@ import {
 import {
   fetchProfileNews,
   selectCurrentProfileNews,
+  selectProfileNews,
   selectProfileNewsError,
   selectProfileNewsFetchStatus,
   setCurrentProfileNews,
@@ -26,6 +27,7 @@ const NewsDetailsSection = ({ isProfileNews = false }) => {
   const news = useSelector(
     isProfileNews ? selectCurrentProfileNews : selectCurrentPublicNews
   );
+
   const status = useSelector(
     isProfileNews ? selectProfileNewsFetchStatus : selectPublicNewsFetchStatus
   );

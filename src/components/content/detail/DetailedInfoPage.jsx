@@ -9,8 +9,8 @@ import { useSelector } from "react-redux";
 import { FaWhatsapp, FaInstagram, FaSquareFacebook } from "react-icons/fa6";
 import { FaTelegram } from "react-icons/fa";
 import HtmlContent from "../../../utils/HtmlContent";
-import { selectPublicNews } from "../../../redux/slices/publicNewsSlice";
 import { selectProfileNews } from "../../../redux/slices/profileNewsSlice";
+import { selectPublicNews } from "../../../redux/slices/publicNewsSlice";
 
 const DetailedInfoPage = (props) => {
   const { event, isNews = false, isProfileNews = false } = props;
