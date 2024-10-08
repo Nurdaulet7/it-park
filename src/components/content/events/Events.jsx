@@ -1,24 +1,23 @@
 import React, { useEffect } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchEvents,
-  selectEvents,
-  selectEventsError,
-  selectEventsStatus,
-} from "../../../redux/slices/eventsSlice";
 import EventCard from "./EventCard";
 import { useState } from "react";
 import { scrollToTop } from "../../../utils/scrollToTop";
-import Skeleton from "@mui/material/Skeleton";
 import PaginationControls from "../../pagination/PaginationControls";
 import { useLocation } from "react-router-dom";
+import {
+  fetchPublicEvents,
+  selectPublicEvents,
+  selectPublicEventsError,
+  selectPublicEventsFetchStatus,
+} from "../../../redux/slices/publicEventsSlice";
 
 const Events = () => {
   const dispatch = useDispatch();
-  const events = useSelector(selectEvents);
-  const status = useSelector(selectEventsStatus);
-  const error = useSelector(selectEventsError);
+  const events = useSelector(selectPublicEvents);
+  const status = useSelector(selectPublicEventsFetchStatus);
+  const error = useSelector(selectPublicEventsError);
   const { locale } = useIntl();
   const location = useLocation();
 
@@ -30,7 +29,7 @@ const Events = () => {
   useEffect(() => {
     scrollToTop();
     if (status === "idle") {
-      dispatch(fetchEvents());
+      dispatch(fetchPublicEvents());
     }
   }, [status, dispatch]);
 

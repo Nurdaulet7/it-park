@@ -4,19 +4,19 @@ import { FormattedDate, FormattedMessage, useIntl } from "react-intl";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import EventCard from "../events/EventCard";
 import NewsCard from "../news/NewsCard";
-import { selectEvents } from "../../../redux/slices/eventsSlice";
 import { useSelector } from "react-redux";
 import { FaWhatsapp, FaInstagram, FaSquareFacebook } from "react-icons/fa6";
 import { FaTelegram } from "react-icons/fa";
 import HtmlContent from "../../../utils/HtmlContent";
 import { selectProfileNews } from "../../../redux/slices/profileNewsSlice";
 import { selectPublicNews } from "../../../redux/slices/publicNewsSlice";
+import { selectPublicEvents } from "../../../redux/slices/publicEventsSlice";
 
 const DetailedInfoPage = (props) => {
   const { event, isNews = false, isProfileNews = false } = props;
 
   const { locale } = useIntl();
-  const allEvents = useSelector(selectEvents);
+  const allEvents = useSelector(selectPublicEvents);
   const allNews = useSelector(
     isProfileNews ? selectProfileNews : selectPublicNews
   );

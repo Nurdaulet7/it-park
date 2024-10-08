@@ -1,25 +1,25 @@
 import React, { useEffect } from "react";
 import { FormattedMessage, useIntl, FormattedDate } from "react-intl";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchEvents,
-  selectEvents,
-  selectEventsError,
-  selectEventsStatus,
-} from "../../../redux/slices/eventsSlice";
 import { Element } from "react-scroll";
 import { Link } from "react-router-dom";
 import EventCard from "./EventCard";
+import {
+  fetchPublicEvents,
+  selectPublicEvents,
+  selectPublicEventsError,
+  selectPublicEventsFetchStatus,
+} from "../../../redux/slices/publicEventsSlice";
 
 const EventsSection = () => {
   const dispatch = useDispatch();
-  const events = useSelector(selectEvents);
-  const status = useSelector(selectEventsStatus);
-  const error = useSelector(selectEventsError);
+  const events = useSelector(selectPublicEvents);
+  const status = useSelector(selectPublicEventsFetchStatus);
+  const error = useSelector(selectPublicEventsError);
 
   useEffect(() => {
     if (status === "idle") {
-      dispatch(fetchEvents());
+      dispatch(fetchPublicEvents());
     }
   }, [status, dispatch]);
 

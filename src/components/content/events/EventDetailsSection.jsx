@@ -1,33 +1,32 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import {
-  fetchEvents,
-  selectCurrentEvent,
-  selectEventsError,
-  selectEventsStatus,
-  setCurrentEvent,
-} from "../../../redux/slices/eventsSlice";
-
 import { scrollToTop } from "../../../utils/scrollToTop";
 import DetailedInfoPage from "../detail/DetailedInfoPage";
 import SkeletonDetail from "../../skeleton/SkeletonDetail";
+import {
+  fetchPublicEvents,
+  selectCurrentPublicEvent,
+  selectPublicEventsError,
+  selectPublicEventsFetchStatus,
+  setCurrentPublicEvent,
+} from "../../../redux/slices/publicEventsSlice";
 
 const EventDetailsSection = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const event = useSelector(selectCurrentEvent);
-  const status = useSelector(selectEventsStatus);
-  const error = useSelector(selectEventsError);
+  const event = useSelector(selectCurrentPublicEvent);
+  const status = useSelector(selectPublicEventsFetchStatus);
+  const error = useSelector(selectPublicEventsError);
 
   useEffect(() => {
     scrollToTop();
     if (status === "idle") {
-      dispatch(fetchEvents()).then(() => {
-        dispatch(setCurrentEvent(parseInt(id)));
+      dispatch(fetchPublicEvents()).then(() => {
+        dispatch(setCurrentPublicEvent(parseInt(id)));
       });
     } else {
-      dispatch(setCurrentEvent(parseInt(id)));
+      dispatch(setCurrentPublicEvent(parseInt(id)));
     }
   }, [dispatch, id, status]);
 

@@ -3,6 +3,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import eventsReducer from "./slices/eventsSlice";
 import residentsReducer from "./slices/residentsSlice";
 import partnersReducer from "./slices/partnersSlice";
+import publicEventsReducer from "./slices/publicEventsSlice";
 import publicNewsReducer from "./slices/publicNewsSlice";
 import profileNewsReducer from "./slices/profileNewsSlice";
 import vacanciesReducer from "./slices/vacanciesSlice";
@@ -11,13 +12,14 @@ import notificationReducer from "./slices/notificationSlice";
 import authenticationReducer from "./slices/authSlice";
 export const store = configureStore({
   reducer: {
-    events: eventsReducer,
     residents: residentsReducer,
-    partners: partnersReducer,
+    events: eventsReducer,
+    publicEvents: publicEventsReducer,
     publicNews: publicNewsReducer,
     profileNews: profileNewsReducer,
     vacancies: vacanciesReducer,
     projects: projectsReducer,
+    partners: partnersReducer,
     notification: notificationReducer,
     auth: authenticationReducer,
   },
