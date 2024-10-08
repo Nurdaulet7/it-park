@@ -53,7 +53,7 @@ const MyEvents = () => {
       <div className="my-news__uploader">
         <button
           className="upload-btn button"
-          onClick={() => navigate("/profile/news/create")}
+          onClick={() => navigate("/profile/events/create")}
         >
           Опубликовать
         </button>

@@ -33,7 +33,7 @@ const EventCard = (props) => {
       {forProfile && (
         <div className="action-buttons action-buttons-event">
           <EditButton onClick={handleEditClick} />
-          <DeleteButton entityId={event.id} entityType="news" />
+          <DeleteButton entityId={event.id} entityType="events" />
         </div>
       )}
       <article

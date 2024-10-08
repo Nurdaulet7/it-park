@@ -2,7 +2,11 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import getUserIdFromToken from "../../utils/getUserIdFromToken";
 import { showNotification } from "./notificationSlice";
 import axios from "axios";
-import { publicEventsRemoved, publicEventsUpdated } from "./publicEventsSlice";
+import {
+  fetchPublicEvents,
+  publicEventsRemoved,
+  publicEventsUpdated,
+} from "./publicEventsSlice";
 
 const BASE_URL = "https://it-park.kz/kk/api";
 
@@ -105,13 +109,44 @@ export const editProfileEvent = createAsyncThunk(
   }
 );
 
+export const deleteProfileEvent = createAsyncThunk(
+  async ({ entityId, entityType }, thunkAPI) => {
+    const token = localStorage.getItem("jwtToken");
+
+    const formData = new FormData();
+    formData.append("token", token);
+
+    try {
+      await axios.post(
+        `${BASE_URL}/trash?table=${entityType}&post_id=${entityId}`,
+        formData
+      );
+      thunkAPI.dispatch(
+        showNotification({ message: "Мероприятия удалена", type: "success" })
+      );
+      thunkAPI.dispatch(publicEventsRemoved(entityId));
+      return entityId;
+    } catch (error) {
+      thunkAPI.dispatch(
+        showNotification({
+          message: "Ошибка удаления мероприятий",
+          type: "error",
+        })
+      );
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
 const profileEventsSlice = createSlice({
   name: "profileEvents",
   initialState: {
     events: [],
     currentProfileEvent: null,
     fetchStatus: "idle",
+    createStatus: "idle",
     updateStatus: "idle",
+    deleteStatus: "idle",
     error: null,
   },
   reducers: {
@@ -162,10 +197,23 @@ const profileEventsSlice = createSlice({
         if (index !== -1) {
           state.events[index] = { ...state.events[index], ...action.payload };
         }
-        // cacheData(PROFILE_NEWS_CACHE_KEY, state.news);
       })
       .addCase(editProfileEvent.rejected, (state, action) => {
         state.updateStatus = "failed";
+        state.error = action.error.message;
+      })
+
+      .addCase(deleteProfileEvent.pending, (state) => {
+        state.deleteStatus = "loading";
+      })
+      .addCase(deleteProfileEvent.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.events = state.events.filter(
+          (event) => event.id !== action.payload
+        );
+      })
+      .addCase(deleteProfileEvent.rejected, (state, action) => {
+        state.deleteStatus = "failed";
         state.error = action.error.message;
       });
   },
@@ -175,6 +223,7 @@ export const {
   setCurrentProfileEvent,
   profileEventUpdated,
   profileEventAdded,
+  profileEventDeleted,
 } = profileEventsSlice.actions;
 export default profileEventsSlice.reducer;
 export const selectProfileEvents = (state) => state.profileEvents.events;
@@ -182,4 +231,10 @@ export const selectCurrentProfileEvent = (state) =>
   state.profileEvents.currentProfileEvent;
 export const selectProfileEventsFetchStatus = (state) =>
   state.profileEvents.fetchStatus;
+export const selectProfileEventsCreateSatatus = (state) =>
+  state.profileEvents.createStatus;
+export const selectProfileEventsUpdateStatus = (state) =>
+  state.profileEvents.updateStatus;
+export const selectProfileEventsDeleteStatus = (state) =>
+  state.profileEvents.deleteStatus;
 export const selectProfileEventsError = (state) => state.profileEvents.error;
