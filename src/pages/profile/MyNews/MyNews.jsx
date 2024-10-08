@@ -20,11 +20,11 @@ const MyNews = () => {
   const status = useSelector(selectProfileNewsFetchStatus);
   const error = useSelector(selectProfileNewsError);
 
-  const location = useLocation(); // Получите текущий путь
+  const location = useLocation();
 
   const itemsPerPage = 6;
   const queryParams = new URLSearchParams(location.search);
-  const initialPage = parseInt(queryParams.get("page")) || 1; // Получите номер страницы из URL или установите 1 по умолчанию
+  const initialPage = parseInt(queryParams.get("page")) || 1;
   const [currentPage, setCurrentPage] = useState(initialPage);
 
   const indexOfLastItem = currentPage * itemsPerPage;

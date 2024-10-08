@@ -1,7 +1,7 @@
 // EventCard.jsx
 
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FormattedDate, FormattedMessage, useIntl } from "react-intl";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import Skeleton from "@mui/material/Skeleton";
@@ -11,6 +11,11 @@ import DeleteButton from "../../../pages/profile/ActionButtons/DeleteButton";
 const EventCard = (props) => {
   const { event, forAside = false, forProfile = false } = props;
   const { locale } = useIntl();
+  const navigate = useNavigate();
+  const handleEditClick = () => {
+    navigate(`/profile/events/update?id=${event.id}`);
+  };
+
   if (!event) {
     return (
       <li className="events__item">
@@ -27,7 +32,7 @@ const EventCard = (props) => {
     <li className="events__item">
       {forProfile && (
         <div className="action-buttons action-buttons-event">
-          <EditButton onClick={() => 1 + 2} />
+          <EditButton onClick={handleEditClick} />
           <DeleteButton entityId={event.id} entityType="news" />
         </div>
       )}

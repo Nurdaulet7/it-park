@@ -35,6 +35,8 @@ const UserProfile = () => {
               element={<NewsDetailsSection isProfileNews />}
             />
             <Route path="events" element={<MyEvents />} />
+            <Route path="events/update" element={<EditNews />} />
+            <Route path="events/create" element={<CreateNews />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
