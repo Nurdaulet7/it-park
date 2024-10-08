@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import getUserIdFromToken from "../../utils/getUserIdFromToken";
 import { showNotification } from "./notificationSlice";
 import axios from "axios";
+import { publicEventsRemoved, publicEventsUpdated } from "./publicEventsSlice";
 
 const BASE_URL = "https://it-park.kz/kk/api";
 
@@ -17,9 +18,7 @@ export const fetchProfileEvents = createAsyncThunk(
     }
 
     try {
-      const response = await axios.get(
-        `https://it-park.kz/kk/api/events?user_id=${userId}`
-      );
+      const response = await axios.get(`${BASE_URL}/events?user_id=${userId}`);
       const profileEvents = Object.values(response.data).filter(
         (item) => typeof item === "object" && item.id
       );
@@ -34,18 +33,107 @@ export const fetchProfileEvents = createAsyncThunk(
   }
 );
 
+export const createProfileEvent = createAsyncThunk(
+  "profileEvents/createProfileEvent",
+  async (eventData, thunkAPI) => {
+    const token = localStorage.getItem("jwtToken");
+
+    const formData = new FormData();
+    Object.entries(eventData).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    formData.append("token", token);
+
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/create?table=events`,
+        formData
+      );
+      const newEvent = response.data;
+      thunkAPI.dispatch(profileEventAdded(newEvent));
+
+      if (newEvent.status === 1) {
+        thunkAPI.dispatch(publicEventsUpdated(newEvent));
+      }
+      return newEvent;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Ошибка при создании мероприятии");
+    }
+  }
+);
+
+export const editProfileEvent = createAsyncThunk(
+  "profileNews/editProfileEvent",
+  async ({ id, eventData }, thunkAPI) => {
+    const token = localStorage.getItem("jwtToken");
+
+    const formData = new FormData();
+    formData.append("title_ru", eventData.title_ru);
+    formData.append("title_kk", eventData.title_kk);
+    formData.append("content_ru", eventData.content_ru);
+    formData.append("content_kk", eventData.content_kk);
+    formData.append("location_ru", eventData.location_ru);
+    formData.append("location_kk", eventData.location_kk);
+    formData.append("date", eventData.date);
+    formData.append("time", eventData.time);
+    formData.append("status", eventData.status);
+
+    if (eventData.file) {
+      formData.append("file", eventData.file);
+    }
+    formData.append("token", token);
+
+    try {
+      const response = await axios.post(
+        `${BASE_URL}/update?table=events&post_id=${id}`,
+        formData
+      );
+      const updatedEvent = response.data;
+
+      thunkAPI.dispatch(profileEventUpdated(updatedEvent));
+
+      if (updatedEvent.status === 1) {
+        thunkAPI.dispatch(publicEventsUpdated(updatedEvent));
+      } else {
+        thunkAPI.dispatch(publicEventsRemoved(id));
+      }
+
+      return updatedEvent;
+    } catch (error) {
+      return thunkAPI.rejectWithValue("Ошибка обновления мероприятий");
+    }
+  }
+);
+
 const profileEventsSlice = createSlice({
   name: "profileEvents",
   initialState: {
     events: [],
     currentProfileEvent: null,
     fetchStatus: "idle",
+    updateStatus: "idle",
     error: null,
   },
   reducers: {
     setCurrentProfileEvent: (state, action) => {
       state.currentProfileEvent = state.events.find(
         (event) => event.id === action.payload
+      );
+    },
+    profileEventAdded: (state, action) => {
+      state.events.push(action.payload);
+    },
+    profileEventUpdated: (state, action) => {
+      const index = state.events.findIndex(
+        (event) => event.id === action.payload.id
+      );
+      if (index !== -1) {
+        state.events[index] = { ...state.events[index], ...action.payload };
+      }
+    },
+    profileEventDeleted: (state, action) => {
+      state.events = state.events.filter(
+        (event) => event.id !== action.payload
       );
     },
   },
@@ -61,11 +149,33 @@ const profileEventsSlice = createSlice({
       .addCase(fetchProfileEvents.rejected, (state, action) => {
         state.fetchStatus = "failed";
         state.error = action.error.message;
+      })
+
+      .addCase(editProfileEvent.pending, (state) => {
+        state.updateStatus = "loading";
+      })
+      .addCase(editProfileEvent.fulfilled, (state, action) => {
+        state.updateStatus = "succeeded";
+        const index = state.events.findIndex(
+          (event) => event.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.events[index] = { ...state.events[index], ...action.payload };
+        }
+        // cacheData(PROFILE_NEWS_CACHE_KEY, state.news);
+      })
+      .addCase(editProfileEvent.rejected, (state, action) => {
+        state.updateStatus = "failed";
+        state.error = action.error.message;
       });
   },
 });
 
-export const { setCurrentProfileEvent } = profileEventsSlice.actions;
+export const {
+  setCurrentProfileEvent,
+  profileEventUpdated,
+  profileEventAdded,
+} = profileEventsSlice.actions;
 export default profileEventsSlice.reducer;
 export const selectProfileEvents = (state) => state.profileEvents.events;
 export const selectCurrentProfileEvent = (state) =>

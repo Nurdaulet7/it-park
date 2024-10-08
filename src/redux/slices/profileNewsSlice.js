@@ -26,9 +26,7 @@ export const fetchProfileNews = createAsyncThunk(
     // }
 
     try {
-      const response = await axios.get(
-        `https://it-park.kz/kk/api/news?user_id=${userId}`
-      );
+      const response = await axios.get(`${BASE_URL}/news?user_id=${userId}`);
       const profileNews = Object.values(response.data).filter(
         (item) => typeof item === "object" && item.id
       );
@@ -69,7 +67,7 @@ export const createProfileNews = createAsyncThunk(
       }
       return newNews;
     } catch (error) {
-      return thunkAPI.rejectWithValue("Ошибка создания новости");
+      return thunkAPI.rejectWithValue("Ошибка при создании новости");
     }
   }
 );
