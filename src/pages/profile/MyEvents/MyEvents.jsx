@@ -1,24 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useNavigate } from "react-router-dom";
-import {
-  fetchEvents,
-  selectEvents,
-  selectEventsError,
-  selectEventsStatus,
-} from "../../../redux/slices/eventsSlice";
 import { scrollToTop } from "../../../utils/scrollToTop";
 import ErrorDisplay from "../../../components/Error/ErrorDisplay";
 import EventCard from "../../../components/content/events/EventCard";
 import PaginationControls from "../../../components/pagination/PaginationControls";
+import {
+  fetchProfileEvents,
+  selectProfileEvents,
+  selectProfileEventsError,
+  selectProfileEventsFetchStatus,
+} from "../../../redux/slices/profileEventSlice";
 
 const MyEvents = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const events = useSelector(selectEvents);
-  const status = useSelector(selectEventsStatus);
-  const error = useSelector(selectEventsError);
+  const events = useSelector(selectProfileEvents);
+  const status = useSelector(selectProfileEventsFetchStatus);
+  const error = useSelector(selectProfileEventsError);
 
   const location = useLocation(); // Получите текущий путь
 
@@ -33,7 +33,7 @@ const MyEvents = () => {
   const totalPages = Math.ceil(events.length / itemsPerPage);
 
   const retryFetch = () => {
-    dispatch(fetchEvents());
+    dispatch(fetchProfileEvents());
   };
 
   useEffect(() => {

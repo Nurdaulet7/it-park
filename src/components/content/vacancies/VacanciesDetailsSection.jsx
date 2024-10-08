@@ -9,7 +9,6 @@ import {
   setCurrentVacancy,
 } from "../../../redux/slices/vacanciesSlice";
 import { scrollToTop } from "../../../utils/scrollToTop";
-import { setCurrentEvent } from "../../../redux/slices/eventsSlice";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import { FormattedMessage, useIntl } from "react-intl";
 import SkeletonDetail from "../../skeleton/SkeletonDetail";
@@ -28,7 +27,7 @@ const VacanciesDetailsSection = () => {
 
     if (status === "idle") {
       dispatch(fetchVacancies()).then(() => {
-        dispatch(setCurrentEvent(parseInt(id)));
+        dispatch(setCurrentVacancy(parseInt(id)));
       });
     } else {
       dispatch(setCurrentVacancy(parseInt(id)));

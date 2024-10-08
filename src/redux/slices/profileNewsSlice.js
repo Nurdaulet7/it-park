@@ -3,25 +3,10 @@ import { showNotification } from "./notificationSlice";
 import axios from "axios";
 // import { cacheData, getCachedData } from "../../utils/cacheUtils";
 import { publicNewsRemoved, publicNewsUpdated } from "./publicNewsSlice";
+import getUserIdFromToken from "../../utils/getUserIdFromToken";
 
 const BASE_URL = "https://it-park.kz/kk/api";
-// const PROFILE_NEWS_CACHE_KEY = "cachedProfileNews";
-
-const getUserIdFromToken = () => {
-  const token = localStorage.getItem("jwtToken");
-
-  if (!token) return null;
-
-  const tokenParts = token.split(".");
-
-  if (tokenParts.length !== 3) return null;
-
-  const payloadBase64 = tokenParts[1];
-  const payloadDecoded = atob(payloadBase64);
-  const payloadObject = JSON.parse(payloadDecoded);
-
-  return payloadObject.user?.id || null;
-};
+// const PROFILE_NEWS_CACHE_KEY = "cachedProfileNews"
 
 export const fetchProfileNews = createAsyncThunk(
   "profileNews/fetchProfileNews",

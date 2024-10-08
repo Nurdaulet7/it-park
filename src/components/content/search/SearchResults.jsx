@@ -1,11 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
-import {
-  fetchEvents,
-  selectEvents,
-  selectEventsStatus,
-} from "../../../redux/slices/eventsSlice";
 import { FormattedMessage, useIntl } from "react-intl";
 import NewsCard from "../news/NewsCard";
 import EventCard from "../events/EventCard";
@@ -20,14 +15,19 @@ import {
   selectPublicNews,
   selectPublicNewsFetchStatus,
 } from "../../../redux/slices/publicNewsSlice";
+import {
+  fetchPublicEvents,
+  selectPublicEvents,
+  selectPublicEventsFetchStatus,
+} from "../../../redux/slices/publicEventsSlice";
 
 const SearchResults = () => {
   const dispatch = useDispatch();
 
   const news = useSelector(selectPublicNews);
   const newsStatus = useSelector(selectPublicNewsFetchStatus);
-  const events = useSelector(selectEvents);
-  const eventsStatus = useSelector(selectEventsStatus);
+  const events = useSelector(selectPublicEvents);
+  const eventsStatus = useSelector(selectPublicEventsFetchStatus);
   const vacancies = useSelector(selectVacancies);
   const vacanciesStatus = useSelector(selectVacanciesStatus);
 
@@ -40,7 +40,7 @@ const SearchResults = () => {
       dispatch(fetchPublicNews());
     }
     if (eventsStatus === "idle") {
-      dispatch(fetchEvents());
+      dispatch(fetchPublicEvents());
     }
     if (vacanciesStatus === "idle") {
       dispatch(fetchVacancies());
