@@ -10,6 +10,7 @@ import NewsDetailsSection from "../../components/content/news/NewsDetailsSection
 import EditProfile from "./MyProfile/EditProfile";
 import MyEvents from "./MyEvents/MyEvents";
 import EditEvents from "./MyEvents/EditEvents";
+import CreateEvent from "./MyEvents/CreateEvent";
 
 const UserProfile = () => {
   const location = useLocation();
@@ -37,7 +38,7 @@ const UserProfile = () => {
             />
             <Route path="events" element={<MyEvents />} />
             <Route path="events/update" element={<EditEvents />} />
-            <Route path="events/create" element={<CreateNews />} />
+            <Route path="events/create" element={<CreateEvent />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

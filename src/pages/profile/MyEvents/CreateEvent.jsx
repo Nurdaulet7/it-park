@@ -1,34 +1,34 @@
 import React, { useCallback, useState } from "react";
+import getCurrentDate from "../../../utils/getCurrentDate";
 import { useNavigate } from "react-router-dom";
-import EditForm from "../profileComponents/EditForm";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import {
-  createProfileNews,
-  fetchProfileNews,
-} from "../../../redux/slices/profileNewsSlice";
-import { fetchPublicNews } from "../../../redux/slices/publicNewsSlice";
-import getCurrentDate from "../../../utils/getCurrentDate";
+  createProfileEvent,
+  fetchProfileEvents,
+} from "../../../redux/slices/profileEventSlice";
+import { fetchPublicEvents } from "../../../redux/slices/publicEventsSlice";
+import EditForm from "../profileComponents/EditForm";
 
-const CreateNews = () => {
-  const [newsData, setNewsData] = useState({
+const CreateEvent = () => {
+  const [eventData, setEventData] = useState({
     title_ru: "",
     title_kk: "",
     content_ru: "",
     content_kk: "",
-    desc_ru: "",
-    desc_kk: "",
+    location_ru: "",
+    location_kk: "",
     file: null,
     date: getCurrentDate(),
+    time: "",
     status: 1,
   });
-
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleChange = useCallback((name, value) => {
-    setNewsData((prevData) => ({
+    setEventData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -47,7 +47,7 @@ const CreateNews = () => {
       return;
     }
 
-    setNewsData((prevData) => ({
+    setEventData((prevData) => ({
       ...prevData,
       file: file,
     }));
@@ -58,15 +58,15 @@ const CreateNews = () => {
     setIsSubmitting(true);
 
     toast
-      .promise(dispatch(createProfileNews(newsData)).unwrap(), {
+      .promise(dispatch(createProfileEvent(eventData)).unwrap(), {
         pending: "Создание новости...",
         success: "Новость успешно создана 👌",
         error: "Ошибка при создании новости 🤯",
       })
       .then(() => {
-        dispatch(fetchPublicNews({ forceRefresh: true }));
-        dispatch(fetchProfileNews());
-        navigate("/profile/news");
+        dispatch(fetchPublicEvents({ forceRefresh: true }));
+        dispatch(fetchProfileEvents());
+        navigate("/profile/events");
       })
       .catch((err) => {
         console.error("Ошибка при создании новости", err);
@@ -78,7 +78,7 @@ const CreateNews = () => {
 
   return (
     <EditForm
-      data={newsData}
+      data={eventData}
       handleChange={handleChange}
       handleImageChange={handleImageChange}
       handleSubmit={handleSubmit}
@@ -88,4 +88,4 @@ const CreateNews = () => {
   );
 };
 
-export default CreateNews;
+export default CreateEvent;
