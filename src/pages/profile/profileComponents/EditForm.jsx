@@ -108,7 +108,7 @@ const EditForm = ({
             error={errors.title_ru}
           />
           <InputField
-            label="Заголовок (Каз):"
+            label="Заголовок (Каз)"
             name="title_kk"
             value={data.title_kk}
             placeholder="Заполните заголовок"
@@ -118,7 +118,7 @@ const EditForm = ({
         </div>
         <div className="news-edit__container grid grid--2">
           <InputField
-            label="Краткое описание:"
+            label="Краткое описание"
             name="desc_ru"
             value={data.desc_ru}
             placeholder="Заполните краткое описание"
@@ -126,7 +126,7 @@ const EditForm = ({
             isTextarea
           />
           <InputField
-            label="Қысқаша мазмұндама:"
+            label="Қысқаша мазмұндама"
             name="desc_kk"
             value={data.desc_kk}
             placeholder="Қысқаша мазмұңдаманы толтырыңыз"

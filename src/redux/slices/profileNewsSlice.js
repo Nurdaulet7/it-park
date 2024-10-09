@@ -74,21 +74,21 @@ export const createProfileNews = createAsyncThunk(
 
 export const editProfileNews = createAsyncThunk(
   "profileNews/editProfileNews",
-  async ({ id, newsData }, thunkAPI) => {
+  async ({ id, data }, thunkAPI) => {
     const token = localStorage.getItem("jwtToken");
 
     const formData = new FormData();
-    formData.append("title_ru", newsData.title_ru);
-    formData.append("title_kk", newsData.title_kk);
-    formData.append("content_ru", newsData.content_ru);
-    formData.append("content_kk", newsData.content_kk);
-    formData.append("desc_ru", newsData.desc_ru);
-    formData.append("desc_kk", newsData.desc_kk);
-    formData.append("date", newsData.date);
-    formData.append("status", newsData.status);
+    formData.append("title_ru", data.title_ru);
+    formData.append("title_kk", data.title_kk);
+    formData.append("content_ru", data.content_ru);
+    formData.append("content_kk", data.content_kk);
+    formData.append("desc_ru", data.desc_ru);
+    formData.append("desc_kk", data.desc_kk);
+    formData.append("date", data.date);
+    formData.append("status", data.status);
 
-    if (newsData.file) {
-      formData.append("file", newsData.file);
+    if (data.file) {
+      formData.append("file", data.file);
     }
     formData.append("token", token);
 

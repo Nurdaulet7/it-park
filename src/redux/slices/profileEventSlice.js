@@ -2,11 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import getUserIdFromToken from "../../utils/getUserIdFromToken";
 import { showNotification } from "./notificationSlice";
 import axios from "axios";
-import {
-  fetchPublicEvents,
-  publicEventsRemoved,
-  publicEventsUpdated,
-} from "./publicEventsSlice";
+import { publicEventsRemoved, publicEventsUpdated } from "./publicEventsSlice";
 
 const BASE_URL = "https://it-park.kz/kk/api";
 
@@ -68,22 +64,22 @@ export const createProfileEvent = createAsyncThunk(
 
 export const editProfileEvent = createAsyncThunk(
   "profileNews/editProfileEvent",
-  async ({ id, eventData }, thunkAPI) => {
+  async ({ id, data }, thunkAPI) => {
     const token = localStorage.getItem("jwtToken");
 
     const formData = new FormData();
-    formData.append("title_ru", eventData.title_ru);
-    formData.append("title_kk", eventData.title_kk);
-    formData.append("content_ru", eventData.content_ru);
-    formData.append("content_kk", eventData.content_kk);
-    formData.append("location_ru", eventData.location_ru);
-    formData.append("location_kk", eventData.location_kk);
-    formData.append("date", eventData.date);
-    formData.append("time", eventData.time);
-    formData.append("status", eventData.status);
+    formData.append("title_ru", data.title_ru);
+    formData.append("title_kk", data.title_kk);
+    formData.append("content_ru", data.content_ru);
+    formData.append("content_kk", data.content_kk);
+    formData.append("location_ru", data.location_ru);
+    formData.append("location_kk", data.location_kk);
+    formData.append("date", data.date);
+    formData.append("time", data.time);
+    formData.append("status", data.status);
 
-    if (eventData.file) {
-      formData.append("file", eventData.file);
+    if (data.file) {
+      formData.append("file", data.file);
     }
     formData.append("token", token);
 

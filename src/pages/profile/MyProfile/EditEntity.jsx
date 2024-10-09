@@ -1,65 +1,56 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { scrollToTop } from "../../../utils/scrollToTop";
 import { useDispatch, useSelector } from "react-redux";
+import { scrollToTop } from "../../../utils/scrollToTop";
 import { toast } from "react-toastify";
-import {
-  editProfileNews,
-  fetchProfileNews,
-  selectCurrentProfileNews,
-  selectProfileNewsError,
-  selectProfileNewsFetchStatus,
-  setCurrentProfileNews,
-} from "../../../redux/slices/profileNewsSlice";
-import { fetchPublicNews } from "../../../redux/slices/publicNewsSlice";
 import EditForm from "../profileComponents/EditForm";
 
-const EditNews = () => {
+const EditEntity = ({
+  fetchAction,
+  selectCurrentItem,
+  selectFetchStatus,
+  selectError,
+  setCurrentItem,
+  editAction,
+  fetchPublicAction,
+  redirectUrl,
+  defaultData,
+}) => {
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const currentNews = useSelector(selectCurrentProfileNews);
-  const fetchStatus = useSelector(selectProfileNewsFetchStatus);
-  const error = useSelector(selectProfileNewsError);
+  const currentItem = useSelector(selectCurrentItem);
+  const fetchStatus = useSelector(selectFetchStatus);
+  const error = useSelector(selectError);
 
-  const [newsData, setNewsData] = useState({
-    title_ru: "",
-    title_kk: "",
-    content_ru: "",
-    content_kk: "",
-    desc_ru: "",
-    desc_kk: "",
-    file: null,
-    date: "",
-    status: 0,
-  });
+  const [itemData, setItemData] = useState(defaultData);
 
   useEffect(() => {
     scrollToTop();
 
     if (fetchStatus === "idle") {
-      dispatch(fetchProfileNews()).then(() => {
-        dispatch(setCurrentProfileNews(parseInt(id)));
+      dispatch(fetchAction()).then(() => {
+        dispatch(setCurrentItem(parseInt(id)));
       });
     } else if (fetchStatus === "succeeded") {
-      dispatch(setCurrentProfileNews(parseInt(id)));
+      dispatch(setCurrentItem(parseInt(id)));
     }
   }, [id, fetchStatus, dispatch]);
 
   useEffect(() => {
-    if (currentNews) {
-      setNewsData({
-        ...currentNews,
-        file: currentNews.image || null,
+    if (currentItem) {
+      setItemData({
+        ...currentItem,
+        file: currentItem.image || null,
       });
     }
-  }, [currentNews]);
+  }, [currentItem]);
 
   const handleChange = useCallback((name, value) => {
-    setNewsData((prevData) => ({
+    setItemData((prevData) => ({
       ...prevData,
       [name]: value,
     }));
@@ -78,7 +69,7 @@ const EditNews = () => {
       return;
     }
 
-    setNewsData((prevData) => ({
+    setItemData((prevData) => ({
       ...prevData,
       file: file,
     }));
@@ -89,18 +80,18 @@ const EditNews = () => {
     setIsSubmitting(true);
 
     toast
-      .promise(dispatch(editProfileNews({ id, data: newsData })).unwrap(), {
-        pending: "Изменение новости...",
-        success: "Новость успешно изменена 👌",
-        error: "Ошибка при изменении новости 🤯",
+      .promise(dispatch(editAction({ id, data: itemData })).unwrap(), {
+        pending: "Изменение...",
+        success: "Успешно изменено 👌",
+        error: "Ошибка при изменении 🤯",
       })
       .then(() => {
-        dispatch(fetchProfileNews());
-        dispatch(fetchPublicNews({ forceRefresh: true }));
-        navigate("/profile/news");
+        dispatch(fetchAction());
+        dispatch(fetchPublicAction({ forceRefresh: true }));
+        navigate(redirectUrl);
       })
       .catch((err) => {
-        console.log("Error during updating news", err);
+        console.log("Error during updating item", err);
       })
       .finally(() => {
         setIsSubmitting(false);
@@ -108,15 +99,15 @@ const EditNews = () => {
   };
 
   const retryFetch = () => {
-    dispatch(fetchProfileNews()).then(() => {
-      dispatch(setCurrentProfileNews(parseInt(id)));
-      error = dispatch(selectProfileNewsError);
+    dispatch(fetchAction()).then(() => {
+      dispatch(setCurrentItem(parseInt(id)));
+      error = dispatch(selectError);
     });
   };
 
   return (
     <EditForm
-      data={newsData}
+      data={itemData}
       handleChange={handleChange}
       handleImageChange={handleImageChange}
       handleSubmit={handleSubmit}
@@ -128,4 +119,4 @@ const EditNews = () => {
   );
 };
 
-export default EditNews;
+export default EditEntity;
