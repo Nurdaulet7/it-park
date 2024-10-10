@@ -10,8 +10,10 @@ import vacanciesReducer from "./slices/vacanciesSlice";
 import projectsReducer from "./slices/projectsSlice";
 import notificationReducer from "./slices/notificationSlice";
 import authenticationReducer from "./slices/authSlice";
+import dataReducer from "./slices/dataSlice";
 export const store = configureStore({
   reducer: {
+    data: dataReducer,
     residents: residentsReducer,
     publicEvents: publicEventsReducer,
     profileEvents: profileEventsReducer,

@@ -10,16 +10,22 @@ import {
   selectPublicNewsError,
   selectPublicNewsFetchStatus,
 } from "../../../redux/slices/publicNewsSlice";
+import {
+  fetchData,
+  selectError,
+  selectFetchStatus,
+  selectPublicData,
+} from "../../../redux/slices/dataSlice";
 
 const NewsSection = () => {
   const dispatch = useDispatch();
-  const news = useSelector(selectPublicNews);
-  const error = useSelector(selectPublicNewsError);
-  const status = useSelector(selectPublicNewsFetchStatus);
+  const news = useSelector((state) => selectPublicData(state, "news"));
+  const error = useSelector(selectError);
+  const status = useSelector(selectFetchStatus);
 
   useEffect(() => {
     if (status === "idle") {
-      dispatch(fetchPublicNews());
+      dispatch(fetchData({ entityType: "news" }));
     }
   }, [dispatch, status]);
 
