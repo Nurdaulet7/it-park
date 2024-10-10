@@ -32,7 +32,13 @@ const Dialog = ({ isOpen, onClose, onConfirm, title, children }) => {
   );
 };
 
-const DeleteButton = ({ entityId, entityType }) => {
+const DeleteButton = ({
+  entityId,
+  entityType,
+  deleteAction,
+  fetchProfileAction,
+  fetchPublicAction,
+}) => {
   const dispatch = useDispatch();
   const [isDialogOpen, setDialogOpen] = useState(false);
 
@@ -49,11 +55,11 @@ const DeleteButton = ({ entityId, entityType }) => {
   }, [isDialogOpen]);
 
   const handleDelete = async () => {
-    dispatch(deleteProfileNews({ entityId, entityType }))
+    dispatch(deleteAction({ entityId, entityType }))
       .unwrap()
       .then(() => {
-        dispatch(fetchProfileNews());
-        dispatch(fetchPublicNews({ forceRefresh: true }));
+        dispatch(fetchProfileAction());
+        dispatch(fetchPublicAction({ forceRefresh: true }));
         setDialogOpen(false);
       })
       .catch((error) => {

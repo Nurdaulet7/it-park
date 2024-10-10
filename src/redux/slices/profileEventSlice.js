@@ -63,7 +63,7 @@ export const createProfileEvent = createAsyncThunk(
 );
 
 export const editProfileEvent = createAsyncThunk(
-  "profileNews/editProfileEvent",
+  "profileEvents/editProfileEvent",
   async ({ id, data }, thunkAPI) => {
     const token = localStorage.getItem("jwtToken");
 
@@ -106,6 +106,7 @@ export const editProfileEvent = createAsyncThunk(
 );
 
 export const deleteProfileEvent = createAsyncThunk(
+  "profileEvents/deleteProfileEvent",
   async ({ entityId, entityType }, thunkAPI) => {
     const token = localStorage.getItem("jwtToken");
 

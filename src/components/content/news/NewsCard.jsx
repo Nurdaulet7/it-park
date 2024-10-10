@@ -6,6 +6,11 @@ import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import Skeleton from "@mui/material/Skeleton";
 import DeleteButton from "../../../pages/profile/ActionButtons/DeleteButton";
 import EditButton from "../../../pages/profile/ActionButtons/EditButton";
+import {
+  deleteProfileNews,
+  fetchProfileNews,
+} from "../../../redux/slices/profileNewsSlice";
+import { fetchPublicNews } from "../../../redux/slices/publicNewsSlice";
 
 const NewsCard = (props) => {
   const {
@@ -88,7 +93,13 @@ const NewsCard = (props) => {
             {forProfile ? (
               <div className="action-buttons">
                 <EditButton onClick={handleEditClick} />
-                <DeleteButton entityId={news.id} entityType="news" />
+                <DeleteButton
+                  entityId={news.id}
+                  deleteAction={deleteProfileNews}
+                  fetchProfileAction={fetchProfileNews}
+                  fetchPublicAction={fetchPublicNews}
+                  entityType="news"
+                />
               </div>
             ) : (
               <span className="views">
