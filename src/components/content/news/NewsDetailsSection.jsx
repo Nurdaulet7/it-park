@@ -5,64 +5,52 @@ import { useParams } from "react-router-dom";
 import DetailedInfoPage from "../detail/DetailedInfoPage";
 import SkeletonDetail from "../../skeleton/SkeletonDetail";
 import {
-  fetchPublicNews,
-  selectCurrentPublicNews,
-  selectPublicNewsError,
-  selectPublicNewsFetchStatus,
-  setCurrentPublicNews,
-} from "../../../redux/slices/publicNewsSlice";
-import {
-  fetchProfileNews,
-  selectCurrentProfileNews,
-  selectProfileNews,
-  selectProfileNewsError,
-  selectProfileNewsFetchStatus,
-  setCurrentProfileNews,
-} from "../../../redux/slices/profileNewsSlice";
+  fetchData,
+  selectCurrentData,
+  selectProfileData,
+  selectPublicData,
+  setCurrentData,
+} from "../../../redux/slices/dataSlice";
 
 const NewsDetailsSection = ({ isProfileNews = false }) => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const currentData = useSelector((state) =>
+    selectCurrentData(state, "news", isProfileNews)
+  );
+  const { status, error } = useSelector((state) => {
+    const data = isProfileNews
+      ? selectProfileData(state, "news")
+      : selectPublicData(state, "news");
+    return {
+      status: data.status.fetch,
+      error: data.error,
+    };
+  });
 
-  const news = useSelector(
-    isProfileNews ? selectCurrentProfileNews : selectCurrentPublicNews
-  );
-
-  const status = useSelector(
-    isProfileNews ? selectProfileNewsFetchStatus : selectPublicNewsFetchStatus
-  );
-  const error = useSelector(
-    isProfileNews ? selectProfileNewsError : selectPublicNewsError
-  );
+  console.log(currentData);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    const entityType = "news";
 
-    if (isProfileNews) {
-      if (status === "idle") {
-        dispatch(fetchProfileNews()).then(() => {
-          dispatch(setCurrentProfileNews(parseInt(id)));
+    if (status === "idle") {
+      dispatch(fetchData({ entityType, isProfileNews }))
+        .unwrap()
+        .then(() => {
+          dispatch(setCurrentData({ entityType, id, isProfileNews }));
         });
-      } else {
-        dispatch(setCurrentProfileNews(parseInt(id)));
-      }
-    } else {
-      if (status === "idle") {
-        dispatch(fetchPublicNews()).then(() => {
-          dispatch(setCurrentPublicNews(parseInt(id)));
-        });
-      } else {
-        dispatch(setCurrentPublicNews(parseInt(id)));
-      }
+    } else if (status === "succeeded" && currentData?.id !== id) {
+      dispatch(setCurrentData({ entityType, id, isProfileNews }));
     }
   }, [dispatch, id, status, isProfileNews]);
 
   if (status === "loading") return <SkeletonDetail />;
   if (status === "failed") return <p>Error: {error}</p>;
 
-  if (!news) return <p>No news data available</p>;
+  if (!currentData) return <p>No news data available</p>;
 
-  return <DetailedInfoPage event={news} isNews isProfileNews />;
+  return <DetailedInfoPage event={currentData} isNews isProfileNews />;
 };
 
 export default NewsDetailsSection;

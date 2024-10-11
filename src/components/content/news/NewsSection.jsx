@@ -4,32 +4,23 @@ import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import { Element } from "react-scroll";
 import NewsCard from "./NewsCard";
-import {
-  fetchPublicNews,
-  selectPublicNews,
-  selectPublicNewsError,
-  selectPublicNewsFetchStatus,
-} from "../../../redux/slices/publicNewsSlice";
-import {
-  fetchData,
-  selectError,
-  selectFetchStatus,
-  selectPublicData,
-} from "../../../redux/slices/dataSlice";
+import { fetchData, selectPublicData } from "../../../redux/slices/dataSlice";
 
 const NewsSection = () => {
   const dispatch = useDispatch();
-  const news = useSelector((state) => selectPublicData(state, "news"));
-  const error = useSelector(selectError);
-  const status = useSelector(selectFetchStatus);
+  const {
+    data: news,
+    status,
+    error,
+  } = useSelector((state) => selectPublicData(state, "news"));
 
   useEffect(() => {
-    if (status === "idle") {
+    if (status.fetch === "idle") {
       dispatch(fetchData({ entityType: "news" }));
     }
   }, [dispatch, status]);
 
-  if (status === "loading") {
+  if (status.fetch === "loading") {
     return (
       <Element name="section-news" className="section container section-news">
         <header className="section__header">
@@ -49,7 +40,7 @@ const NewsSection = () => {
       </Element>
     );
   }
-  if (status === "failed") return <p>Error: {error}</p>;
+  if (status.fetch === "failed") return <p>Error: {error}</p>;
 
   return (
     <Element name="section-news" className="section container section-news">

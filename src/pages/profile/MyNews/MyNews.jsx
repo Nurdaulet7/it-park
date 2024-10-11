@@ -4,21 +4,18 @@ import NewsCard from "../../../components/content/news/NewsCard";
 import { useLocation, useNavigate } from "react-router-dom";
 import ErrorDisplay from "../../../components/Error/ErrorDisplay";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchProfileNews,
-  selectProfileNews,
-  selectProfileNewsError,
-  selectProfileNewsFetchStatus,
-} from "../../../redux/slices/profileNewsSlice";
 import PaginationControls from "../../../components/pagination/PaginationControls";
+import { fetchData, selectProfileData } from "../../../redux/slices/dataSlice";
 
 const MyNews = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const news = useSelector(selectProfileNews);
-  const status = useSelector(selectProfileNewsFetchStatus);
-  const error = useSelector(selectProfileNewsError);
+  const {
+    data: news,
+    status,
+    error,
+  } = useSelector((state) => selectProfileData(state, "news"));
 
   const location = useLocation();
 
@@ -29,22 +26,25 @@ const MyNews = () => {
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentNews = news.slice(indexOfFirstItem, indexOfLastItem);
+  const currentNews = Array.isArray(news)
+    ? news.slice(indexOfFirstItem, indexOfLastItem)
+    : [];
+
   const totalPages = Math.ceil(news.length / itemsPerPage);
 
   const retryFetch = () => {
-    dispatch(fetchProfileNews());
+    dispatch(fetchData({ entityType: "news", isProfile: true }));
   };
 
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    if (status === "idle") {
-      dispatch(fetchProfileNews());
+    if (status.fetch === "idle") {
+      dispatch(fetchData({ entityType: "news", isProfile: true }));
     }
   }, [dispatch, status]);
 
-  if (status === "failed") {
+  if (status.fetch === "failed") {
     return (
       <ErrorDisplay
         errorMessage={error}
@@ -65,7 +65,7 @@ const MyNews = () => {
         </button>
       </div>
       <div className="grid grid---3">
-        {status === "loading"
+        {status.fetch === "loading"
           ? [...Array(6)].map((_, index) => (
               <NewsCard key={index} forSkeleton />
             ))
@@ -85,60 +85,3 @@ const MyNews = () => {
 };
 
 export default MyNews;
-
-// const getUserIdFromToken = () => {
-//   const token = localStorage.getItem("jwtToken");
-
-//   if (!token) return null;
-
-//   const tokenParts = token.split(".");
-
-//   if (tokenParts.length !== 3) return null;
-
-//   const payloadBase64 = tokenParts[1];
-//   const payloadDecoded = atob(payloadBase64);
-//   const payloadObject = JSON.parse(payloadDecoded);
-
-//   return payloadObject.user?.id || null;
-// };
-
-// const fetchNews = async () => {
-//   const userId = getUserIdFromToken();
-
-//   if (!userId) {
-//     setError("Не удалось получить идентификатор пользователя");
-//     setLoading(false);
-//     return;
-//   }
-
-//   try {
-//     const response = await axios.get(
-//       `https://it-park.kz/kk/api/news?user_id=${userId}`
-//     );
-
-//     const newsArray = Object.values(response.data).filter(
-//       (item) => typeof item === "object" && item.id
-//     );
-
-//     console.log("NEWS", newsArray);
-//     setNews(newsArray);
-//     setLoading(false);
-//   } catch (err) {
-//     console.error("Ошибка получения новостей:", err);
-//     let errorMessage = "Ошибка при получении новостей";
-//     let errorType = "UnknownError";
-//     if (err.response) {
-//       errorMessage += `: Статус ${err.response.status}. ${err.response.data.message}`;
-//       errorType = "ServerError";
-//     } else if (err.request) {
-//       errorMessage +=
-//         ": Ответ от сервера не был получен, возможно, проблемы с сетью";
-//       errorType = "NetworkError";
-//     } else {
-//       errorMessage += ": Проверьте соединение с интернетом";
-//     }
-//     setError(errorMessage);
-//     setErrorType(errorType);
-//     setLoading(false);
-//   }
-// };
