@@ -5,20 +5,17 @@ import { scrollToTop } from "../../../utils/scrollToTop";
 import ErrorDisplay from "../../../components/Error/ErrorDisplay";
 import EventCard from "../../../components/content/events/EventCard";
 import PaginationControls from "../../../components/pagination/PaginationControls";
-import {
-  fetchProfileEvents,
-  selectProfileEvents,
-  selectProfileEventsError,
-  selectProfileEventsFetchStatus,
-} from "../../../redux/slices/profileEventSlice";
+import { fetchData, selectProfileData } from "../../../redux/slices/dataSlice";
 
 const MyEvents = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const events = useSelector(selectProfileEvents);
-  const status = useSelector(selectProfileEventsFetchStatus);
-  const error = useSelector(selectProfileEventsError);
+  const {
+    data: events,
+    status,
+    error,
+  } = useSelector((state) => selectProfileData(state, "events"));
 
   const location = useLocation(); // Получите текущий путь
 
@@ -33,18 +30,18 @@ const MyEvents = () => {
   const totalPages = Math.ceil(events.length / itemsPerPage);
 
   const retryFetch = () => {
-    dispatch(fetchProfileEvents());
+    dispatch(fetchData({ entityType: "events", isProfile: true }));
   };
 
   useEffect(() => {
     scrollToTop();
 
-    if (status === "idle") {
+    if (status.fetch === "idle") {
       retryFetch();
     }
-  }, [dispatch, status]);
+  }, [dispatch, status.fetch]);
 
-  if (status === "failed") {
+  if (status.fetch === "failed") {
     <ErrorDisplay errorMessage={error} retryAction={retryFetch} />;
   }
 
@@ -59,7 +56,7 @@ const MyEvents = () => {
         </button>
       </div>
       <div className="grid grid---3">
-        {status === "loading"
+        {status.fetch === "loading"
           ? [...Array(6)].map((_, index) => (
               <EventCard key={index} forSkeleton />
             ))

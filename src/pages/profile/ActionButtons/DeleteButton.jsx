@@ -4,11 +4,7 @@ import { RiDeleteBinLine } from "react-icons/ri";
 import { useDispatch } from "react-redux";
 import ReactDOM from "react-dom";
 import cn from "classnames";
-import {
-  deleteProfileNews,
-  fetchProfileNews,
-} from "../../../redux/slices/profileNewsSlice";
-import { fetchPublicNews } from "../../../redux/slices/publicNewsSlice";
+import { deleteProfileData } from "../../../redux/slices/dataSlice";
 
 const Dialog = ({ isOpen, onClose, onConfirm, title, children }) => {
   if (!isOpen) return null;
@@ -32,13 +28,7 @@ const Dialog = ({ isOpen, onClose, onConfirm, title, children }) => {
   );
 };
 
-const DeleteButton = ({
-  entityId,
-  entityType,
-  deleteAction,
-  fetchProfileAction,
-  fetchPublicAction,
-}) => {
+const DeleteButton = ({ entityId, entityType }) => {
   const dispatch = useDispatch();
   const [isDialogOpen, setDialogOpen] = useState(false);
 
@@ -55,11 +45,9 @@ const DeleteButton = ({
   }, [isDialogOpen]);
 
   const handleDelete = async () => {
-    dispatch(deleteAction({ entityId, entityType }))
+    dispatch(deleteProfileData({ entityType, id: entityId }))
       .unwrap()
       .then(() => {
-        dispatch(fetchProfileAction());
-        dispatch(fetchPublicAction({ forceRefresh: true }));
         setDialogOpen(false);
       })
       .catch((error) => {

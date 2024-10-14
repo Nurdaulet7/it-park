@@ -44,9 +44,9 @@ export const fetchData = createAsyncThunk(
   }
 );
 
-export const saveProfileData = createAsyncThunk(
-  "data/saveProfileData",
-  async ({ entityType, data, isEdit = false }, thunkAPI) => {
+export const createProfileData = createAsyncThunk(
+  "data/createProfileData",
+  async ({ entityType, data }, thunkAPI) => {
     const token = localStorage.getItem("jwtToken");
     if (!token) {
       thunkAPI.dispatch(
@@ -64,15 +64,47 @@ export const saveProfileData = createAsyncThunk(
     });
     formData.append("token", token);
 
-    const url = isEdit
-      ? `${BASE_URL}/update?table=${entityType}`
-      : `${BASE_URL}/create?table=${entityType}`;
+    const url = `${BASE_URL}/create?table=${entityType}`;
 
     try {
       const response = await axios.post(url, formData);
-      const saveData = response.data;
+      const createdData = response.data;
+      return { entityType, createdData };
+    } catch (error) {
+      const message = `Ошибка при создании ${entityType}`;
+      thunkAPI.dispatch(showNotification({ message, type: "error" }));
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 
-      return { entityType, saveData };
+// Экшен для редактирования
+export const editProfileData = createAsyncThunk(
+  "data/editProfileData",
+  async ({ entityType, data, id }, thunkAPI) => {
+    const token = localStorage.getItem("jwtToken");
+    if (!token) {
+      thunkAPI.dispatch(
+        showNotification({
+          message: "Сессия истекла. Пожалуйста, войдите заново.",
+          type: "error",
+        })
+      );
+      return thunkAPI.rejectWithValue("No token available");
+    }
+
+    const formData = new FormData();
+    Object.entries(data).forEach(([key, value]) => {
+      formData.append(key, value);
+    });
+    formData.append("token", token);
+
+    const url = `${BASE_URL}/update?table=${entityType}&post_id=${id}`;
+
+    try {
+      const response = await axios.post(url, formData);
+      const updatedData = response.data;
+      return { entityType, updatedData };
     } catch (error) {
       const status = error.response?.status;
       let message;
@@ -82,9 +114,7 @@ export const saveProfileData = createAsyncThunk(
       } else if (status === 404) {
         message = "Данные не найдены.";
       } else {
-        message = `Ошибка при ${
-          isEdit ? "обновлении" : "создании"
-        } ${entityType}`;
+        message = `Ошибка при обновлении ${entityType}`;
       }
 
       thunkAPI.dispatch(showNotification({ message, type: "error" }));
@@ -92,6 +122,55 @@ export const saveProfileData = createAsyncThunk(
     }
   }
 );
+
+// export const editProfileData = createAsyncThunk(
+//   "data/editProfileData",
+//   async ({ entityType, data, isEdit = false }, thunkAPI) => {
+//     const token = localStorage.getItem("jwtToken");
+//     if (!token) {
+//       thunkAPI.dispatch(
+//         showNotification({
+//           message: "Сессия истекла. Пожалуйста, войдите заново.",
+//           type: "error",
+//         })
+//       );
+//       return thunkAPI.rejectWithValue("No token available");
+//     }
+
+//     const formData = new FormData();
+//     Object.entries(data).forEach(([key, value]) => {
+//       formData.append(key, value);
+//     });
+//     formData.append("token", token);
+
+//     const url = isEdit
+//       ? `${BASE_URL}/update?table=${entityType}`
+//       : `${BASE_URL}/create?table=${entityType}`;
+
+//     try {
+//       const response = await axios.post(url, formData);
+//       const editData = response.data;
+
+//       return { entityType, editData, isEdit };
+//     } catch (error) {
+//       const status = error.response?.status;
+//       let message;
+
+//       if (status === 403) {
+//         message = "У вас нет прав на выполнение этого действия.";
+//       } else if (status === 404) {
+//         message = "Данные не найдены.";
+//       } else {
+//         message = `Ошибка при ${
+//           isEdit ? "обновлении" : "создании"
+//         } ${entityType}`;
+//       }
+
+//       thunkAPI.dispatch(showNotification({ message, type: "error" }));
+//       return thunkAPI.rejectWithValue(message);
+//     }
+//   }
+// );
 
 export const deleteProfileData = createAsyncThunk(
   "data/deleteProfileData",
@@ -136,7 +215,8 @@ const dataSlice = createSlice({
         currentData: null,
         status: {
           fetch: "idle",
-          save: "idle",
+          edit: "idle",
+          create: "idle",
           delete: "idle",
         },
         error: null,
@@ -146,7 +226,8 @@ const dataSlice = createSlice({
         currentData: null,
         status: {
           fetch: "idle",
-          save: "idle",
+          edit: "idle",
+          create: "idle",
           delete: "idle",
         },
         error: null,
@@ -158,7 +239,8 @@ const dataSlice = createSlice({
         currentData: null,
         status: {
           fetch: "idle",
-          save: "idle",
+          edit: "idle",
+          create: "idle",
           delete: "idle",
         },
         error: null,
@@ -168,7 +250,8 @@ const dataSlice = createSlice({
         currentData: null,
         status: {
           fetch: "idle",
-          save: "idle",
+          edit: "idle",
+          create: "idle",
           delete: "idle",
         },
         error: null,
@@ -218,44 +301,67 @@ const dataSlice = createSlice({
         state[dataKey][entityType].error = action.error.message;
       })
 
-      .addCase(saveProfileData.pending, (state, action) => {
+      .addCase(createProfileData.pending, (state, action) => {
         const { entityType } = action.meta.arg;
-        state.profile[entityType].status.save = "loading";
+        state.profile[entityType].status.create = "loading";
       })
-      .addCase(saveProfileData.fulfilled, (state, action) => {
-        const { entityType, savedData } = action.payload;
-        state.profile[entityType].status.save = "succeeded";
+      .addCase(createProfileData.fulfilled, (state, action) => {
+        const { entityType, createdData } = action.payload;
+        state.profile[entityType].status.create = "succeeded";
 
-        // Обновляем данные в профиле
-        const profileIndex = state.profile[entityType].data.findIndex(
-          (item) => item.id === savedData.id
-        );
-        if (profileIndex !== -1) {
-          state.profile[entityType].data[profileIndex] = savedData;
-        } else {
-          state.profile[entityType].data.push(savedData);
+        state.profile[entityType].data.push(createdData);
+
+        if (createdData.status !== 0) {
+          state.public[entityType].data.push(createdData);
         }
 
-        if (savedData.status !== 0) {
+        cacheData(CACHE_KEYS[entityType], state.public[entityType].data);
+      })
+      .addCase(createProfileData.rejected, (state, action) => {
+        const { entityType } = action.payload;
+        state.profile[entityType].status.create = "failed";
+        state.profile[entityType].error = action.error.message;
+      })
+
+      .addCase(editProfileData.pending, (state, action) => {
+        const { entityType } = action.meta.arg;
+        state.profile[entityType].status.edit = "loading";
+      })
+      .addCase(editProfileData.fulfilled, (state, action) => {
+        const { entityType, updatedData } = action.payload;
+        state.profile[entityType].status.edit = "succeeded";
+        console.log(updatedData);
+        // Обновляем данные в профиле
+        const profileIndex = state.profile[entityType].data.findIndex(
+          (item) => item.id === updatedData.id
+        );
+
+        if (profileIndex !== -1) {
+          state.profile[entityType].data[profileIndex] = updatedData;
+        } else {
+          state.profile[entityType].data.push(updatedData);
+        }
+
+        if (updatedData.status !== 0) {
           const publicIndex = state.public[entityType].data.findIndex(
-            (item) => item.id === savedData.id
+            (item) => item.id === updatedData.id
           );
           if (publicIndex !== -1) {
-            state.public[entityType].data[publicIndex] = savedData;
+            state.public[entityType].data[publicIndex] = updatedData;
           } else {
-            state.public[entityType].data.push(savedData);
+            state.public[entityType].data.push(updatedData);
           }
         } else {
           state.public[entityType].data = state.public[entityType].data.filter(
-            (item) => item.id !== savedData.id
+            (item) => item.id !== updatedData.id
           );
         }
 
         cacheData(CACHE_KEYS[entityType], state.public[entityType].data);
       })
-      .addCase(saveProfileData.rejected, (state, action) => {
+      .addCase(editProfileData.rejected, (state, action) => {
         const { entityType } = action.meta.arg;
-        state.profile[entityType].status.save = "failed";
+        state.profile[entityType].status.edit = "failed";
         state.profile[entityType].error = action.error.message;
       })
 
@@ -303,8 +409,8 @@ export const selectProfileData = (state, entityType) =>
   state.data.profile[entityType];
 export const selectFetchStatus = (state, entityType) =>
   state.data[entityType].status.fetch;
-export const selectSaveStatus = (state, entityType) =>
-  state.data[entityType].status.save;
+export const selectEditStatus = (state, entityType) =>
+  state.data[entityType].status.edit;
 export const selectDeleteStatus = (state, entityType) =>
   state.data[entityType].status.delete;
 export const selectError = (state, entityType) => state.data[entityType].error;

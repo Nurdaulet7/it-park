@@ -4,41 +4,45 @@ import { useDispatch, useSelector } from "react-redux";
 import { scrollToTop } from "../../../utils/scrollToTop";
 import { toast } from "react-toastify";
 import EditForm from "../profileComponents/EditForm";
+import {
+  editProfileData,
+  fetchData,
+  selectProfileData,
+  setCurrentData,
+} from "../../../redux/slices/dataSlice";
 
-const EditEntity = ({
-  fetchAction,
-  selectCurrentItem,
-  selectFetchStatus,
-  selectError,
-  setCurrentItem,
-  editAction,
-  fetchPublicAction,
-  redirectUrl,
-  defaultData,
-}) => {
+const EditEntity = ({ redirectUrl, defaultData, entityType }) => {
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isProfile = true;
 
-  const currentItem = useSelector(selectCurrentItem);
-  const fetchStatus = useSelector(selectFetchStatus);
-  const error = useSelector(selectError);
+  const { currentItem, status, error } = useSelector((state) => {
+    const data = selectProfileData(state, entityType);
+    return {
+      currentItem: data.currentData,
+      status: data.status.fetch,
+      error: data.status.error,
+    };
+  });
 
   const [itemData, setItemData] = useState(defaultData);
 
   useEffect(() => {
     scrollToTop();
 
-    if (fetchStatus === "idle") {
-      dispatch(fetchAction()).then(() => {
-        dispatch(setCurrentItem(parseInt(id)));
-      });
-    } else if (fetchStatus === "succeeded") {
-      dispatch(setCurrentItem(parseInt(id)));
+    if (status === "idle") {
+      dispatch(fetchData({ entityType, isProfile }))
+        .unwrap()
+        .then(() => {
+          dispatch(setCurrentData({ entityType, id, isProfile }));
+        });
+    } else if (status === "succeeded") {
+      dispatch(setCurrentData({ entityType, id, isProfile }));
     }
-  }, [id, fetchStatus, dispatch]);
+  }, [id, status, dispatch]);
 
   useEffect(() => {
     if (currentItem) {
@@ -80,14 +84,15 @@ const EditEntity = ({
     setIsSubmitting(true);
 
     toast
-      .promise(dispatch(editAction({ id, data: itemData })).unwrap(), {
-        pending: "Изменение...",
-        success: "Успешно изменено 👌",
-        error: "Ошибка при изменении 🤯",
-      })
+      .promise(
+        dispatch(editProfileData({ entityType, data: itemData, id })).unwrap(),
+        {
+          pending: "Изменение...",
+          success: "Успешно изменено 👌",
+          error: "Ошибка при изменении 🤯",
+        }
+      )
       .then(() => {
-        dispatch(fetchAction());
-        dispatch(fetchPublicAction({ forceRefresh: true }));
         navigate(redirectUrl);
       })
       .catch((err) => {
@@ -99,10 +104,11 @@ const EditEntity = ({
   };
 
   const retryFetch = () => {
-    dispatch(fetchAction()).then(() => {
-      dispatch(setCurrentItem(parseInt(id)));
-      error = dispatch(selectError);
-    });
+    dispatch(fetchData({ entityType, isProfile }))
+      .unwrap()
+      .then(() => {
+        dispatch(setCurrentData({ entityType, id, isProfile }));
+      });
   };
 
   return (
@@ -112,7 +118,7 @@ const EditEntity = ({
       handleImageChange={handleImageChange}
       handleSubmit={handleSubmit}
       isSubmitting={isSubmitting}
-      status={fetchStatus}
+      status={status}
       error={error}
       retryFetch={retryFetch}
     />

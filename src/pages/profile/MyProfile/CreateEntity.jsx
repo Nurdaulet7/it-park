@@ -2,14 +2,14 @@ import React, { useCallback, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { createProfileData } from "../../../redux/slices/dataSlice";
 import EditForm from "../profileComponents/EditForm";
 
 const CreateEntity = ({
-  createAction,
-  fetchPublicAction,
-  fetchProfileAction,
   redirectPath,
   initialData,
+  entityType,
+  isEdit = false,
 }) => {
   const [data, setData] = useState(initialData);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,14 +47,22 @@ const CreateEntity = ({
     setIsSubmitting(true);
 
     toast
-      .promise(dispatch(createAction(data)).unwrap(), {
+      // .promise(dispatch(createAction(data)).unwrap(), {
+      // pending: "Создание...",
+      // success: "Успешно создано 👌",
+      // error: "Ошибка при создании 🤯",
+      // })
+      // .then(() => {
+      //   dispatch(fetchPublicAction({ forceRefresh: true }));
+      //   dispatch(fetchProfileAction());
+      //   navigate(redirectPath);
+      // })
+      .promise(dispatch(createProfileData({ entityType, data })).unwrap(), {
         pending: "Создание...",
         success: "Успешно создано 👌",
         error: "Ошибка при создании 🤯",
       })
       .then(() => {
-        dispatch(fetchPublicAction({ forceRefresh: true }));
-        dispatch(fetchProfileAction());
         navigate(redirectPath);
       })
       .catch((err) => {

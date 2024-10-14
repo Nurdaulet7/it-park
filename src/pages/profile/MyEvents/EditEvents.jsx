@@ -26,15 +26,9 @@ const EditEvents = () => {
 
   return (
     <EditEntity
-      fetchAction={fetchProfileEvents}
-      selectCurrentItem={selectCurrentProfileEvent}
-      selectFetchStatus={selectProfileEventsFetchStatus}
-      selectError={selectProfileEventsError}
-      setCurrentItem={setCurrentProfileEvent}
-      editAction={editProfileEvent}
-      fetchPublicAction={fetchPublicEvents}
       redirectUrl="/profile/events"
       defaultData={initialEventData}
+      entityType="events"
     />
   );
 };

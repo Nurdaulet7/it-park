@@ -25,15 +25,9 @@ const EditNews = () => {
 
   return (
     <EditEntity
-      fetchAction={fetchProfileNews}
-      selectCurrentItem={selectCurrentProfileNews}
-      selectFetchStatus={selectProfileNewsFetchStatus}
-      selectError={selectProfileNewsError}
-      setCurrentItem={setCurrentProfileNews}
-      editAction={editProfileNews}
-      fetchPublicAction={fetchPublicNews}
       redirectUrl="/profile/news"
       defaultData={initialNewsData}
+      entityType="news"
     />
   );
 };

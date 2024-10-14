@@ -40,9 +40,9 @@ const MyNews = () => {
     window.scrollTo(0, 0);
 
     if (status.fetch === "idle") {
-      dispatch(fetchData({ entityType: "news", isProfile: true }));
+      retryFetch();
     }
-  }, [dispatch, status]);
+  }, [dispatch, status.fetch]);
 
   if (status.fetch === "failed") {
     return (

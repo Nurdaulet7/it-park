@@ -7,11 +7,6 @@ import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import Skeleton from "@mui/material/Skeleton";
 import EditButton from "../../../pages/profile/ActionButtons/EditButton";
 import DeleteButton from "../../../pages/profile/ActionButtons/DeleteButton";
-import {
-  deleteProfileEvent,
-  fetchProfileEvents,
-} from "../../../redux/slices/profileEventSlice";
-import { fetchPublicEvents } from "../../../redux/slices/publicEventsSlice";
 
 const EventCard = (props) => {
   const { event, forAside = false, forProfile = false } = props;
@@ -38,13 +33,7 @@ const EventCard = (props) => {
       {forProfile && (
         <div className="action-buttons action-buttons-event">
           <EditButton onClick={handleEditClick} />
-          <DeleteButton
-            entityId={event.id}
-            deleteAction={deleteProfileEvent}
-            fetchProfileAction={fetchProfileEvents}
-            fetchPublicAction={fetchPublicEvents}
-            entityType="events"
-          />
+          <DeleteButton entityId={event.id} entityType="events" />
         </div>
       )}
       <article

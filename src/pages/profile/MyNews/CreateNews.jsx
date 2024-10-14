@@ -1,11 +1,6 @@
 import React from "react";
 import getCurrentDate from "../../../utils/getCurrentDate";
 import CreateEntity from "../MyProfile/CreateEntity";
-import {
-  createProfileNews,
-  fetchProfileNews,
-} from "../../../redux/slices/profileNewsSlice";
-import { fetchPublicNews } from "../../../redux/slices/publicNewsSlice";
 
 const CreateNews = () => {
   const initialNewsData = {
@@ -22,11 +17,9 @@ const CreateNews = () => {
 
   return (
     <CreateEntity
-      createAction={createProfileNews}
-      fetchPublicAction={fetchPublicNews}
-      fetchProfileAction={fetchProfileNews}
       redirectPath={"/profile/news"}
       initialData={initialNewsData}
+      entityType={"news"}
     />
   );
 };
