@@ -70,7 +70,7 @@ const MyNews = () => {
               <NewsCard key={index} forSkeleton />
             ))
           : currentNews.map((item, index) => (
-              <NewsCard key={index} news={item} forProfile />
+              <NewsCard key={index} news={item} forProfile={true} />
             ))}
       </div>
       <PaginationControls

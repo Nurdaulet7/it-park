@@ -178,15 +178,13 @@ const dataSlice = createSlice({
   reducers: {
     setCurrentData: (state, action) => {
       const { entityType, id, isProfile } = action.payload;
+
+      console.log("isProfile in reducer:", isProfile); // Логируем isProfile в reducer
+
       const dataKey = isProfile ? "profile" : "public";
-
-      console.log("data array:", state[dataKey][entityType].data); // Логируем массив
-      console.log("looking for id:", id); // Логируем id
-
-      const foundData = state[dataKey][entityType].data.find(
+      const foundData = state[dataKey][entityType]?.data.find(
         (item) => Number(item.id) === Number(id)
-      ); // Преобразовать id в число, если нужно
-      console.log("Found data:", foundData);
+      );
       state[dataKey][entityType].currentData = foundData;
     },
 

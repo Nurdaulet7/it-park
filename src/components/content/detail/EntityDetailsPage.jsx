@@ -4,25 +4,18 @@ import { FormattedDate, FormattedMessage, useIntl } from "react-intl";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import EventCard from "../events/EventCard";
 import NewsCard from "../news/NewsCard";
-import { useSelector } from "react-redux";
 import { FaWhatsapp, FaInstagram, FaSquareFacebook } from "react-icons/fa6";
 import { FaTelegram } from "react-icons/fa";
 import HtmlContent from "../../../utils/HtmlContent";
-import { selectProfileNews } from "../../../redux/slices/profileNewsSlice";
-import { selectPublicNews } from "../../../redux/slices/publicNewsSlice";
-import { selectPublicEvents } from "../../../redux/slices/publicEventsSlice";
 
-const DetailedInfoPage = (props) => {
-  const { event, isNews = false, isProfileNews = false } = props;
+const EntityDetailsPage = (props) => {
+  const { event, allData, entityType } = props;
 
   const { locale } = useIntl();
-  const allEvents = useSelector(selectPublicEvents);
-  const allNews = useSelector(
-    isProfileNews ? selectProfileNews : selectPublicNews
-  );
-  const filteredEvents = isNews
-    ? allNews.filter((e) => e.id !== event.id)
-    : allEvents.filter((e) => e.id !== event.id);
+
+  const filteredData = Array.isArray(allData)
+    ? allData.filter((e) => e.id !== event.id)
+    : [];
 
   return (
     <div className="container detailed-info">
@@ -77,33 +70,20 @@ const DetailedInfoPage = (props) => {
           </div>
         </div>
         <aside className="detailed-info__aside">
-          {filteredEvents
-            .slice(0, isNews ? 4 : 3)
-            .map((e) =>
-              isNews ? (
-                <NewsCard key={e.id} news={e} forAside />
-              ) : (
-                <EventCard key={e.id} event={e} forAside />
-              )
-            )}
+          {filteredData.slice(0, 4).map((e) => {
+            switch (entityType) {
+              case "news":
+                return <NewsCard key={e.id} news={e} forAside />;
+              case "events":
+                return <EventCard key={e.id} event={e} forAside />;
+              default:
+                return <div key={e.id}>Unknown entity type</div>;
+            }
+          })}
         </aside>
       </div>
     </div>
   );
 };
 
-export default DetailedInfoPage;
-
-// <header className="section__header">
-// <h2 className="section__title">
-//   {getTranslatedContent(event, "title", locale)}
-// </h2>
-// </header>
-// <div className="section__body">
-// <p>{getTranslatedContent(event, "content", locale)}</p>
-// <p>{getTranslatedContent(event, "location", locale)}</p>
-// <img
-//   src={event?.image}
-//   alt={getTranslatedContent(event, "title", locale)}
-// />
-// </div>
+export default EntityDetailsPage;

@@ -6,11 +6,11 @@ import MyNews from "./MyNews/MyNews";
 import { NotFound } from "../NotFound";
 import EditNews from "./MyNews/EditNews";
 import CreateNews from "./MyNews/CreateNews";
-import NewsDetailsSection from "../../components/content/news/NewsDetailsSection";
 import EditProfile from "./MyProfile/EditProfile";
 import MyEvents from "./MyEvents/MyEvents";
 import EditEvents from "./MyEvents/EditEvents";
 import CreateEvent from "./MyEvents/CreateEvent";
+import EntityDetailsSection from "../../components/content/detail/EntityDetailsSection";
 
 const UserProfile = () => {
   const location = useLocation();
@@ -34,11 +34,15 @@ const UserProfile = () => {
             <Route path="news/create" element={<CreateNews />} />
             <Route
               path="/news/:id"
-              element={<NewsDetailsSection isProfileNews />}
+              element={<EntityDetailsSection entityType={"news"} />}
             />
             <Route path="events" element={<MyEvents />} />
             <Route path="events/update" element={<EditEvents />} />
             <Route path="events/create" element={<CreateEvent />} />
+            <Route
+              path="/events/:id"
+              element={<EntityDetailsSection entityType={"events"} />}
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

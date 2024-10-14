@@ -63,7 +63,12 @@ const EventCard = (props) => {
           />
         </p>
         <h3>{getTranslatedContent(event, "title", locale)}</h3>
-        <Link to={`/events/${event.id}`} className="button button-event">
+        <Link
+          to={
+            forProfile ? `/profile/events/${event.id}` : `/events/${event.id}`
+          }
+          className="button button-event"
+        >
           <FormattedMessage id="more_details" defaultMessage={"Подробнее"} />
         </Link>
       </article>

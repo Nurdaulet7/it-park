@@ -59,7 +59,7 @@
         display: none;
         position: absolute;
         top: 50px;
-        left: -64px;
+        left: -63px;
         z-index: 100;
         padding: 0;
         border: none;
@@ -76,7 +76,7 @@
         }
 
         @include mobile {
-          border-radius: 10px 0 0 10px;
+          border-radius: 5px 0 0 5px;
           left: -40px;
         }
 

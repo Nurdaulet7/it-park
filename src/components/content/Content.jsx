@@ -9,11 +9,9 @@ import { scroller } from "react-scroll";
 import ResidentSection from "./residents/ResidentsSection";
 import ResidentDetailsSection from "./residents/ResidentDetailsSection";
 import EventsSection from "./events/EventsSection";
-import EventDetailsSection from "./events/EventDetailsSection";
 import Events from "./events/Events";
 import NewsSection from "./news/NewsSection";
 import NewsPage from "./news/NewsPage";
-import NewsDetailsSection from "./news/NewsDetailsSection";
 import VacanciesSection from "./vacancies/VacanciesSection";
 import VacanciesPage from "./vacancies/VacanciesPage";
 import VacanciesDetailsSection from "./vacancies/VacanciesDetailsSection";
@@ -26,6 +24,7 @@ import { NotFound } from "../../pages/NotFound";
 import SearchResults from "./search/SearchResults";
 import UserProfile from "../../pages/profile/UserProfile";
 import PrivateRoute from "./route/PrivateRoute";
+import EntityDetailsSection from "./detail/EntityDetailsSection";
 
 const MainContent = ({ scrollToSection }) => {
   useEffect(() => {
@@ -68,10 +67,16 @@ const Content = (props) => {
             element={<MainContent scrollToSection={scrollToSection} />}
           />
           <Route path="/resident/:id" element={<ResidentDetailsSection />} />
-          <Route path="/events/:id" element={<EventDetailsSection />} />
+          <Route
+            path="/events/:id"
+            element={<EntityDetailsSection entityType="events" />}
+          />
           <Route path="/events" element={<Events />} />
           <Route path="/news" element={<NewsPage />} />
-          <Route path="/news/:id" element={<NewsDetailsSection />} />
+          <Route
+            path="/news/:id"
+            element={<EntityDetailsSection entityType="news" />}
+          />
           <Route path="/vacancies" element={<VacanciesPage />} />
           <Route path="/vacancies/:id" element={<VacanciesDetailsSection />} />
           <Route path="/projects/:id" element={<ProjectDetailsPage />} />
