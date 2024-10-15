@@ -31,6 +31,11 @@ const VacanciesCard = ({ vacancy, forSkeleton = false }) => {
     );
   }
 
+  const translatedDesc = getTranslatedContent(vacancy, "desc", locale);
+  const shortDesc = translatedDesc
+    ? translatedDesc.match(/^[^\.]+/)?.[0]
+    : "Описание отсутствует";
+
   return (
     <li className="vacancy_item">
       <Link to={`/vacancies/${vacancy.id}`}>
@@ -46,15 +51,9 @@ const VacanciesCard = ({ vacancy, forSkeleton = false }) => {
               {getTranslatedContent(vacancy, "title", locale)}
             </h4>
             <p className="vacancy-card__body-desc">
-              <HtmlContent
-                content={
-                  getTranslatedContent(vacancy, "desc", locale).match(
-                    /^[^\.]+/
-                  )[0]
-                }
-              />
+              <HtmlContent content={shortDesc} />
             </p>
-            <p className="vacancy-card__body-price">от 150 000тг</p>
+            <p className="vacancy-card__body-price">{vacancy.price} тг</p>
           </div>
           <div className="vacancy-card__footer">
             <FormattedDate

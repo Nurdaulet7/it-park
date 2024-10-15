@@ -1,32 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  fetchVacancies,
-  selectVacancies,
-  selectVacanciesError,
-  selectVacanciesStatus,
-} from "../../../redux/slices/vacanciesSlice";
 import VacanciesCard from "./VacanciesCard";
 import { scrollToTop } from "../../../utils/scrollToTop";
 import { FormattedMessage } from "react-intl";
+import { fetchData, selectPublicData } from "../../../redux/slices/dataSlice";
 
 const VacanciesPage = () => {
   const dispatch = useDispatch();
-  const vacancies = useSelector(selectVacancies);
-  const status = useSelector(selectVacanciesStatus);
-  const error = useSelector(selectVacanciesError);
+  const {
+    data: vacancies,
+    status,
+    error,
+  } = useSelector((state) => selectPublicData(state, "vacancies"));
 
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 4;
 
   useEffect(() => {
     scrollToTop();
-    if (status === "idle") {
-      dispatch(fetchVacancies());
+    if (status.fetch === "idle") {
+      dispatch(fetchData({ entityType: "vacancies" }));
     }
-  }, [status, dispatch]);
+  }, [status.fetch, dispatch]);
 
-  if (status === "loading") {
+  if (status.fetch === "loading") {
     return (
       <div>
         <header className="section__header">
@@ -47,7 +44,7 @@ const VacanciesPage = () => {
     );
   }
 
-  if (status === "failed") return <p>Error: {error}</p>;
+  if (status.fetch === "failed") return <p>Error: {error}</p>;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;

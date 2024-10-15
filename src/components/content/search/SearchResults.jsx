@@ -9,7 +9,6 @@ import {
   fetchData,
   selectAllData,
   selectAllStatuses,
-  selectPublicData,
 } from "../../../redux/slices/dataSlice";
 
 const SearchResults = () => {

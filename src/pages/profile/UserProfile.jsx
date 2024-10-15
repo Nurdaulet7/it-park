@@ -11,6 +11,7 @@ import MyEvents from "./MyEvents/MyEvents";
 import EditEvents from "./MyEvents/EditEvents";
 import CreateEvents from "./MyEvents/CreateEvents";
 import EntityDetailsSection from "../../components/content/detail/EntityDetailsSection";
+import MyVacancies from "./MyVacancies/MyVacancies";
 
 const UserProfile = () => {
   const location = useLocation();
@@ -43,6 +44,7 @@ const UserProfile = () => {
               path="/events/:id"
               element={<EntityDetailsSection entityType={"events"} />}
             />
+            <Route path="vacancies" element={<MyVacancies />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

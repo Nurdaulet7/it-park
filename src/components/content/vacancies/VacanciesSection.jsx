@@ -1,29 +1,26 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  selectVacancies,
-  selectVacanciesStatus,
-  selectVacanciesError,
-  fetchVacancies,
-} from "../../../redux/slices/vacanciesSlice";
 import { Element } from "react-scroll";
 import { FormattedMessage } from "react-intl";
 import { Link } from "react-router-dom";
 import VacanciesCard from "./VacanciesCard";
+import { fetchData, selectPublicData } from "../../../redux/slices/dataSlice";
 
 const VacanciesSection = () => {
   const dispatch = useDispatch();
-  const vacancies = useSelector(selectVacancies);
-  const status = useSelector(selectVacanciesStatus);
-  const error = useSelector(selectVacanciesError);
+  const {
+    data: vacancies,
+    status,
+    error,
+  } = useSelector((state) => selectPublicData(state, "vacancies"));
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchVacancies());
+    if (status.fetch === "idle") {
+      dispatch(fetchData({ entityType: "vacancies" }));
     }
-  }, [status, dispatch]);
+  }, [status.fetch, dispatch]);
 
-  if (status === "loading") {
+  if (status.fetch === "loading") {
     return (
       <Element
         name="section-vacancies"
@@ -47,7 +44,7 @@ const VacanciesSection = () => {
     );
   }
 
-  if (status === "failed") return <p>Error: {error}</p>;
+  if (status.fetch === "failed") return <p>Error: {error}</p>;
 
   return (
     <Element

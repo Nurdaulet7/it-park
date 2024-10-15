@@ -21,11 +21,12 @@ export const fetchData = createAsyncThunk(
     //     return { entityType, data: cachedData, isProfile };
     //   }
     // }
+    let urlEntity = entityType === "vacancies" ? "vacancy" : entityType;
 
     try {
       const url = isProfile
-        ? `${BASE_URL}/${entityType}?user_id=${userId}`
-        : `${BASE_URL}/${entityType}`;
+        ? `${BASE_URL}/${urlEntity}?user_id=${userId}`
+        : `${BASE_URL}/${urlEntity}`;
 
       const response = await axios.get(url);
       const data = Object.values(response.data).filter(

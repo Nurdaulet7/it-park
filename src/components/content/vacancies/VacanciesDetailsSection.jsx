@@ -13,24 +13,44 @@ import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import { FormattedMessage, useIntl } from "react-intl";
 import SkeletonDetail from "../../skeleton/SkeletonDetail";
 import HtmlContent from "../../../utils/HtmlContent";
+import {
+  fetchData,
+  selectCurrentData,
+  selectProfileData,
+  selectPublicData,
+  setCurrentData,
+} from "../../../redux/slices/dataSlice";
 
-const VacanciesDetailsSection = () => {
+const VacanciesDetailsSection = ({ isProfile = false }) => {
   const { id } = useParams();
+  const entityType = "vacancies";
   const dispatch = useDispatch();
-  const vacancy = useSelector(selectCurrentVacancies);
-  const status = useSelector(selectVacanciesStatus);
-  const error = useSelector(selectVacanciesError);
+  const vacancy = useSelector((state) =>
+    selectCurrentData(state, entityType, isProfile)
+  );
+  const { status, error } = useSelector((state) => {
+    const data = isProfile
+      ? selectProfileData(state, entityType)
+      : selectPublicData(state, entityType);
+    return {
+      status: data.status.fetch,
+      error: data.status.error,
+    };
+  });
+
   const { locale } = useIntl();
 
   useEffect(() => {
     scrollToTop();
 
     if (status === "idle") {
-      dispatch(fetchVacancies()).then(() => {
-        dispatch(setCurrentVacancy(parseInt(id)));
-      });
+      dispatch(fetchData({ entityType, isProfile }))
+        .unwrap()
+        .then(() => {
+          dispatch(setCurrentData({ entityType, id, isProfile }));
+        });
     } else {
-      dispatch(setCurrentVacancy(parseInt(id)));
+      dispatch(setCurrentData({ entityType, id, isProfile }));
     }
   }, [dispatch, id, status]);
 
