@@ -13,8 +13,8 @@ import {
 
 const EditEntity = ({ redirectUrl, defaultData, entityType }) => {
   const [searchParams] = useSearchParams();
-  const id = searchParams.get("id");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const id = searchParams.get("id");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const isProfile = true;
@@ -24,7 +24,7 @@ const EditEntity = ({ redirectUrl, defaultData, entityType }) => {
     return {
       currentItem: data.currentData,
       status: data.status.fetch,
-      error: data.status.error,
+      error: data.error,
     };
   });
 

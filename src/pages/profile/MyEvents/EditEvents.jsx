@@ -1,14 +1,5 @@
 import React from "react";
-import { fetchPublicEvents } from "../../../redux/slices/publicEventsSlice";
 import EditEntity from "../MyProfile/EditEntity";
-import {
-  editProfileEvent,
-  fetchProfileEvents,
-  selectCurrentProfileEvent,
-  selectProfileEventsError,
-  selectProfileEventsFetchStatus,
-  setCurrentProfileEvent,
-} from "../../../redux/slices/profileEventSlice";
 
 const EditEvents = () => {
   const initialEventData = {

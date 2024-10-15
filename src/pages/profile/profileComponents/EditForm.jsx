@@ -11,7 +11,7 @@ const EditForm = ({
   handleChange,
   handleImageChange,
   handleSubmit,
-  forCreateNews = false,
+  forCreate = false,
   isSubmitting,
   status,
   error,
@@ -88,14 +88,13 @@ const EditForm = ({
   if (status === "failed")
     return <ErrorDisplay errorMessage={error} retryAction={retryFetch} />;
 
-  // console.log("data file", data.file, data.image);
   const imageUrl =
     data.file instanceof File ? URL.createObjectURL(data.file) : data.image;
 
   return (
     <div className="news-edit">
       <h3 className="news-edit__title">
-        {forCreateNews ? "Добавьте новость" : "Редактирование"}
+        {forCreate ? "Добавьте новость" : "Редактирование"}
       </h3>
       <form className="news-edit__form" onSubmit={onSubmit}>
         <div className="news-edit__container grid grid--2">
@@ -224,7 +223,7 @@ const EditForm = ({
           type="submit"
           disabled={isSubmitting}
         >
-          {forCreateNews ? "Добавить новость" : "Сохранить изменения"}
+          {forCreate ? "Добавить новость" : "Сохранить изменения"}
         </button>
       </form>
     </div>

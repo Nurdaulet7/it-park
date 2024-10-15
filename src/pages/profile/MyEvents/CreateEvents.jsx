@@ -1,12 +1,7 @@
 import getCurrentDate from "../../../utils/getCurrentDate";
 import CreateEntity from "../MyProfile/CreateEntity";
-import {
-  createProfileEvent,
-  fetchProfileEvents,
-} from "../../../redux/slices/profileEventSlice";
-import { fetchPublicEvents } from "../../../redux/slices/publicEventsSlice";
 
-const CreateEvent = () => {
+const CreateEvents = () => {
   const initialEventData = {
     title_ru: "",
     title_kk: "",
@@ -22,13 +17,11 @@ const CreateEvent = () => {
 
   return (
     <CreateEntity
-      createAction={createProfileEvent}
-      fetchPublicAction={fetchPublicEvents}
-      fetchProfileAction={fetchProfileEvents}
-      redirectPath="/profile/events"
+      redirectPath={"/profile/events"}
       initialData={initialEventData}
+      entityType={"events"}
     />
   );
 };
 
-export default CreateEvent;
+export default CreateEvents;

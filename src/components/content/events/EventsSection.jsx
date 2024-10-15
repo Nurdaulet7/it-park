@@ -4,26 +4,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { Element } from "react-scroll";
 import { Link } from "react-router-dom";
 import EventCard from "./EventCard";
-import {
-  fetchPublicEvents,
-  selectPublicEvents,
-  selectPublicEventsError,
-  selectPublicEventsFetchStatus,
-} from "../../../redux/slices/publicEventsSlice";
+import { fetchData, selectPublicData } from "../../../redux/slices/dataSlice";
 
 const EventsSection = () => {
   const dispatch = useDispatch();
-  const events = useSelector(selectPublicEvents);
-  const status = useSelector(selectPublicEventsFetchStatus);
-  const error = useSelector(selectPublicEventsError);
+  const {
+    data: events,
+    status,
+    error,
+  } = useSelector((state) => selectPublicData(state, "events"));
 
   useEffect(() => {
-    if (status === "idle") {
-      dispatch(fetchPublicEvents());
+    if (status.fetch === "idle") {
+      dispatch(fetchData({ entityType: "events" }));
     }
-  }, [status, dispatch]);
+  }, [status.fetch, dispatch]);
 
-  if (status === "loading") {
+  if (status.fetch === "loading") {
     return (
       <Element
         name="section-events"
@@ -47,7 +44,7 @@ const EventsSection = () => {
     );
   }
 
-  if (status === "failed") return <p>Error: {error}</p>;
+  if (status.fetch === "failed") return <p>Error: {error}</p>;
 
   return (
     <Element name="section-events" className="section container section-events">

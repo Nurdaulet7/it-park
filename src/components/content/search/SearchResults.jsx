@@ -4,46 +4,33 @@ import { useSearchParams } from "react-router-dom";
 import { FormattedMessage, useIntl } from "react-intl";
 import NewsCard from "../news/NewsCard";
 import EventCard from "../events/EventCard";
-import {
-  fetchVacancies,
-  selectVacancies,
-  selectVacanciesStatus,
-} from "../../../redux/slices/vacanciesSlice";
 import VacanciesCard from "../vacancies/VacanciesCard";
 import {
-  fetchPublicNews,
-  selectPublicNews,
-  selectPublicNewsFetchStatus,
-} from "../../../redux/slices/publicNewsSlice";
-import {
-  fetchPublicEvents,
-  selectPublicEvents,
-  selectPublicEventsFetchStatus,
-} from "../../../redux/slices/publicEventsSlice";
+  fetchData,
+  selectAllData,
+  selectAllStatuses,
+  selectPublicData,
+} from "../../../redux/slices/dataSlice";
 
 const SearchResults = () => {
   const dispatch = useDispatch();
-
-  const news = useSelector(selectPublicNews);
-  const newsStatus = useSelector(selectPublicNewsFetchStatus);
-  const events = useSelector(selectPublicEvents);
-  const eventsStatus = useSelector(selectPublicEventsFetchStatus);
-  const vacancies = useSelector(selectVacancies);
-  const vacanciesStatus = useSelector(selectVacanciesStatus);
+  const { news, events, vacancies } = useSelector(selectAllData);
+  const { newsStatus, eventsStatus, vacanciesStatus } =
+    useSelector(selectAllStatuses);
 
   const [searchParams] = useSearchParams();
   const query = searchParams.get("query")?.toLowerCase() || "";
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (newsStatus === "idle") {
-      dispatch(fetchPublicNews());
+    if (newsStatus.fetch === "idle") {
+      dispatch(fetchData({ entityType: "news" }));
     }
-    if (eventsStatus === "idle") {
-      dispatch(fetchPublicEvents());
+    if (eventsStatus.fetch === "idle") {
+      dispatch(fetchData({ entityType: "events" }));
     }
-    if (vacanciesStatus === "idle") {
-      dispatch(fetchVacancies());
+    if (vacanciesStatus.fetch === "idle") {
+      dispatch(fetchData({ entityType: "vacancies" }));
     }
   }, [dispatch, newsStatus, eventsStatus, vacanciesStatus, searchParams]);
 

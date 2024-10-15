@@ -79,6 +79,7 @@ const CreateEntity = ({
       handleChange={handleChange}
       handleImageChange={handleImageChange}
       handleSubmit={handleSubmit}
+      forCreate={true}
       isSubmitting={isSubmitting}
     />
   );

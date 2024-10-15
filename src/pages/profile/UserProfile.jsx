@@ -9,7 +9,7 @@ import CreateNews from "./MyNews/CreateNews";
 import EditProfile from "./MyProfile/EditProfile";
 import MyEvents from "./MyEvents/MyEvents";
 import EditEvents from "./MyEvents/EditEvents";
-import CreateEvent from "./MyEvents/CreateEvent";
+import CreateEvents from "./MyEvents/CreateEvents";
 import EntityDetailsSection from "../../components/content/detail/EntityDetailsSection";
 
 const UserProfile = () => {
@@ -38,7 +38,7 @@ const UserProfile = () => {
             />
             <Route path="events" element={<MyEvents />} />
             <Route path="events/update" element={<EditEvents />} />
-            <Route path="events/create" element={<CreateEvent />} />
+            <Route path="events/create" element={<CreateEvents />} />
             <Route
               path="/events/:id"
               element={<EntityDetailsSection entityType={"events"} />}

@@ -5,7 +5,6 @@ import axios from "axios";
 import { showNotification } from "./notificationSlice";
 
 const BASE_URL = "https://it-park.kz/kk/api";
-
 const CACHE_KEYS = {
   news: "cachedPublicNews",
   events: "cachedPublicEvents",
@@ -16,7 +15,6 @@ export const fetchData = createAsyncThunk(
   async ({ entityType, isProfile = false, forceRefresh = false }, thunkAPI) => {
     const cacheKey = CACHE_KEYS[entityType];
     const userId = isProfile ? getUserIdFromToken() : null;
-
     // if (!forceRefresh && !isProfile) {
     //   const cachedData = getCachedData(cacheKey);
     //   if (cachedData) {
@@ -48,6 +46,8 @@ export const createProfileData = createAsyncThunk(
   "data/createProfileData",
   async ({ entityType, data }, thunkAPI) => {
     const token = localStorage.getItem("jwtToken");
+    const fakeId = Math.floor(Math.random() * 1000000000);
+
     if (!token) {
       thunkAPI.dispatch(
         showNotification({
@@ -62,6 +62,9 @@ export const createProfileData = createAsyncThunk(
     Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value);
     });
+    if (data.file) {
+      formData.append("file", data.file);
+    }
     formData.append("token", token);
 
     const url = `${BASE_URL}/create?table=${entityType}`;
@@ -69,7 +72,10 @@ export const createProfileData = createAsyncThunk(
     try {
       const response = await axios.post(url, formData);
       const createdData = response.data;
-      return { entityType, createdData };
+      console.log("createdData ID: ", createdData?.id);
+      data.id = fakeId;
+      data.image = "https://it-park.kz/temp/img/no_image.png";
+      return { entityType, createdData, data };
     } catch (error) {
       const message = `Ошибка при создании ${entityType}`;
       thunkAPI.dispatch(showNotification({ message, type: "error" }));
@@ -97,6 +103,9 @@ export const editProfileData = createAsyncThunk(
     Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value);
     });
+    if (data.file) {
+      formData.append("file", data.file);
+    }
     formData.append("token", token);
 
     const url = `${BASE_URL}/update?table=${entityType}&post_id=${id}`;
@@ -104,7 +113,7 @@ export const editProfileData = createAsyncThunk(
     try {
       const response = await axios.post(url, formData);
       const updatedData = response.data;
-      return { entityType, updatedData };
+      return { entityType, updatedData, id };
     } catch (error) {
       const status = error.response?.status;
       let message;
@@ -122,55 +131,6 @@ export const editProfileData = createAsyncThunk(
     }
   }
 );
-
-// export const editProfileData = createAsyncThunk(
-//   "data/editProfileData",
-//   async ({ entityType, data, isEdit = false }, thunkAPI) => {
-//     const token = localStorage.getItem("jwtToken");
-//     if (!token) {
-//       thunkAPI.dispatch(
-//         showNotification({
-//           message: "Сессия истекла. Пожалуйста, войдите заново.",
-//           type: "error",
-//         })
-//       );
-//       return thunkAPI.rejectWithValue("No token available");
-//     }
-
-//     const formData = new FormData();
-//     Object.entries(data).forEach(([key, value]) => {
-//       formData.append(key, value);
-//     });
-//     formData.append("token", token);
-
-//     const url = isEdit
-//       ? `${BASE_URL}/update?table=${entityType}`
-//       : `${BASE_URL}/create?table=${entityType}`;
-
-//     try {
-//       const response = await axios.post(url, formData);
-//       const editData = response.data;
-
-//       return { entityType, editData, isEdit };
-//     } catch (error) {
-//       const status = error.response?.status;
-//       let message;
-
-//       if (status === 403) {
-//         message = "У вас нет прав на выполнение этого действия.";
-//       } else if (status === 404) {
-//         message = "Данные не найдены.";
-//       } else {
-//         message = `Ошибка при ${
-//           isEdit ? "обновлении" : "создании"
-//         } ${entityType}`;
-//       }
-
-//       thunkAPI.dispatch(showNotification({ message, type: "error" }));
-//       return thunkAPI.rejectWithValue(message);
-//     }
-//   }
-// );
 
 export const deleteProfileData = createAsyncThunk(
   "data/deleteProfileData",
@@ -232,6 +192,17 @@ const dataSlice = createSlice({
         },
         error: null,
       },
+      vacancies: {
+        data: [],
+        currentData: null,
+        status: {
+          fetch: "idle",
+          edit: "idle",
+          create: "idle",
+          delete: "idle",
+        },
+        error: null,
+      },
     },
     profile: {
       news: {
@@ -246,6 +217,17 @@ const dataSlice = createSlice({
         error: null,
       },
       events: {
+        data: [],
+        currentData: null,
+        status: {
+          fetch: "idle",
+          edit: "idle",
+          create: "idle",
+          delete: "idle",
+        },
+        error: null,
+      },
+      vacancies: {
         data: [],
         currentData: null,
         status: {
@@ -306,13 +288,13 @@ const dataSlice = createSlice({
         state.profile[entityType].status.create = "loading";
       })
       .addCase(createProfileData.fulfilled, (state, action) => {
-        const { entityType, createdData } = action.payload;
+        const { entityType, createdData, data } = action.payload;
         state.profile[entityType].status.create = "succeeded";
+        console.log(data);
+        state.profile[entityType].data.push(data);
 
-        state.profile[entityType].data.push(createdData);
-
-        if (createdData.status !== 0) {
-          state.public[entityType].data.push(createdData);
+        if (data.status !== 0) {
+          state.public[entityType].data.push(data);
         }
 
         cacheData(CACHE_KEYS[entityType], state.public[entityType].data);
@@ -328,13 +310,15 @@ const dataSlice = createSlice({
         state.profile[entityType].status.edit = "loading";
       })
       .addCase(editProfileData.fulfilled, (state, action) => {
-        const { entityType, updatedData } = action.payload;
+        const { entityType, updatedData, id } = action.payload;
         state.profile[entityType].status.edit = "succeeded";
         console.log(updatedData);
         // Обновляем данные в профиле
         const profileIndex = state.profile[entityType].data.findIndex(
-          (item) => item.id === updatedData.id
+          (item) => item.id === id
         );
+
+        console.log("INDEX: ", profileIndex);
 
         if (profileIndex !== -1) {
           state.profile[entityType].data[profileIndex] = updatedData;
@@ -414,6 +398,22 @@ export const selectEditStatus = (state, entityType) =>
 export const selectDeleteStatus = (state, entityType) =>
   state.data[entityType].status.delete;
 export const selectError = (state, entityType) => state.data[entityType].error;
+
+// Селектор для получения всех статусов
+export const selectAllStatuses = (state) => {
+  return {
+    newsStatus: state.data.public.news.status,
+    eventsStatus: state.data.public.events.status,
+    vacanciesStatus: state.data.public.vacancies.status,
+  };
+};
+
+// Селектор для получения данных для нескольких типов
+export const selectAllData = (state) => ({
+  news: state.data.public.news.data,
+  events: state.data.public.events.data,
+  vacancies: state.data.public.vacancies.data,
+});
 
 // Селектор для сортировки новостей по дате
 export const selectSortedPublicData = (state, entityType) => {

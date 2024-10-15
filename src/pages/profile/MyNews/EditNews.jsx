@@ -1,14 +1,5 @@
 import React from "react";
 import EditEntity from "../MyProfile/EditEntity";
-import {
-  editProfileNews,
-  fetchProfileNews,
-  selectCurrentProfileNews,
-  selectProfileNewsError,
-  selectProfileNewsFetchStatus,
-  setCurrentProfileNews,
-} from "../../../redux/slices/profileNewsSlice";
-import { fetchPublicNews } from "../../../redux/slices/publicNewsSlice";
 
 const EditNews = () => {
   const initialNewsData = {

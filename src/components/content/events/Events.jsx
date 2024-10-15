@@ -6,18 +6,15 @@ import { useState } from "react";
 import { scrollToTop } from "../../../utils/scrollToTop";
 import PaginationControls from "../../pagination/PaginationControls";
 import { useLocation } from "react-router-dom";
-import {
-  fetchPublicEvents,
-  selectPublicEvents,
-  selectPublicEventsError,
-  selectPublicEventsFetchStatus,
-} from "../../../redux/slices/publicEventsSlice";
+import { fetchData, selectPublicData } from "../../../redux/slices/dataSlice";
 
 const Events = () => {
   const dispatch = useDispatch();
-  const events = useSelector(selectPublicEvents);
-  const status = useSelector(selectPublicEventsFetchStatus);
-  const error = useSelector(selectPublicEventsError);
+  const {
+    data: events,
+    status,
+    error,
+  } = useSelector((state) => selectPublicData(state, "events"));
   const { locale } = useIntl();
   const location = useLocation();
 
@@ -28,12 +25,12 @@ const Events = () => {
 
   useEffect(() => {
     scrollToTop();
-    if (status === "idle") {
-      dispatch(fetchPublicEvents());
+    if (status.fetch === "idle") {
+      dispatch(fetchData({ entityType: "events" }));
     }
-  }, [status, dispatch]);
+  }, [status.fetch, dispatch]);
 
-  if (status === "loading") {
+  if (status.fetch === "loading") {
     return (
       <div className="container">
         <header className="section__header">
@@ -53,7 +50,7 @@ const Events = () => {
       </div>
     );
   }
-  if (status === "failed") return <p>Error: {error}</p>;
+  if (status.fetch === "failed") return <p>Error: {error}</p>;
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
