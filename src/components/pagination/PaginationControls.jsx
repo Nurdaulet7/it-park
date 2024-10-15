@@ -9,6 +9,7 @@ const PaginationControls = ({
   onPageChange,
   path,
   itemsPerPage,
+  dataLength,
 }) => {
   const navigate = useNavigate();
 
@@ -29,23 +30,25 @@ const PaginationControls = ({
   };
 
   return (
-    <div className="pagination-controls">
-      <button
-        className="button button-pagination"
-        onClick={handlePrevPage}
-        disabled={currentPage === 1}
-      >
-        {"<"}
-      </button>
-      <span className="button button-pagination-counter">{`${currentPage} / ${totalPages}`}</span>
-      <button
-        onClick={handleNextPage}
-        disabled={currentPage === totalPages}
-        className="button button-pagination"
-      >
-        {">"}
-      </button>
-    </div>
+    dataLength > itemsPerPage && (
+      <div className="pagination-controls">
+        <button
+          className="button button-pagination"
+          onClick={handlePrevPage}
+          disabled={currentPage === 1}
+        >
+          {"<"}
+        </button>
+        <span className="button button-pagination-counter">{`${currentPage} / ${totalPages}`}</span>
+        <button
+          onClick={handleNextPage}
+          disabled={currentPage === totalPages}
+          className="button button-pagination"
+        >
+          {">"}
+        </button>
+      </div>
+    )
   );
 };
 

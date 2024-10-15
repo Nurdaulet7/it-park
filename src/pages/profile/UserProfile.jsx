@@ -45,6 +45,7 @@ const UserProfile = () => {
               element={<EntityDetailsSection entityType={"events"} />}
             />
             <Route path="vacancies" element={<MyVacancies />} />
+            <Route path="vacancies/update" element={<EditEvents />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>

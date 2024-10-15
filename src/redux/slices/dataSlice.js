@@ -109,7 +109,8 @@ export const editProfileData = createAsyncThunk(
     }
     formData.append("token", token);
 
-    const url = `${BASE_URL}/update?table=${entityType}&post_id=${id}`;
+    const urlEntity = entityType === "vacancies" ? "vacancy" : entityType;
+    const url = `${BASE_URL}/update?table=${urlEntity}&post_id=${id}`;
 
     try {
       const response = await axios.post(url, formData);

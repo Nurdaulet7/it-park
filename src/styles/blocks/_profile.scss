@@ -230,3 +230,10 @@
     transform: scale(1.08);
   }
 }
+
+.list-page {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  list-style: none;
+}
