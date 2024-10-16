@@ -1,7 +1,8 @@
 import React from "react";
-import EditEntity from "../MyProfile/EditEntity";
+import getCurrentDate from "../../../utils/getCurrentDate";
+import CreateEntity from "../MyProfile/CreateEntity";
 
-const EditVacancies = () => {
+const CreateVacancies = () => {
   const initialVacancyData = {
     too_name: "",
     title_ru: "",
@@ -21,17 +22,17 @@ const EditVacancies = () => {
     require_en: "",
     price: null,
     file: null,
-    date: "",
-    status: 0,
+    date: getCurrentDate(),
+    status: 1,
   };
 
   return (
-    <EditEntity
-      redirectUrl="/profile/vacancies"
-      defaultData={initialVacancyData}
-      entityType="vacancies"
+    <CreateEntity
+      redirectPath={"/profile/vacancies"}
+      initialData={initialVacancyData}
+      entityType={"vacancies"}
     />
   );
 };
 
-export default EditVacancies;
+export default CreateVacancies;

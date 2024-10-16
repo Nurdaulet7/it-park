@@ -9,23 +9,40 @@
     row-gap: 20px;
     box-shadow: var(--shadow);
     background-color: var(--background-header-primary);
-    padding: 25px 30px;
+    padding: 25px;
     border-radius: var(--border-radius);
     color: var(--menu-text-color);
 
     &__header {
+      width: 100%;
       display: flex;
-      align-items: center;
       column-gap: 10px;
+      justify-content: space-between;
+
+      & .read-more {
+        display: flex;
+        align-items: flex-start;
+        font-size: 25px;
+        font-weight: bold;
+        cursor: pointer;
+        color: var(--color-accent);
+      }
 
       & p {
         font-size: 20px;
       }
 
+      & .header {
+        gap: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
       & .header-image {
         width: 50px;
         aspect-ratio: 1;
-        box-shadow: var(--shadow);
+        // box-shadow: var(--shadow);
         border-radius: var(--border-radius);
 
         & image {

@@ -62,10 +62,12 @@ const VacanciesDetailsSection = ({ isProfile = false }) => {
   return (
     <div className="container vacancy-details">
       <div className="vacancy-card__header">
-        <div className="header-image">
-          <img src={vacancy.image} alt={vacancy.title_en} />
+        <div className="header">
+          <div className="header-image">
+            <img src={vacancy.image} alt={vacancy.title_en} />
+          </div>
+          <p>{vacancy.too_name}</p>
         </div>
-        <p>{vacancy.too_name}</p>
       </div>
       <div className="vacancy__content">
         <div className="vacancy__content-title">

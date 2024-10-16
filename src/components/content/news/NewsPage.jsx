@@ -20,6 +20,7 @@ const NewsPage = () => {
   const queryParams = new URLSearchParams(location.search);
   const initialPage = parseInt(queryParams.get("page")) || 1; // Получите номер страницы из URL или установите 1 по умолчанию
   const [currentPage, setCurrentPage] = useState(initialPage);
+  const dataLength = news.length;
 
   useEffect(() => {
     scrollToTop();
@@ -77,6 +78,7 @@ const NewsPage = () => {
           onPageChange={setCurrentPage}
           path="news"
           itemsPerPage={itemsPerPage}
+          dataLength={dataLength}
         />
       </div>
     </div>

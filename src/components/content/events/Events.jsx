@@ -78,6 +78,7 @@ const Events = () => {
           onPageChange={setCurrentPage}
           path="events"
           itemsPerPage={itemsPerPage}
+          dataLength={events.length}
         />
       </div>
     </div>

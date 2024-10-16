@@ -68,7 +68,8 @@ export const createProfileData = createAsyncThunk(
     }
     formData.append("token", token);
 
-    const url = `${BASE_URL}/create?table=${entityType}`;
+    const urlEntity = entityType === "vacancies" ? "vacancy" : entityType;
+    const url = `${BASE_URL}/create?table=${urlEntity}`;
 
     try {
       const response = await axios.post(url, formData);
@@ -150,10 +151,11 @@ export const deleteProfileData = createAsyncThunk(
 
     const formData = new FormData();
     formData.append("token", token);
+    const urlEntity = entityType === "vacancies" ? "vacancy" : entityType;
 
     try {
       await axios.post(
-        `${BASE_URL}/trash?table=${entityType}&post_id=${id}`,
+        `${BASE_URL}/trash?table=${urlEntity}&post_id=${id}`,
         formData
       );
       thunkAPI.dispatch(

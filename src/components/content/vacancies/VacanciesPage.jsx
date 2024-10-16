@@ -4,6 +4,7 @@ import VacanciesCard from "./VacanciesCard";
 import { scrollToTop } from "../../../utils/scrollToTop";
 import { FormattedMessage } from "react-intl";
 import { fetchData, selectPublicData } from "../../../redux/slices/dataSlice";
+import PaginationControls from "../../pagination/PaginationControls";
 
 const VacanciesPage = () => {
   const dispatch = useDispatch();
@@ -51,22 +52,6 @@ const VacanciesPage = () => {
   const currentVacancies = vacancies.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(vacancies.length / itemsPerPage);
 
-  const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      console.log("Next");
-      setCurrentPage(currentPage + 1);
-      scrollToTop();
-    }
-  };
-
-  const handlePrevPage = () => {
-    console.log("Prev");
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-      scrollToTop();
-    }
-  };
-
   return (
     <div className={`container`}>
       <header className="section__header">
@@ -82,23 +67,14 @@ const VacanciesPage = () => {
             ))}
           </ul>
         </div>
-        <div className="pagination-controls">
-          <button
-            className="button button-pagination"
-            onClick={handlePrevPage}
-            disabled={currentPage === 1}
-          >
-            {`<`}
-          </button>
-          <span className="button button-pagination-counter">{`${currentPage} / ${totalPages}`}</span>
-          <button
-            onClick={handleNextPage}
-            disabled={currentPage === totalPages}
-            className="button button-pagination"
-          >
-            {`>`}
-          </button>
-        </div>
+        <PaginationControls
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+          path="news"
+          itemsPerPage={itemsPerPage}
+          dataLength={vacancies.length}
+        />
       </div>
     </div>
   );
