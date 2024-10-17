@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { createProfileData } from "../../../redux/slices/dataSlice";
-import EditForm from "../profileComponents/EditForm";
+import EditForm from "./EditForm";
 
 const CreateEntity = ({
   redirectPath,

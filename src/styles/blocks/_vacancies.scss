@@ -42,12 +42,12 @@
       & .header-image {
         width: 50px;
         aspect-ratio: 1;
-        // box-shadow: var(--shadow);
         border-radius: var(--border-radius);
 
-        & image {
+        &_logo {
           background-size: cover;
           background-position: center;
+          border-radius: 5px;
         }
       }
     }

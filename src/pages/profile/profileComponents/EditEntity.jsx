@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { scrollToTop } from "../../../utils/scrollToTop";
 import { toast } from "react-toastify";
-import EditForm from "../profileComponents/EditForm";
+import EditForm from "./EditForm";
 import {
   editProfileData,
   fetchData,

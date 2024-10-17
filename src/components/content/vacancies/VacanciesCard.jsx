@@ -65,7 +65,11 @@ const VacanciesCard = ({
         <div className="vacancy-card__header">
           <div className="header">
             <div className="header-image">
-              <img src={vacancy.image} alt={vacancy.title_en} />
+              <img
+                className="header-image_logo"
+                src={vacancy.image}
+                alt={vacancy.title_en}
+              />
             </div>
             <p>{vacancy.too_name}</p>
           </div>

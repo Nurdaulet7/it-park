@@ -1,13 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import {
-  fetchVacancies,
-  selectCurrentVacancies,
-  selectVacanciesError,
-  selectVacanciesStatus,
-  setCurrentVacancy,
-} from "../../../redux/slices/vacanciesSlice";
 import { scrollToTop } from "../../../utils/scrollToTop";
 import { getTranslatedContent } from "../../../utils/getTranslatedContent";
 import { FormattedMessage, useIntl } from "react-intl";
@@ -98,7 +91,7 @@ const VacanciesDetailsSection = ({ isProfile = false }) => {
             <FormattedMessage id="summary" />
           </h5>
           <HtmlContent
-            content={getTranslatedContent(vacancy, "desc", locale)}
+            content={getTranslatedContent(vacancy, "desc", locale) || ""}
           />
         </div>
       </div>

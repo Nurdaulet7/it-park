@@ -74,7 +74,7 @@ export const createProfileData = createAsyncThunk(
     try {
       const response = await axios.post(url, formData);
       const createdData = response.data;
-      console.log("createdData ID: ", createdData?.id);
+      console.log("createdData: ", createdData);
       data.id = fakeId;
       data.image = "https://it-park.kz/temp/img/no_image.png";
       return { entityType, createdData, data };
