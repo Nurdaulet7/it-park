@@ -1,5 +1,5 @@
 import React from "react";
-import ListPage from "../MyProfile/ListPage";
+import ListPage from "../profileComponents/ListPage";
 import VacanciesCard from "../../../components/content/vacancies/VacanciesCard";
 
 const MyVacancies = () => {

@@ -5,12 +5,7 @@ import { toast } from "react-toastify";
 import { createProfileData } from "../../../redux/slices/dataSlice";
 import EditForm from "./EditForm";
 
-const CreateEntity = ({
-  redirectPath,
-  initialData,
-  entityType,
-  isEdit = false,
-}) => {
+const CreateEntity = ({ redirectPath, initialData, entityType }) => {
   const [data, setData] = useState(initialData);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
@@ -47,16 +42,6 @@ const CreateEntity = ({
     setIsSubmitting(true);
 
     toast
-      // .promise(dispatch(createAction(data)).unwrap(), {
-      // pending: "Создание...",
-      // success: "Успешно создано 👌",
-      // error: "Ошибка при создании 🤯",
-      // })
-      // .then(() => {
-      //   dispatch(fetchPublicAction({ forceRefresh: true }));
-      //   dispatch(fetchProfileAction());
-      //   navigate(redirectPath);
-      // })
       .promise(dispatch(createProfileData({ entityType, data })).unwrap(), {
         pending: "Создание...",
         success: "Успешно создано 👌",

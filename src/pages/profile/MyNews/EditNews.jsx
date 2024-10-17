@@ -1,5 +1,5 @@
 import React from "react";
-import EditEntity from "../MyProfile/EditEntity";
+import EditEntity from "../profileComponents/EditEntity";
 
 const EditNews = () => {
   const initialNewsData = {

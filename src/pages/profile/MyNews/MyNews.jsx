@@ -1,7 +1,7 @@
 import React from "react";
 import NewsCard from "../../../components/content/news/NewsCard";
 
-import ListPage from "../MyProfile/ListPage";
+import ListPage from "../profileComponents/ListPage";
 
 const MyNews = () => {
   return (

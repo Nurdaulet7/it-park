@@ -1,6 +1,6 @@
 import React from "react";
 import getCurrentDate from "../../../utils/getCurrentDate";
-import CreateEntity from "../MyProfile/CreateEntity";
+import CreateEntity from "../profileComponents/CreateEntity";
 
 const CreateNews = () => {
   const initialNewsData = {

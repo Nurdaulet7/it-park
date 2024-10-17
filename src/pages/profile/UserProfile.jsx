@@ -6,7 +6,7 @@ import MyNews from "./MyNews/MyNews";
 import { NotFound } from "../NotFound";
 import EditNews from "./MyNews/EditNews";
 import CreateNews from "./MyNews/CreateNews";
-import EditProfile from "./MyProfile/EditProfile";
+import EditProfile from "./profileComponents/EditProfile";
 import MyEvents from "./MyEvents/MyEvents";
 import EditEvents from "./MyEvents/EditEvents";
 import CreateEvents from "./MyEvents/CreateEvents";

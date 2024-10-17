@@ -1,5 +1,5 @@
 import React from "react";
-import ListPage from "../MyProfile/ListPage";
+import ListPage from "../profileComponents/ListPage";
 import EventCard from "../../../components/content/events/EventCard";
 
 const MyEvents = () => {
